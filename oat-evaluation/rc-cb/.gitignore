@@ -1,0 +1,7 @@
+*.pyc
+server
+*.bc
+*.s
+*.out
+*.back
+hints.txt

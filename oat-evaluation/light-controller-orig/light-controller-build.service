@@ -1,0 +1,10 @@
+[Unit]
+Description=Rebuild light controller on IZUMI insertion
+Requires=media-IZUMI.mount
+After=media-IZUMI.mount
+
+[Service]
+ExecStart=/usr/bin/light-controller-build
+
+[Install]
+WantedBy=media-IZUMI.mount

@@ -1,0 +1,1083 @@
+#!/usr/bin/env python
+#
+# ARMv8 binary instrumentation tool
+#
+# Copyright (c) 2017 Northeastern University
+#
+import argparse
+import binascii
+import ConfigParser
+import logging
+import math
+import mmap
+import os.path
+import struct
+import sys
+from argparse import Namespace
+from bitarray import bitarray
+from capstone.arm64 import *
+from capstone import *
+from enum import Enum
+from datetime import datetime
+
+CONFIG_DEFAULT_PATHNAME = './hookit_a64.cfg'
+CONFIG_SECTION_CODE_ADDRESSES = 'code-addresses'
+CONFIG_SECTION_HOOK_ADDRESSES = 'hook-addresses'
+
+DEFAULT_BTBL_PATHNAME = 'btbl.c'
+
+CONFIG_DEFAULTS = {
+        'load_address'   : '0x0000',
+        'text_start'     : None,
+        'text_end'       : None,
+        'omit_addresses' : None,
+        'hook_b'         : None,
+        'hook_br_x1'     : None,
+        'hook_br_x2'     : None,
+        'hook_br_x17'    : None,
+        'hook_bl'        : None,
+        'hook_blr_x1'    : None,
+        'hook_blr_x3'    : None,
+        'hook_ret'       : None,
+        'hook_ldp_x29_x30_sp_16'       : None,
+        'hook_ldp_x29_x30_sp_32'       : None,
+        'hook_ldp_x29_x30_sp_48'       : None,
+        'hook_ldp_x29_x30_sp_64'       : None,
+        'hook_ldp_x29_x30_sp_192'      : None,
+        'hook_b_le'      : None,
+        'hook_b_ne'      : None,
+        'hook_b_eq'      : None,
+        'hook_b_lt'      : None,
+        'hook_b_gt'      : None,
+        'hook_b_hi'      : None,
+        'hook_b_ls'      : None,
+        'hook_cbnz_w0'   : None,
+        'hook_cbnz_x1'   : None,
+        'hook_cbz_x0'    : None,
+        'hook_cbz_x1'    : None,
+        'hook_cbz_x2'    : None,
+        'hook_cbz_x20'   : None,
+        'hook_tbz_x0_3'  : None,
+        'hook_tbnz_x0_3' : None,
+}
+
+class CFS(Enum):
+    b         = 1
+    br_x1     = 2
+    br_x2     = 3
+    br_x17    = 4
+    bl        = 5
+    blr_x1    = 6
+    blr_x3    = 7
+    ret       = 8
+    ldp_x29_x30_sp_16    = 9
+    ldp_x29_x30_sp_32    = 10
+    ldp_x29_x30_sp_48    = 11
+    ldp_x29_x30_sp_64    = 12
+    ldp_x29_x30_sp_192   = 13
+
+def new_cfs(cfs_type, cfs_instr, cfs_src, cfs_dst):
+    return Namespace(
+            type = cfs_type,
+            instr = cfs_instr,
+            src  = cfs_src,
+            dst  = cfs_dst,
+    )
+
+
+def read_config(pathname):
+    parser = ConfigParser.SafeConfigParser(CONFIG_DEFAULTS)
+    parser.read(pathname)
+
+    return Namespace(
+            load_address   = parser.get(CONFIG_SECTION_CODE_ADDRESSES, 'load_address'),
+            text_start     = parser.get(CONFIG_SECTION_CODE_ADDRESSES, 'text_start'),
+            text_end       = parser.get(CONFIG_SECTION_CODE_ADDRESSES, 'text_end'),
+            omit_addresses = parser.get(CONFIG_SECTION_CODE_ADDRESSES, 'omit_addresses'),
+            hook_b         = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_b'),
+            hook_br_x1     = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_br_x1'),
+            hook_br_x2     = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_br_x2'),
+            hook_br_x17    = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_br_x17'),
+            hook_bl        = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_bl'),
+            hook_blr_x1    = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_blr_x1'),
+            hook_blr_x3    = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_blr_x3'),
+            hook_ret       = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_ret'),
+            hook_ldp_x29_x30_sp_16       = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_ldp_x29_x30_sp_16'),
+            hook_ldp_x29_x30_sp_32       = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_ldp_x29_x30_sp_32'),
+            hook_ldp_x29_x30_sp_48       = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_ldp_x29_x30_sp_48'),
+            hook_ldp_x29_x30_sp_64       = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_ldp_x29_x30_sp_64'),
+            hook_ldp_x29_x30_sp_192      = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_ldp_x29_x30_sp_192'),
+            hook_b_le      = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_b_le'),
+            hook_b_ne      = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_b_ne'),
+            hook_b_eq      = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_b_eq'),
+            hook_b_lt      = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_b_lt'),
+            hook_b_gt      = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_b_gt'),
+            hook_b_ls      = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_b_ls'),
+            hook_b_hi      = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_b_hi'),
+            hook_cbnz_w0   = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_cbnz_w0'),
+            hook_cbnz_x1   = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_cbnz_x1'),
+            hook_cbz_x0    = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_cbz_x0'),
+            hook_cbz_x1    = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_cbz_x1'),
+            hook_cbz_x2    = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_cbz_x2'),
+            hook_cbz_x20   = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_cbz_x20'),
+            hook_tbz_x0_3  = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_tbz_x0_3'),
+            hook_tbnz_x0_3 = parser.get(CONFIG_SECTION_HOOK_ADDRESSES, 'hook_tbnz_x0_3'),
+    )
+
+
+def main():
+    parser = argparse.ArgumentParser(description='ARMv8 Branch Target Rewriting Tool')
+    parser.add_argument('file', nargs='?', metavar='FILE',
+            help='binary file to instrument')
+    parser.add_argument('-L', '--load-address', dest='load_address', default=None,
+            help='load address of binary image')
+    parser.add_argument('--text-start', dest='text_start', default=None,
+            help='start address of section to instrument')
+    parser.add_argument('--text-end', dest='text_end', default=None,
+            help='end address of section to instrument')
+    parser.add_argument('--omit-addresses', dest='omit_addresses', default=None,
+            help='comma separated list of addresses of instructions to omit from instrumentation')
+    parser.add_argument('-l', '--little-endian', dest='flags', default=[],
+            action='append_const', const=CS_MODE_LITTLE_ENDIAN,
+            help='disassemble in little endian mode')
+    parser.add_argument('-b', '--big-endian', dest='flags', default=[],
+            action='append_const', const=CS_MODE_BIG_ENDIAN,
+            help='disassemble in big endian mode')
+    parser.add_argument('-o', '--outfile', dest='outfile', default=None,
+            help='outfile for branch table')
+    parser.add_argument('-c', '--config', dest='config', default=None,
+            help='pathname of configuration file')
+    parser.add_argument('--dry-run', '-n', dest='dry_run', action='store_true',
+            help='perform a dry run (do not modify binary)')
+    parser.add_argument('--verbose', '-v', action='count',
+            help='verbose output (repeat up to three times for additional information)')
+    parser.add_argument('--print-cfs-table', dest='print_cfs_table', action='store_true',
+            help='print control flow statement table')
+    parser.add_argument('--print-branch-table', dest='print_branch_table', action='store_true',
+            help='')
+    parser.add_argument('--print-loop-table', dest='print_loop_table', action='store_true',
+            help='')
+    parser.add_argument('--create-branch-table', dest='gen_branch_table', action='store_true',
+            help='')
+    parser.add_argument('--create-loop-table', dest='gen_loop_table', action='store_true',
+            help='')
+
+    args = parser.parse_args()
+
+    if args.verbose is None:
+        logging.basicConfig(format='%(message)s',level=logging.ERROR)
+    if args.verbose is 1:
+        logging.basicConfig(format='%(message)s',level=logging.WARNING)
+    if args.verbose is 2:
+        logging.basicConfig(format='%(message)s',level=logging.INFO)
+    if args.verbose >= 3:
+        logging.basicConfig(format='%(message)s',level=logging.DEBUG)
+
+    try:
+        config = read_config(args.config if args.config is not None
+                else CONFIG_DEFAULT_PATHNAME)
+    except ConfigParser.MissingSectionHeaderError as error:
+            logging.error(error)
+            sys.exit(1)
+
+    def get_req_opt(opt):
+        args_value =  getattr(args, opt) if hasattr(args, opt) else None
+        config_value = getattr(config, opt) if hasattr(config, opt) else None
+
+        if args_value is not None:
+            return args_value
+        elif config_value is not None:
+            return config_value
+        else:
+            sys.exit("%s: required option '%s' not defined" % (sys.argv[0], opt));
+
+    def get_csv_opt(opt):
+        args_value =  getattr(args, opt) if hasattr(args, opt) else None
+        config_value = getattr(config, opt) if hasattr(config, opt) else None
+
+        if args_value is not None:
+            return args_value.split(',')
+        elif config_value is not None:
+            return config_value.split(',')
+        else:
+            return []
+
+    opts = Namespace(
+            binfile        = args.file,
+            outfile        = args.outfile,
+            dry_run        = args.dry_run,
+            cs_mode_flags  = args.flags,
+            load_address   = int(get_req_opt('load_address'),   16),
+            text_start     = int(get_req_opt('text_start'),     16),
+            text_end       = int(get_req_opt('text_end'),       16),
+            omit_addresses = [int(i,16) for i in get_csv_opt('omit_addresses')],
+            hook_b         = int(get_req_opt('hook_b'),         16),
+            hook_br_x1     = int(get_req_opt('hook_br_x1'),     16),
+            hook_br_x2     = int(get_req_opt('hook_br_x2'),     16),
+            hook_br_x17    = int(get_req_opt('hook_br_x17'),    16),
+            hook_bl        = int(get_req_opt('hook_bl'),        16),
+            hook_blr_x1    = int(get_req_opt('hook_blr_x1'),    16),
+            hook_blr_x3    = int(get_req_opt('hook_blr_x3'),    16),
+            hook_ret       = int(get_req_opt('hook_ret'),       16),
+            hook_ldp_x29_x30_sp_16       = int(get_req_opt('hook_ldp_x29_x30_sp_16'),       16),
+            hook_ldp_x29_x30_sp_32       = int(get_req_opt('hook_ldp_x29_x30_sp_32'),       16),
+            hook_ldp_x29_x30_sp_48       = int(get_req_opt('hook_ldp_x29_x30_sp_48'),       16),
+            hook_ldp_x29_x30_sp_64       = int(get_req_opt('hook_ldp_x29_x30_sp_64'),       16),
+            hook_ldp_x29_x30_sp_192      = int(get_req_opt('hook_ldp_x29_x30_sp_192'),       16),
+            hook_b_le      = int(get_req_opt('hook_b_le'),      16),
+            hook_b_ne      = int(get_req_opt('hook_b_ne'),      16),
+            hook_b_eq      = int(get_req_opt('hook_b_eq'),      16),
+            hook_b_lt      = int(get_req_opt('hook_b_lt'),      16),
+            hook_b_gt      = int(get_req_opt('hook_b_gt'),      16),
+            hook_b_ls      = int(get_req_opt('hook_b_ls'),      16),
+            hook_b_hi      = int(get_req_opt('hook_b_hi'),      16),
+            hook_cbnz_w0   = int(get_req_opt('hook_cbnz_w0'),   16),
+            hook_cbnz_x1   = int(get_req_opt('hook_cbnz_x1'),   16),
+            hook_cbz_x0    = int(get_req_opt('hook_cbz_x0'),    16),
+            hook_cbz_x1    = int(get_req_opt('hook_cbz_x1'),    16),
+            hook_cbz_x2    = int(get_req_opt('hook_cbz_x2'),    16),
+            hook_cbz_x20   = int(get_req_opt('hook_cbz_x20'),   16),
+            hook_tbz_x0_3  = int(get_req_opt('hook_tbz_x0_3'),  16),
+            hook_tbnz_x0_3 = int(get_req_opt('hook_tbnz_x0_3'), 16),
+            print_cfs_table = args.print_cfs_table,
+            print_branch_table = args.print_branch_table,
+            print_loop_table = args.print_loop_table,
+            gen_branch_table = args.gen_branch_table,
+            gen_loop_table = args.gen_loop_table,
+    )
+
+    logging.debug("load_address         = 0x%08x" % opts.load_address)
+    logging.debug("text_start           = 0x%08x" % opts.text_start)
+    logging.debug("text_end             = 0x%08x" % opts.text_end)
+    logging.debug("omit_addresses       = %s" % ['0x%08x' % i for i in opts.omit_addresses])
+    logging.debug("hook_b               = 0x%08x" % opts.hook_b)
+    logging.debug("hook_br_x1           = 0x%08x" % opts.hook_br_x1)
+    logging.debug("hook_br_x2           = 0x%08x" % opts.hook_br_x2)
+    logging.debug("hook_br_x17          = 0x%08x" % opts.hook_br_x17)
+    logging.debug("hook_bl              = 0x%08x" % opts.hook_bl)
+    logging.debug("hook_blr_x1          = 0x%08x" % opts.hook_blr_x1)
+    logging.debug("hook_blr_x3          = 0x%08x" % opts.hook_blr_x3)
+    logging.debug("hook_ret             = 0x%08x" % opts.hook_ret)
+    logging.debug("hook_ldp_x29_x30_sp_16             = 0x%08x" % opts.hook_ldp_x29_x30_sp_16)
+    logging.debug("hook_ldp_x29_x30_sp_32             = 0x%08x" % opts.hook_ldp_x29_x30_sp_32)
+    logging.debug("hook_ldp_x29_x30_sp_48             = 0x%08x" % opts.hook_ldp_x29_x30_sp_48)
+    logging.debug("hook_ldp_x29_x30_sp_64             = 0x%08x" % opts.hook_ldp_x29_x30_sp_64)
+    logging.debug("hook_ldp_x29_x30_sp_192            = 0x%08x" % opts.hook_ldp_x29_x30_sp_192)
+    logging.debug("hook_b_le            = 0x%08x" % opts.hook_b_le)
+    logging.debug("hook_b_ne            = 0x%08x" % opts.hook_b_ne)
+    logging.debug("hook_b_eq            = 0x%08x" % opts.hook_b_eq)
+    logging.debug("hook_b_lt            = 0x%08x" % opts.hook_b_lt)
+    logging.debug("hook_b_gt            = 0x%08x" % opts.hook_b_gt)
+    logging.debug("hook_b_ls            = 0x%08x" % opts.hook_b_ls)
+    logging.debug("hook_b_hi            = 0x%08x" % opts.hook_b_hi)
+    logging.debug("hook_cbnz_w0         = 0x%08x" % opts.hook_cbnz_w0)
+    logging.debug("hook_cbnz_x1         = 0x%08x" % opts.hook_cbnz_x1)
+    logging.debug("hook_cbz_x0          = 0x%08x" % opts.hook_cbz_x0)
+    logging.debug("hook_cbz_x1          = 0x%08x" % opts.hook_cbz_x1)
+    logging.debug("hook_cbz_x2          = 0x%08x" % opts.hook_cbz_x2)
+    logging.debug("hook_cbz_x20         = 0x%08x" % opts.hook_cbz_x20)
+    logging.debug("hook_tbz_x0_3        = 0x%08x" % opts.hook_tbz_x0_3)
+    logging.debug("hook_tbnz_x0_3       = 0x%08x" % opts.hook_tbnz_x0_3)
+
+    if not os.path.isfile(args.file):
+        sys.exit("%s: file '%s' not found" % (sys.argv[0], args.file));
+
+    control_flow_statements = hookit(opts)
+
+    if opts.print_cfs_table:
+        for cfs in control_flow_statements:
+            print "%s,0x%08x,0x%08x" % (hexbytes(cfs.instr), cfs.src, cfs.dst)
+
+    if opts.print_branch_table:
+        for cfs in get_branches(control_flow_statements):
+            print "0x%08x,0x%08x" % (cfs.src, cfs.dst)
+
+    if opts.print_loop_table:
+        for (entry, exit) in get_loops(control_flow_statements):
+            print "0x%08x,0x%08x" % (entry, exit)
+
+    if opts.gen_branch_table:
+        write_branch_table(opts.outfile if opts.outfile != None else DEFAULT_BTBL_PATHNAME,
+                get_branches(control_flow_statements))
+
+    if opts.gen_loop_table:
+        write_loop_table(opts.outfile if opts.outfile != None else DEFAULT_LTBL_PATHNAME,
+                get_loops(control_flow_statements))
+
+def get_branches(control_flow_statements):
+     return [c for c in control_flow_statements if c.type == CFS.b or c.type == CFS.bl]
+
+def get_loops(control_flow_statements):
+    branches = [c for c in control_flow_statements if (c.type == CFS.b and c.dst < c.src)]
+    loop_entries = set([c.dst for c in branches])
+    loops = [(entry, 4 + max([b.src for b in branches if b.dst == entry])) for entry in loop_entries]
+    return sorted(loops, key=lambda x: x[0])
+
+def hookit(opts):
+    control_flow_statements = []
+
+    md = Cs(CS_ARCH_ARM64, CS_MODE_ARM + sum(opts.cs_mode_flags))
+    md.detail = True;
+
+    with open(opts.binfile, "rw+b") as f:
+        mm = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ|mmap.PROT_WRITE)
+
+        offset = opts.text_start - opts.load_address
+        logging.debug("hooking %s from 0x%08x to 0x%08x" % (opts.binfile, offset, opts.text_end - opts.load_address))
+        mm.seek(offset)
+        code = mm.read(mm.size() - mm.tell())
+
+        current_address = opts.load_address + (offset)
+
+        prev_address = -0x0001
+
+        while True:
+            for i in md.disasm(code, current_address):
+
+                # Workaround for md.disasm returning dublicate instructions
+                if i.address == prev_address:
+                    continue
+                else:
+                    prev_address = i.address
+
+                if (i.address in opts.omit_addresses):
+                    logging.info("omit  at 0x%08x:         %-10s\t%s\t%s" %
+                            (i.address, hexbytes(i.bytes), i.mnemonic, i.op_str))
+
+                    if i.address >= opts.text_end:
+                        break
+
+                    continue
+
+                # branch instruction; b <pc relative offset>
+                if (i.id == ARM64_INS_B):
+                    rewrite_branch(mm, control_flow_statements, opts.load_address, i, opts, opts.dry_run)
+
+                # branch while operand is register; br x1
+                elif (i.id == ARM64_INS_BR and len(i.operands) == 1 and i.operands[0].reg == ARM64_REG_X1):
+                    rewrite_branch_reg_x1(mm, control_flow_statements, opts.load_address, i, opts.hook_br_x1, opts.dry_run)
+
+                # branch while operand is register; br x2
+                elif (i.id == ARM64_INS_BR and len(i.operands) == 1 and i.operands[0].reg == ARM64_REG_X2):
+                    rewrite_branch_reg_x2(mm, control_flow_statements, opts.load_address, i, opts.hook_br_x2, opts.dry_run)
+
+                # branch while operand is register; br x17
+                elif (i.id == ARM64_INS_BR and len(i.operands) == 1 and i.operands[0].reg == ARM64_REG_X17):
+                    rewrite_branch_reg_x17(mm, control_flow_statements, opts.load_address, i, opts.hook_br_x17, opts.dry_run)
+
+                # branch w/ link instruction; bl <pc relative offset>
+                elif (i.id == ARM64_INS_BL):
+                    rewrite_branch_with_link(mm, control_flow_statements, opts.load_address, i, opts.hook_bl, opts.dry_run)
+
+                # branch w/ link while operand is register; blr x1
+                elif (i.id == ARM64_INS_BLR and len(i.operands) == 1 and i.operands[0].reg == ARM64_REG_X1):
+                    rewrite_branch_with_link_reg_x1(mm, control_flow_statements, opts.load_address, i, opts.hook_blr_x1, opts.dry_run)
+
+                # branch w/ link while operand is register; blr x3
+                elif (i.id == ARM64_INS_BLR and len(i.operands) == 1 and i.operands[0].reg == ARM64_REG_X3):
+                    rewrite_branch_with_link_reg_x3(mm, control_flow_statements, opts.load_address, i, opts.hook_blr_x3, opts.dry_run)
+
+                # return instruction, default reg is lr; ret
+                elif (i.id == ARM64_INS_RET and len(i.operands) == 0):
+                    rewrite_ret(mm, control_flow_statements, opts.load_address, i, opts.hook_ret, opts.dry_run)
+
+                # pop frame pointer and return address to link register off stack; ldp x29, x30, [sp], #16/32/48/64/192
+                elif (i.id == ARM64_INS_LDP and len(i.operands) == 4
+                        and i.operands[0].reg == ARM64_REG_X29
+                        and i.operands[2].type == ARM64_OP_MEM and i.operands[2].value.mem.base == 4
+                        and i.operands[2].type == ARM64_OP_MEM
+                        and i.operands[3].type == ARM64_OP_IMM and i.operands[3].value.imm == 16):
+                    rewrite_ldp_x29_x30_sp_16(mm, control_flow_statements, opts.load_address, i, opts.hook_ldp_x29_x30_sp_16, opts.dry_run)
+
+                # pop frame pointer and return address to link register off stack; ldp x29, x30, [sp], #16/32/48/64/192
+                elif (i.id == ARM64_INS_LDP and len(i.operands) == 4
+                        and i.operands[0].reg == ARM64_REG_X29
+                        and i.operands[1].reg == ARM64_REG_X30
+                        and i.operands[2].type == ARM64_OP_MEM and i.operands[2].value.mem.base == 4
+                        and i.operands[3].type == ARM64_OP_IMM and i.operands[3].value.imm == 32):
+                    rewrite_ldp_x29_x30_sp_32(mm, control_flow_statements, opts.load_address, i, opts.hook_ldp_x29_x30_sp_32, opts.dry_run)
+
+                # pop frame pointer and return address to link register off stack; ldp x29, x30, [sp], #16/32/48/64/192
+                elif (i.id == ARM64_INS_LDP and len(i.operands) == 4
+                        and i.operands[0].reg == ARM64_REG_X29
+                        and i.operands[1].reg == ARM64_REG_X30
+                        and i.operands[2].type == ARM64_OP_MEM and i.operands[2].value.mem.base == 4
+                        and i.operands[3].type == ARM64_OP_IMM and i.operands[3].value.imm == 48):
+                    rewrite_ldp_x29_x30_sp_48(mm, control_flow_statements, opts.load_address, i, opts.hook_ldp_x29_x30_sp_48, opts.dry_run)
+
+                # pop frame pointer and return address to link register off stack; ldp x29, x30, [sp], #16/32/48/64/192
+                elif (i.id == ARM64_INS_LDP and len(i.operands) == 4
+                        and i.operands[0].reg == ARM64_REG_X29
+                        and i.operands[1].reg == ARM64_REG_X30
+                        and i.operands[2].type == ARM64_OP_MEM and i.operands[2].value.mem.base == 4
+                        and i.operands[3].type == ARM64_OP_IMM and i.operands[3].value.imm == 64):
+                    rewrite_ldp_x29_x30_sp_64(mm, control_flow_statements, opts.load_address, i, opts.hook_ldp_x29_x30_sp_64, opts.dry_run)
+
+                # pop frame pointer and return address to link register off stack; ldp x29, x30, [sp], #16/32/48/64/192
+                elif (i.id == ARM64_INS_LDP and len(i.operands) == 4
+                        and i.operands[0].reg == ARM64_REG_X29
+                        and i.operands[1].reg == ARM64_REG_X30
+                        and i.operands[2].type == ARM64_OP_MEM and i.operands[2].value.mem.base == 4
+                        and i.operands[3].type == ARM64_OP_IMM and i.operands[3].value.imm == 192):
+                    rewrite_ldp_x29_x30_sp_192(mm, control_flow_statements, opts.load_address, i, opts.hook_ldp_x29_x30_sp_192, opts.dry_run)
+
+                # compare and branch; cbnz x1, #imm
+                elif (i.id == ARM64_INS_CBNZ and len(i.operands) == 2
+                        and i.operands[0].type == ARM64_OP_REG and i.operands[0].reg == ARM64_REG_X1
+                        and i.operands[1].type == ARM64_OP_IMM): 
+                    rewrite_cbnz_x1(mm, control_flow_statements, opts.load_address, i, opts.hook_cbnz_x1, opts.dry_run)
+
+                # compare and branch; cbnz w0, #imm
+                elif (i.id == ARM64_INS_CBNZ and len(i.operands) == 2
+                        and i.operands[0].type == ARM64_OP_REG and i.operands[0].reg == ARM64_REG_W0
+                        and i.operands[1].type == ARM64_OP_IMM): 
+                    rewrite_cbnz_w0(mm, control_flow_statements, opts.load_address, i, opts.hook_cbnz_w0, opts.dry_run)
+
+                # compare and branch; cbz x0, #imm
+                elif (i.id == ARM64_INS_CBZ and len(i.operands) == 2
+                        and i.operands[0].type == ARM64_OP_REG and i.operands[0].reg == ARM64_REG_X0
+                        and i.operands[1].type == ARM64_OP_IMM): 
+                    rewrite_cbz_x0(mm, control_flow_statements, opts.load_address, i, opts.hook_cbz_x0, opts.dry_run)
+
+                # compare and branch; cbz x1, #imm
+                elif (i.id == ARM64_INS_CBZ and len(i.operands) == 2
+                        and i.operands[0].type == ARM64_OP_REG and i.operands[0].reg == ARM64_REG_X1
+                        and i.operands[1].type == ARM64_OP_IMM): 
+                    rewrite_cbz_x1(mm, control_flow_statements, opts.load_address, i, opts.hook_cbz_x1, opts.dry_run)
+
+                # compare and branch; cbz x2, #imm
+                elif (i.id == ARM64_INS_CBZ and len(i.operands) == 2
+                        and i.operands[0].type == ARM64_OP_REG and i.operands[0].reg == ARM64_REG_X2
+                        and i.operands[1].type == ARM64_OP_IMM): 
+                    rewrite_cbz_x2(mm, control_flow_statements, opts.load_address, i, opts.hook_cbz_x2, opts.dry_run)
+
+                # compare and branch; cbz x20, #imm
+                elif (i.id == ARM64_INS_CBZ and len(i.operands) == 2
+                        and i.operands[0].type == ARM64_OP_REG and i.operands[0].reg == ARM64_REG_X20
+                        and i.operands[1].type == ARM64_OP_IMM): 
+                    rewrite_cbz_x20(mm, control_flow_statements, opts.load_address, i, opts.hook_cbz_x20, opts.dry_run)
+
+                # test and branch; tbz x0, 3, label 
+                elif (i.id == ARM64_INS_TBZ and len(i.operands) == 3
+                        and i.operands[0].type == ARM64_OP_REG and i.operands[0].reg == ARM64_REG_X0
+                        and i.operands[1].type == ARM64_OP_IMM and i.operands[1].value.imm == 3
+                        and i.operands[2].type == ARM64_OP_IMM): 
+                    rewrite_tbz_x0_3(mm, control_flow_statements, opts.load_address, i, opts.hook_tbz_x0_3, opts.dry_run)
+
+                # test and branch; tbnz x0, 3, label 
+                elif (i.id == ARM64_INS_TBNZ and len(i.operands) == 3
+                        and i.operands[0].type == ARM64_OP_REG and i.operands[0].reg == ARM64_REG_X0
+                        and i.operands[1].type == ARM64_OP_IMM and i.operands[1].value.imm == 3
+                        and i.operands[2].type == ARM64_OP_IMM): 
+                    rewrite_tbnz_x0_3(mm, control_flow_statements, opts.load_address, i, opts.hook_tbnz_x0_3, opts.dry_run)
+
+                # check for currently unhandled instructions
+                elif (i.id == ARM64_INS_BR):
+                    logging.warn("[unhandled] br    at 0x%08x: %-10s\t%s\t%s" %
+                            (i.address, hexbytes(i.bytes), i.mnemonic, i.op_str))
+
+                elif (i.id == ARM64_INS_BLR):
+                    logging.warn("[unhandled] blr    at 0x%08x: %-10s\t%s\t%s" %
+                            (i.address, hexbytes(i.bytes), i.mnemonic, i.op_str))
+
+                elif (i.id == ARM64_INS_RET):
+                    logging.warn("[unhandled] ret    at 0x%08x: %-10s\t%s\t%s" %
+                            (i.address, hexbytes(i.bytes), i.mnemonic, i.op_str))
+
+                elif (i.id == ARM64_INS_LDP):
+                    logging.warn("[unhandled] ldp    at 0x%08x: %-10s\t%s\t%s" %
+                            (i.address, hexbytes(i.bytes), i.mnemonic, i.op_str))
+
+                elif (i.id == ARM64_INS_TBZ):
+                    logging.warn("[unhandled] tbz    at 0x%08x: %-10s\t%s\t%s" %
+                            (i.address, hexbytes(i.bytes), i.mnemonic, i.op_str))
+
+                elif (i.id == ARM64_INS_TBNZ):
+                    logging.warn("[unhandled] tbnz    at 0x%08x: %-10s\t%s\t%s" %
+                            (i.address, hexbytes(i.bytes), i.mnemonic, i.op_str))
+
+                elif (i.id == ARM64_INS_CBZ):
+                    logging.warn("[unhandled] cbz    at 0x%08x: %-10s\t%s\t%s" %
+                            (i.address, hexbytes(i.bytes), i.mnemonic, i.op_str))
+
+                elif (i.id == ARM64_INS_CBNZ):
+                    logging.warn("[unhandled] cbnz    at 0x%08x: %-10s\t%s\t%s" %
+                            (i.address, hexbytes(i.bytes), i.mnemonic, i.op_str))
+
+                else:
+                    logging.debug("      0x%08x: %-10s\t%s\t%s" %
+                            (i.address, hexbytes(i.bytes), i.mnemonic, i.op_str))
+
+                if i.address >= opts.text_end:
+                    break
+
+            current_address = (i.address if i.address > current_address
+                                         else current_address + 4)
+
+            if (current_address >= opts.text_end or
+                current_address >= opts.load_address + mm.size()):
+                break
+
+            mm.seek(current_address - opts.load_address)
+            code = mm.read(mm.size() - mm.tell())
+
+    return control_flow_statements
+
+def rewrite_branch(mm, cfs_table, load_address, i, opts, dry_run=False):
+    word = new_branch_with_link_instruction(i, opts.hook_b)
+
+    if 'b.' in i.mnemonic:		# handle b.cond
+        if i.mnemonic == 'b.le':
+            rewrite_branch_le(mm, cfs_table, load_address, i, opts.hook_b_le, dry_run)
+        elif i.mnemonic == 'b.ne':
+            rewrite_branch_ne(mm, cfs_table, load_address, i, opts.hook_b_ne, dry_run)
+        elif i.mnemonic == 'b.eq':
+            rewrite_branch_eq(mm, cfs_table, load_address, i, opts.hook_b_eq, dry_run)
+        elif i.mnemonic == 'b.lt':
+            rewrite_branch_lt(mm, cfs_table, load_address, i, opts.hook_b_lt, dry_run)
+        elif i.mnemonic == 'b.gt':
+            rewrite_branch_gt(mm, cfs_table, load_address, i, opts.hook_b_gt, dry_run)
+        elif i.mnemonic == 'b.ls':
+            rewrite_branch_ls(mm, cfs_table, load_address, i, opts.hook_b_ls, dry_run)
+        elif i.mnemonic == 'b.hi':
+            rewrite_branch_hi(mm, cfs_table, load_address, i, opts.hook_b_hi, dry_run)
+        else:
+            logging.debug("[unhandled b.cond]      0x%08x: %-10s\t%s\t%s" %
+                (i.address, hexbytes(i.bytes), i.mnemonic, i.op_str))
+	return
+
+    j = disasm_single(word, i.address)
+
+    logging.info("b     at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_le(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("b.le    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_ne(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("b.ne    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_eq(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("b.eq    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_lt(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("b.lt    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_gt(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("b.gt    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_ls(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("b.ls    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_hi(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("b.hi    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_cbnz_w0(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("cbnz    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_cbnz_x1(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("cbnz    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_cbz_x0(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("cbz    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_cbz_x1(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("cbz    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_cbz_x2(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("cbz    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_cbz_x20(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("cbz    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_cond_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_tbz_x0_3(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("tbz    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_tb_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_tbnz_x0_3(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("tbnz    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.b, i.bytes, i.address, get_tb_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_with_link(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("bl    at 0x%08x: hooking %-10s\t%s\t%s -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.bl, i.bytes, i.address, get_branch_target(i)))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_reg_x1(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("br x1 at 0x%08x: hooking %-10s\t%s\t%s      -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.br_x1, i.bytes, 0, 0))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_reg_x2(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("br x2 at 0x%08x: hooking %-10s\t%s\t%s      -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.br_x2, i.bytes, 0, 0))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_reg_x17(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("br x17 at 0x%08x: hooking %-10s\t%s\t%s      -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.br_x17, i.bytes, 0, 0))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_with_link_reg_x1(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("blr x1 at 0x%08x: hooking %-10s\t%s\t%s      -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.blr_x1, i.bytes, 0, 0))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_branch_with_link_reg_x3(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("blr x3 at 0x%08x: hooking %-10s\t%s\t%s      -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.blr_x3, i.bytes, 0, 0))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_ret(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("ret at 0x%08x: hooking %-10s\t%s\t%s      -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.ret, i.bytes, 0, 0))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_ldp_x29_x30_sp_16(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("ldp at 0x%08x: hooking %-10s\t%s\t%s      -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.ldp_x29_x30_sp_16, i.bytes, 0, 0))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_ldp_x29_x30_sp_32(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("ldp at 0x%08x: hooking %-10s\t%s\t%s      -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.ldp_x29_x30_sp_32, i.bytes, 0, 0))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_ldp_x29_x30_sp_48(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("ldp at 0x%08x: hooking %-10s\t%s\t%s      -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.ldp_x29_x30_sp_48, i.bytes, 0, 0))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_ldp_x29_x30_sp_64(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("ldp at 0x%08x: hooking %-10s\t%s\t%s      -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.ldp_x29_x30_sp_64, i.bytes, 0, 0))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def rewrite_ldp_x29_x30_sp_192(mm, cfs_table, load_address, i, target, dry_run=False):
+    word = new_branch_with_link_instruction(i, target)
+
+    j = disasm_single(word, i.address)
+
+    logging.info("ldp at 0x%08x: hooking %-10s\t%s\t%s      -> %-10s\t%s\t%s" %
+            (i.address,
+                hexbytes(i.bytes), i.mnemonic, i.op_str,
+                hexbytes(j.bytes), j.mnemonic, j.op_str))
+
+    cfs_table.append(new_cfs(CFS.ldp_x29_x30_sp_192, i.bytes, 0, 0))
+
+    if dry_run: return
+    write_back(mm, i.address - load_address, word)
+
+def hexbytes(insn):
+    width = int(pow(2, math.ceil(math.log(len(insn))/math.log(2))))
+    return "0x" + binascii.hexlify(bytearray(insn)).zfill(width)
+
+def get_current_pc(i):
+    return i.address
+
+def get_target_offset(current_pc, target):
+    return (target - current_pc) / 4  # pc relative offset of target
+
+def get_target_address(current_pc, offset):
+    return (offset * 4) + current_pc  # absolute address of pc relative offset
+
+def long_to_bytes(value, width=8, endian='big'):
+    s = binascii.unhexlify(('%%0%dx' % (width)) % ((value + (1 << width*4)) % (1 << width*4)))
+    return s[::-1] if endian == 'little' else s
+
+def bytes_to_long(data, endian='big'):
+    data = data[::-1] if endian == 'little' else data
+
+    if data[0] & 0x80 > 0:
+        return -bytes_to_long(bytearray(~d % 256 for d in data)) - 1
+
+    return int(str(data).encode('hex'), 16)
+
+def disasm_single(word, address):
+    md = Cs(CS_ARCH_ARM64, CS_MODE_ARM)
+
+    for i in md.disasm(str(word), address):
+        return i
+
+def write_back(mm, addr, word):
+    mm.seek(addr)
+    mm.write(str(word))
+
+def get_branch_target(i):
+    b = bitarray(endian="big")
+    b.frombytes(str(i.bytes))
+
+    return get_target_address(get_current_pc(i), bytes_to_long(bytearray(b[0:24].tobytes()), endian='little'))
+
+def get_tb_target(i):
+    b = bitarray(endian="big")
+    addr = bitarray(endian="big")
+    b.frombytes(str(i.bytes))
+    x = b[0:3]
+    y = b[8:16]
+    z = b[21:24]
+    if b[21] == True:
+        addr = bitarray('11', endian='big') + z + y + x 
+    else:
+        addr = bitarray('00', endian='big') + z + y + x 
+    newaddr = addr[8:16] + addr[0:8]
+    offset = bytes_to_long(bytearray(newaddr.tobytes()), endian='little')
+    return get_target_address(get_current_pc(i), offset)
+
+def get_cond_branch_target(i):
+    b = bitarray(endian="big")
+    addr = bitarray(endian="big")
+    b.frombytes(str(i.bytes))
+    x = b[0:3]
+    y = b[8:16]
+    z = b[16:24]
+    if b[23] == True:
+        addr = bitarray('11111', endian='big') + z + y + x 
+    else:
+        addr = bitarray('00000', endian='big') + z + y + x 
+    newaddr = addr[16:24] + addr[8:16] + addr[0:8]
+    offset = bytes_to_long(bytearray(newaddr.tobytes()), endian='little')
+    return get_target_address(get_current_pc(i), offset)
+
+def new_branch_with_link_instruction(i, target):
+    bits = bitarray('0'*32, endian='big')
+    immt = bitarray('0'*32, endian='big')
+
+    bits[24:30] = bitarray('100101')  # opcode for BL
+    immt[00:32] = bytes_to_bits(long_to_bytes(
+        get_target_offset(get_current_pc(i), target),
+        width=8, endian='little'))
+    bits[00:24] = immt[00:24]
+    bits[30:32] = immt[24:26]   # TODO just a guess! 
+
+    return bytearray(bits.tobytes())
+
+def cond_bits(i):
+    bits = bitarray(endian='big')
+    bits.frombytes(str(i.bytes))
+    return bits[24:28]
+
+def bytes_to_bits(data_bytes):
+    bits = bitarray(endian='big')
+    bits.frombytes(str(data_bytes))
+    return bits
+
+def write_branch_table(pathname, branches):
+    with open(pathname, "w") as f:
+        f.write("/* Automatically generated by %s on %s, do not edit! */\n\n" % (sys.argv[0], datetime.today()))
+        f.write("#include \"lib/btbl.h\"\n\n")
+        f.write("static __attribute__((section(\".btbl\"),unused)) struct btbl_entry btbl[] = {\n")
+
+        for b in branches:
+            f.write("\t{0x%08x,0x%08x},\n" % (b.src, b.dst))
+
+        f.write("};\n")
+
+def write_loop_table(pathname, loops):
+    with open(pathname, "w") as f:
+        f.write("/* Automatically generated by %s on %s, do not edit! */\n\n" % (sys.argv[0], datetime.today()))
+        f.write("#include \"lib/ltbl.h\"\n\n")
+        f.write("static __attribute__((section(\".ltbl\"),unused)) struct ltbl_entry ltbl[] = {\n")
+
+        for (entry, exit) in loops:
+            f.write("\t{0x%08x,0x%08x},\n" % (entry, exit))
+
+        f.write("};\n")
+
+if __name__ == "__main__":
+    main()

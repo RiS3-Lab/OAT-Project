@@ -1,0 +1,123 @@
+Starting syringe pumplcd_begin (LiquidCrystal * lcd = 0x4144f0, unsigned int cols = 16, unsigned int rows = 2)
+lcd_clear (LiquidCrystal * lcd = 0xb5f91000
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = SyringePump v2.0, int len = 16)
+pinMode (int pin = 0, int mode = 0)
+pinMode (int pin = 0, int mode = 0)
+pinMode (int pin = 2, int mode = 1)
+pinMode (int pin = 3, int mode = 1)
+Serial_begin (int baud = 57600)
+new reg_key: 0xcf9f537df6f4fcf9
+cfv_init time: 82985
+cfa_init time 82995 us
+led_on
+lcd_clear (LiquidCrystal * lcd = 0xffffffff
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 0, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Used 0.11 mL, int len = 12)
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 1, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Bolus 0.11 mL, int len = 13)
+mLBolus = 0.011000, time usecs: 23845
+316,6,0,316
+commit time: 19287
+cfv_quote time: 82297
+time during attestation: 189176
+quote time 82304 us
+new reg_key: 0x137f62cd80c3ee78
+cfv_init time: 82814
+cfa_init time 82818 us
+led_on
+lcd_clear (LiquidCrystal * lcd = 0xffffffff
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 0, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Used 0.32 mL, int len = 12)
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 1, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Bolus 0.21 mL, int len = 13)
+mLBolus = 0.021000, time usecs: 45788
+588,6,0,588
+commit time: 19287
+cfv_quote time: 82249
+time during attestation: 210879
+quote time 82255 us
+new reg_key: 0xb2b997715dfacf27
+cfv_init time: 82801
+cfa_init time 82806 us
+led_on
+lcd_clear (LiquidCrystal * lcd = 0xffffffff
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 0, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Used 0.63 mL, int len = 12)
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 1, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Bolus 0.31 mL, int len = 13)
+mLBolus = 0.031000, time usecs: 67010
+860,6,0,860
+commit time: 19294
+cfv_quote time: 82234
+time during attestation: 232074
+quote time 82240 us
+new reg_key: 0x84186e74995d93d3
+cfv_init time: 82824
+cfa_init time 82830 us
+led_on
+813,6,0,813
+commit time: 19287
+lcd_clear (LiquidCrystal * lcd = 0xffffffff
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 0, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Used 0.104 mL, int len = 13)
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 1, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Bolus 0.41 mL, int len = 13)
+mLBolus = 0.041000, time usecs: 108177
+319,6,0,319
+commit time: 19256
+cfv_quote time: 82281
+time during attestation: 273311
+quote time 82287 us
+new reg_key: 0x354e0dec7dc3f633
+cfv_init time: 82815
+cfa_init time 82820 us
+led_on
+973,7,0,973
+commit time: 19293
+lcd_clear (LiquidCrystal * lcd = 0xffffffff
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 0, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Used 0.155 mL, int len = 13)
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 1, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Bolus 0.51 mL, int len = 13)
+mLBolus = 0.051000, time usecs: 130355
+435,6,0,435
+commit time: 19261
+cfv_quote time: 82287
+time during attestation: 295485
+quote time 82291 us
+new reg_key: 0x1eb4b5522aa5709b
+cfv_init time: 82825
+cfa_init time 82830 us
+led_on
+869,7,0,869
+commit time: 19283
+lcd_clear (LiquidCrystal * lcd = 0xffffffff
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 0, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Used 0.216 mL, int len = 13)
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 1, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Bolus 0.61 mL, int len = 13)
+mLBolus = 0.061000, time usecs: 152033
+811,6,0,811
+commit time: 19262
+cfv_quote time: 82591
+time during attestation: 317480
+quote time 82596 us
+new reg_key: 0x9ac3e0848bb5792d
+cfv_init time: 82818
+cfa_init time 82823 us
+led_on
+979,6,0,979
+commit time: 19282
+872,6,0,872
+commit time: 19254
+lcd_clear (LiquidCrystal * lcd = 0xffffffff
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 0, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Used 0.287 mL, int len = 13)
+lcd_setCursor (LiquidCrystal * lcd = 0x0, int x = 1, int y = 0
+lcd_print (LiquidCrystal * lcd = 0x4144f0, char* output = Bolus 0.71 mL, int len = 13)
+mLBolus = 0.071000, time usecs: 193385
+101,6,0,101
+commit time: 19254
+cfv_quote time: 82286
+time during attestation: 358517
+quote time 82291 us

@@ -1,0 +1,11 @@
+*.swp
+*.bc
+*.dis
+*.ll
+*.bak
+*.s
+hello
+err.txt
+hello_hints
+hello_hints.txt
+hello_loop

@@ -1,0 +1,5 @@
+*.bc
+*.dump
+a.out
+*.ll
+*.s

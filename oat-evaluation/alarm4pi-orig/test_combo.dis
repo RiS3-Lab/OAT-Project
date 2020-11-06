@@ -1,0 +1,3592 @@
+; ModuleID = '<stdin>'
+source_filename = "<stdin>"
+target datalayout = "e-m:e-i64:64-i128:128-n32:64-S128"
+target triple = "aarch64-unknown-linux-gnu"
+
+%struct.in_addr = type { i32 }
+%struct._IO_FILE = type { i32, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, %struct._IO_marker*, %struct._IO_FILE*, i32, i32, i64, i16, i8, [1 x i8], i8*, i64, i8*, i8*, i8*, i8*, i64, i32, [20 x i8] }
+%struct._IO_marker = type { %struct._IO_marker*, %struct._IO_FILE*, i32 }
+%struct.timeval = type { i64, i64 }
+%struct.timezone = type { i32, i32 }
+%struct.sigaction = type { %union.anon, %struct.__sigset_t, i32, void ()* }
+%union.anon = type { void (i32)* }
+%struct.__sigset_t = type { [16 x i64] }
+%union.pthread_attr_t = type { i64, [56 x i8] }
+%struct.sockaddr_in = type { i16, i16, %struct.in_addr, [8 x i8] }
+%struct.sockaddr = type { i16, [14 x i8] }
+%struct.addrinfo = type { i32, i32, i32, i32, i32, %struct.sockaddr*, i8*, %struct.addrinfo* }
+%struct.__res_state = type { i32, i32, i64, i32, [3 x %struct.sockaddr_in], i16, [7 x i8*], [256 x i8], i64, i32, [10 x %struct.anon], i32 (%struct.sockaddr_in**, i8**, i32*, i8*, i32, i32*)*, i32 (%struct.sockaddr_in*, i8*, i32, i8*, i32, i32*)*, i32, i32, i32, %union.anon.9 }
+%struct.anon = type { %struct.in_addr, i32 }
+%union.anon.9 = type { %struct.anon.0 }
+%struct.anon.0 = type { i16, [3 x i16], [3 x i32], i16, i16, [3 x %struct.sockaddr_in6*], [2 x i32] }
+%struct.sockaddr_in6 = type { i16, i16, i32, %struct.in6_addr, i32 }
+%struct.in6_addr = type { %union.anon.1 }
+%union.anon.1 = type { [4 x i32] }
+%union.anon.2 = type { [512 x i8] }
+%struct.__ns_msg = type { i8*, i8*, i16, i16, [4 x i16], [4 x i8*], i32, i32, i8* }
+%struct.__ns_rr = type { [1025 x i8], i16, i16, i32, i16, i8* }
+%struct.itimerval = type { %struct.timeval, %struct.timeval }
+%struct.tm = type { i32, i32, i32, i32, i32, i32, i32, i32, i32, i64, i8* }
+%struct.__va_list = type { i8*, i8*, i8*, i32, i32 }
+
+@Child_process_id = global [2 x i32] [i32 -1, i32 -1], align 4
+@.str = private unnamed_addr constant [3 x i8] c"nc\00", align 1
+@.str1 = private unnamed_addr constant [3 x i8] c"-l\00", align 1
+@.str2 = private unnamed_addr constant [3 x i8] c"-p\00", align 1
+@.str3 = private unnamed_addr constant [5 x i8] c"8080\00", align 1
+@.str4 = private unnamed_addr constant [3 x i8] c"-v\00", align 1
+@Capture_exec_args = constant [7 x i8*] [i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str, i32 0, i32 0), i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str1, i32 0, i32 0), i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str2, i32 0, i32 0), i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str3, i32 0, i32 0), i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str4, i32 0, i32 0), i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str4, i32 0, i32 0), i8* null], align 8
+@.str5 = private unnamed_addr constant [5 x i8] c"8008\00", align 1
+@Web_server_exec_args = constant [7 x i8*] [i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str, i32 0, i32 0), i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str1, i32 0, i32 0), i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str2, i32 0, i32 0), i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str5, i32 0, i32 0), i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str4, i32 0, i32 0), i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str4, i32 0, i32 0), i8* null], align 8
+@Exit_daemon_loop = global i32 0, align 4
+@.str6 = private unnamed_addr constant [52 x i8] c"Error setting termination signal handler. errno=%d\0A\00", align 1
+@.str7 = private unnamed_addr constant [23 x i8] c"iAlarm daemon started.\00", align 1
+@.str8 = private unnamed_addr constant [26 x i8] c"Error creating log files.\00", align 1
+@.str9 = private unnamed_addr constant [16 x i8] c"LD_LIBRARY_PATH\00", align 1
+@.str10 = private unnamed_addr constant [15 x i8] c"/usr/local/lib\00", align 1
+@.str11 = private unnamed_addr constant [64 x i8] c"Error setting envoronment variable for child process. Errno=%i\0A\00", align 1
+@.str12 = private unnamed_addr constant [27 x i8] c"Child process %s executed\0A\00", align 1
+@.str13 = private unnamed_addr constant [23 x i8] c"Server: http://%s:8008\00", align 1
+@.str14 = private unnamed_addr constant [38 x i8] c"Polling thread has not been created.\0A\00", align 1
+@.str15 = private unnamed_addr constant [39 x i8] c"Waiting for child processes to finish\0A\00", align 1
+@.str16 = private unnamed_addr constant [54 x i8] c"Signal %i received: Sending TERM signal to children.\0A\00", align 1
+@timer_handler.count = internal global i32 0, align 4
+@.str17 = private unnamed_addr constant [24 x i8] c"timer expired %d times\0A\00", align 1
+@.str18 = private unnamed_addr constant [7 x i8] c"%s. %s\00", align 1
+@Msg_info_str = common global [146 x i8] zeroinitializer, align 1
+@.str119 = private unnamed_addr constant [23 x i8] c"Public IP address: %s\0A\00", align 1
+@.str220 = private unnamed_addr constant [37 x i8] c"Alarm4pi running. Public IP obtained\00", align 1
+@.str321 = private unnamed_addr constant [3 x i8] c"-2\00", align 1
+@.str422 = private unnamed_addr constant [23 x i8] c"GPIO server initiated\0A\00", align 1
+@.str523 = private unnamed_addr constant [25 x i8] c"GPIO PIR (%i) value: %i\0A\00", align 1
+@.str624 = private unnamed_addr constant [21 x i8] c"PIR sensor activated\00", align 1
+@.str725 = private unnamed_addr constant [2 x i8] c"2\00", align 1
+@.str826 = private unnamed_addr constant [36 x i8] c"Error %i while reading GPIO %i: %s\0A\00", align 1
+@.str927 = private unnamed_addr constant [40 x i8] c"round with attestation time usecs: %lu\0A\00", align 1
+@.str1028 = private unnamed_addr constant [44 x i8] c"GPIO server terminated with error code: %i\0A\00", align 1
+@.str1129 = private unnamed_addr constant [18 x i8] c"pushover_conf.txt\00", align 1
+@Polling_thread_id = common global i64 0, align 8
+@.str1230 = private unnamed_addr constant [26 x i8] c"Polling thread initiated\0A\00", align 1
+@.str1331 = private unnamed_addr constant [38 x i8] c"Error %i creating polling thread: %s\0A\00", align 1
+@.str1432 = private unnamed_addr constant [37 x i8] c"Polling thread terminated correctly\0A\00", align 1
+@.str1533 = private unnamed_addr constant [48 x i8] c"Error waiting for the polling thread to finish\0A\00", align 1
+@.str38 = private unnamed_addr constant [80 x i8] c"Error obtaining the directory of the current-process executable file: errno=%d\0A\00", align 1
+@.str139 = private unnamed_addr constant [3 x i8] c"rt\00", align 1
+@Token_id = common global [81 x i8] zeroinitializer, align 1
+@User_id = common global [81 x i8] zeroinitializer, align 1
+@Server_path = common global [65 x i8] zeroinitializer, align 1
+@.str240 = private unnamed_addr constant [2 x i8] c"/\00", align 1
+@.str341 = private unnamed_addr constant [21 x i8] c" server_url= %2083s\0A\00", align 1
+@.str442 = private unnamed_addr constant [14 x i8] c" token= %80s\0A\00", align 1
+@.str543 = private unnamed_addr constant [13 x i8] c" user= %80s\0A\00", align 1
+@.str644 = private unnamed_addr constant [73 x i8] c"Error loading Pushover config file: unknown variable name found in file\0A\00", align 1
+@.str745 = private unnamed_addr constant [8 x i8] c"http://\00", align 1
+@Server_port = common global i32 0, align 4
+@.str846 = private unnamed_addr constant [3 x i8] c"%i\00", align 1
+@Server_name = common global [65 x i8] zeroinitializer, align 1
+@Server_ip = common global %struct.in_addr zeroinitializer, align 4
+@.str947 = private unnamed_addr constant [44 x i8] c"Using Pushover server %s for notifications\0A\00", align 1
+@.str1048 = private unnamed_addr constant [86 x i8] c"Error loading Pushover config file: server URL is too long (more than 64 characters)\0A\00", align 1
+@.str1149 = private unnamed_addr constant [69 x i8] c"Error loading Pushover config file: server URL start is not http://\0A\00", align 1
+@.str1250 = private unnamed_addr constant [55 x i8] c"Error loading Pushover config file: user id not found\0A\00", align 1
+@.str1351 = private unnamed_addr constant [56 x i8] c"Error loading Pushover config file: token id not found\0A\00", align 1
+@.str1452 = private unnamed_addr constant [58 x i8] c"Error loading Pushover config file: server URL not found\0A\00", align 1
+@.str1553 = private unnamed_addr constant [49 x i8] c"Error opening Pushover config file %s: errno=%d\0A\00", align 1
+@.str1654 = private unnamed_addr constant [4 x i8] c"r+b\00", align 1
+@.str1755 = private unnamed_addr constant [2 x i8] c"2\00", align 1
+@.str1856 = private unnamed_addr constant [19 x i8] c"POST %s HTTP/1.0\0D\0A\00", align 1
+@.str19 = private unnamed_addr constant [11 x i8] c"Host: %s\0D\0A\00", align 1
+@.str20 = private unnamed_addr constant [50 x i8] c"Content-Type: application/x-www-form-urlencoded\0D\0A\00", align 1
+@.str21 = private unnamed_addr constant [24 x i8] c"Content-Length: %lu\0D\0A\0D\0A\00", align 1
+@.str22 = private unnamed_addr constant [40 x i8] c"token=%s&user=%s&message=%s&priority=%s\00", align 1
+@.str23 = private unnamed_addr constant [21 x i8] c"&retry=31&expire=120\00", align 1
+@.str24 = private unnamed_addr constant [23 x i8] c"HTTP/%*[^ ] %u %*[^\0D]\0A\00", align 1
+@.str25 = private unnamed_addr constant [4 x i8] c" { \00", align 1
+@.str26 = private unnamed_addr constant [12 x i8] c" \22%[^\22]\22 : \00", align 1
+@.str27 = private unnamed_addr constant [3 x i8] c" \22\00", align 1
+@.str28 = private unnamed_addr constant [10 x i8] c" %[^,}\22]\22\00", align 1
+@.str29 = private unnamed_addr constant [3 x i8] c" ,\00", align 1
+@.str30 = private unnamed_addr constant [7 x i8] c"status\00", align 1
+@.str31 = private unnamed_addr constant [3 x i8] c" }\00", align 1
+@.str32 = private unnamed_addr constant [52 x i8] c"Error status code %i received from Pushover server\0A\00", align 1
+@.str33 = private unnamed_addr constant [89 x i8] c"Invalid format of response body from Pushover server. Status code could not be obtained\0A\00", align 1
+@.str34 = private unnamed_addr constant [59 x i8] c"Too long response from Pushover server: reception aborted\0A\00", align 1
+@.str35 = private unnamed_addr constant [84 x i8] c"Error receiving response header from Pushover server: truncated response. errno=%d\0A\00", align 1
+@.str36 = private unnamed_addr constant [50 x i8] c"HTTP error code %u received from Pushover server\0A\00", align 1
+@.str37 = private unnamed_addr constant [77 x i8] c"Error receiving response from Pushover server: fscanf returned %i. errno=%d\0A\00", align 1
+@.str3857 = private unnamed_addr constant [73 x i8] c"Error opening socket connected to Pushover server as file: errno=%d: %s\0A\00", align 1
+@.str39 = private unnamed_addr constant [51 x i8] c"Error connecting to Pushover server: errno=%d: %s\0A\00", align 1
+@.str40 = private unnamed_addr constant [67 x i8] c"Error creating socket for connecting to Pushover server: errno=%d\0A\00", align 1
+@.str62 = private unnamed_addr constant [23 x i8] c"Unknown specified host\00", align 1
+@.str163 = private unnamed_addr constant [35 x i8] c"No NS records for specified domain\00", align 1
+@.str264 = private unnamed_addr constant [25 x i8] c"No response for NS query\00", align 1
+@.str365 = private unnamed_addr constant [17 x i8] c"Unexpected error\00", align 1
+@.str466 = private unnamed_addr constant [17 x i8] c"FORMERR response\00", align 1
+@.str567 = private unnamed_addr constant [18 x i8] c"SERVFAIL response\00", align 1
+@.str668 = private unnamed_addr constant [18 x i8] c"NXDOMAIN response\00", align 1
+@.str769 = private unnamed_addr constant [16 x i8] c"NOTIMP response\00", align 1
+@.str870 = private unnamed_addr constant [17 x i8] c"REFUSED response\00", align 1
+@.str971 = private unnamed_addr constant [23 x i8] c"unexpected return code\00", align 1
+@.str1072 = private unnamed_addr constant [46 x i8] c"Error resolving IP of hostname %s. error: %s\0A\00", align 1
+@.str1173 = private unnamed_addr constant [6 x i8] c"> %s\0A\00", align 1
+@.str1274 = private unnamed_addr constant [37 x i8] c"%s: expected answer type %d, got %d\0A\00", align 1
+@.str1375 = private unnamed_addr constant [16 x i8] c"ns_parserr: %s\0A\00", align 1
+@.str1476 = private unnamed_addr constant [31 x i8] c"%s: expected 1 answer, got %d\0A\00", align 1
+@.str1577 = private unnamed_addr constant [49 x i8] c"DNS response reported an error (domain: %s): %s\0A\00", align 1
+@.str1678 = private unnamed_addr constant [18 x i8] c"ns_initparse: %s\0A\00", align 1
+@.str1779 = private unnamed_addr constant [59 x i8] c"Connection refused: There is no name server running on %s\0A\00", align 1
+@.str1880 = private unnamed_addr constant [49 x i8] c"There was no response from %s (h_errno: %i: %s)\0A\00", align 1
+@.str1981 = private unnamed_addr constant [26 x i8] c"res_init error. errno:%i\0A\00", align 1
+@.str2082 = private unnamed_addr constant [22 x i8] c"resolver1.opendns.com\00", align 1
+@.str2183 = private unnamed_addr constant [17 x i8] c"myip.opendns.com\00", align 1
+@.str88 = private unnamed_addr constant [15 x i8] c"/proc/self/exe\00", align 1
+@.str189 = private unnamed_addr constant [2 x i8] c"/\00", align 1
+@.str290 = private unnamed_addr constant [40 x i8] c"Child process with PID: %i terminated.\0A\00", align 1
+@.str391 = private unnamed_addr constant [57 x i8] c"Error waiting for child process to finish. errno %i: %s\0A\00", align 1
+@.str492 = private unnamed_addr constant [64 x i8] c"Creating process %s: failed redirect standard output. errno=%d\0A\00", align 1
+@.str593 = private unnamed_addr constant [70 x i8] c"Creating process %s: failed redirect standard error output. errno=%d\0A\00", align 1
+@.str694 = private unnamed_addr constant [10 x i8] c"/dev/null\00", align 1
+@.str795 = private unnamed_addr constant [63 x i8] c"Creating process %s: failed redirect standard input. errno=%d\0A\00", align 1
+@.str896 = private unnamed_addr constant [71 x i8] c"Creating process %s: could not open null device for reading. errno=%d\0A\00", align 1
+@.str997 = private unnamed_addr constant [66 x i8] c"Creating process %s: failed to execute capture program. errno=%d\0A\00", align 1
+@.str1098 = private unnamed_addr constant [50 x i8] c"Creating process %s: first fork failed. errno=%d\0A\00", align 1
+@.str1199 = private unnamed_addr constant [46 x i8] c"Sensor polling (timer) set to %lis and %lius\0A\00", align 1
+@.str12100 = private unnamed_addr constant [35 x i8] c"Error setting timer: errno %i: %s\0A\00", align 1
+@.str13101 = private unnamed_addr constant [65 x i8] c"iAlarm daemon init error: could not open null device for reading\00", align 1
+@.str14102 = private unnamed_addr constant [65 x i8] c"iAlarm daemon init error: could not open null device for writing\00", align 1
+@stderr = external global %struct._IO_FILE*
+@.str15103 = private unnamed_addr constant [56 x i8] c"iAlarm daemon init error: second fork failed. errno=%d\0A\00", align 1
+@.str16104 = private unnamed_addr constant [79 x i8] c"iAlarm daemon init error: child process could become session leader. errno=%d\0A\00", align 1
+@.str17105 = private unnamed_addr constant [55 x i8] c"iAlarm daemon init error: first fork failed. errno=%d\0A\00", align 1
+@Console_messages = global i32 1, align 4
+@Log_file_handle = global %struct._IO_FILE* null, align 8
+@Event_file_handle = global %struct._IO_FILE* null, align 8
+@.str120 = private unnamed_addr constant [18 x i8] c"%Y-%m-%d %H:%M:%S\00", align 1
+@.str1121 = private unnamed_addr constant [6 x i8] c"[%s] \00", align 1
+@.str2122 = private unnamed_addr constant [4 x i8] c"a+t\00", align 1
+@.str3123 = private unnamed_addr constant [3 x i8] c"wt\00", align 1
+@.str4124 = private unnamed_addr constant [31 x i8] c"\0A[%s] <Old messages deleted>\0A\0A\00", align 1
+@.str5125 = private unnamed_addr constant [64 x i8] c"[%s] --------------------- Log initiated ---------------------\0A\00", align 1
+@.str6126 = private unnamed_addr constant [28 x i8] c"[%s] iAlarm daemon running\0A\00", align 1
+@.str7127 = private unnamed_addr constant [32 x i8] c"[%s] iAlarm daemon terminated\0A\0A\00", align 1
+@.str8128 = private unnamed_addr constant [29 x i8] c"/var/log/alarm4pi/daemon.log\00", align 1
+@.str9129 = private unnamed_addr constant [29 x i8] c"/var/log/alarm4pi/events.log\00", align 1
+@.str136 = private unnamed_addr constant [23 x i8] c"/sys/class/gpio/export\00", align 1
+@.str1137 = private unnamed_addr constant [3 x i8] c"%d\00", align 1
+@.str2138 = private unnamed_addr constant [33 x i8] c"/sys/class/gpio/gpio%d/direction\00", align 1
+@.str3139 = private unnamed_addr constant [25 x i8] c"/sys/class/gpio/unexport\00", align 1
+@.str4140 = private unnamed_addr constant [3 x i8] c"in\00", align 1
+@.str5141 = private unnamed_addr constant [4 x i8] c"out\00", align 1
+@GPIO_direction.s_directions_str = private unnamed_addr constant [2 x i8*] [i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str4140, i32 0, i32 0), i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str5141, i32 0, i32 0)], align 8
+@.str6142 = private unnamed_addr constant [29 x i8] c"/sys/class/gpio/gpio%d/value\00", align 1
+@.str7143 = private unnamed_addr constant [2 x i8] c"0\00", align 1
+@.str8144 = private unnamed_addr constant [2 x i8] c"1\00", align 1
+@GPIO_write.s_values_str = private unnamed_addr constant [2 x i8*] [i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str7143, i32 0, i32 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str8144, i32 0, i32 0)], align 8
+@.str9145 = private unnamed_addr constant [54 x i8] c"While exporting output pin %d (relay 4) error %d: %s\0A\00", align 1
+@.str10146 = private unnamed_addr constant [54 x i8] c"While exporting output pin %d (relay 3) error %d: %s\0A\00", align 1
+@.str11147 = private unnamed_addr constant [54 x i8] c"While exporting output pin %d (relay 2) error %d: %s\0A\00", align 1
+@.str12148 = private unnamed_addr constant [54 x i8] c"While exporting output pin %d (relay 1) error %d: %s\0A\00", align 1
+@.str13149 = private unnamed_addr constant [49 x i8] c"While exporting input pin %d (PIR) error %d: %s\0A\00", align 1
+@.str14150 = private unnamed_addr constant [53 x i8] c"While configuring direcction of pin %d error %d: %s\0A\00", align 1
+@.str15151 = private unnamed_addr constant [42 x i8] c"While unexporting GPIO pins error %d: %s\0A\00", align 1
+
+; Function Attrs: nounwind
+define i64 @usecs() #0 {
+  %start = alloca %struct.timeval, align 8
+  %1 = call i32 @gettimeofday(%struct.timeval* %start, %struct.timezone* null) #6
+  %2 = getelementptr inbounds %struct.timeval, %struct.timeval* %start, i32 0, i32 0
+  %3 = load i64, i64* %2, align 8
+  %4 = mul nsw i64 %3, 1000
+  %5 = mul nsw i64 %4, 1000
+  %6 = getelementptr inbounds %struct.timeval, %struct.timeval* %start, i32 0, i32 1
+  %7 = load i64, i64* %6, align 8
+  %8 = add nsw i64 %5, %7
+  ret i64 %8
+}
+
+; Function Attrs: nounwind
+declare i32 @gettimeofday(%struct.timeval*, %struct.timezone*) #0
+
+; Function Attrs: nounwind
+define i32 @set_signal_handler() #0 {
+  %ret = alloca i32, align 4
+  %act = alloca %struct.sigaction, align 8
+  %1 = bitcast %struct.sigaction* %act to i8*
+  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 152, i32 8, i1 false)
+  %2 = getelementptr inbounds %struct.sigaction, %struct.sigaction* %act, i32 0, i32 0
+  %3 = bitcast %union.anon* %2 to void (i32)**
+  store void (i32)* @timer_handler, void (i32)** %3, align 8
+  %4 = call i32 @sigaction(i32 14, %struct.sigaction* %act, %struct.sigaction* null) #6
+  %5 = getelementptr inbounds %struct.sigaction, %struct.sigaction* %act, i32 0, i32 0
+  %6 = bitcast %union.anon* %5 to void (i32)**
+  store void (i32)* @exit_deamon_handler, void (i32)** %6, align 8
+  %7 = getelementptr inbounds %struct.sigaction, %struct.sigaction* %act, i32 0, i32 2
+  store i32 268435456, i32* %7, align 4
+  %8 = call i32 @sigaction(i32 2, %struct.sigaction* %act, %struct.sigaction* null) #6
+  %9 = call i32 @sigaction(i32 15, %struct.sigaction* %act, %struct.sigaction* null) #6
+  %10 = icmp eq i32 %9, 0
+  br i1 %10, label %11, label %12
+
+; <label>:11:                                     ; preds = %0
+  store i32 0, i32* %ret, align 4
+  br label %19
+
+; <label>:12:                                     ; preds = %0
+  %13 = call i32* @__errno_location() #7
+  %14 = load i32, i32* %13, align 4
+  store i32 %14, i32* %ret, align 4
+  %15 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %16 = call i32* @__errno_location() #7
+  %17 = load i32, i32* %16, align 4
+  %18 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %15, i8* getelementptr inbounds ([52 x i8], [52 x i8]* @.str6, i32 0, i32 0), i32 %17)
+  br label %19
+
+; <label>:19:                                     ; preds = %12, %11
+  %20 = load i32, i32* %ret, align 4
+  ret i32 %20
+}
+
+; Function Attrs: argmemonly nounwind
+declare void @llvm.memset.p0i8.i64(i8* nocapture writeonly, i8, i64, i32, i1) #1
+
+; Function Attrs: nounwind
+declare i32 @sigaction(i32, %struct.sigaction*, %struct.sigaction*) #0
+
+; Function Attrs: nounwind readnone
+declare i32* @__errno_location() #2
+
+; Function Attrs: nounwind
+define i32 @main(i32 %argc, i8** %argv) #0 {
+  %1 = alloca i32, align 4
+  %2 = alloca i32, align 4
+  %3 = alloca i8**, align 8
+  %main_err = alloca i32, align 4
+  %capture_proc = alloca i32, align 4
+  %web_server_proc = alloca i32, align 4
+  store i32 0, i32* %1
+  store i32 %argc, i32* %2, align 4
+  store i8** %argv, i8*** %3, align 8
+  %4 = call i32 @daemon(i32 0, i32 0) #6
+  store i32 %4, i32* %main_err, align 4
+  %5 = load i32, i32* %main_err, align 4
+  %6 = icmp eq i32 %5, 0
+  br i1 %6, label %7, label %53
+
+; <label>:7:                                      ; preds = %0
+  call void (i32, i8*, ...) @syslog(i32 5, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str7, i32 0, i32 0))
+  %8 = call i32 @open_log_files()
+  %9 = icmp ne i32 %8, 0
+  br i1 %9, label %10, label %11
+
+; <label>:10:                                     ; preds = %7
+  call void (i32, i8*, ...) @syslog(i32 4, i8* getelementptr inbounds ([26 x i8], [26 x i8]* @.str8, i32 0, i32 0))
+  br label %11
+
+; <label>:11:                                     ; preds = %10, %7
+  %12 = call i32 @set_signal_handler()
+  %13 = call i32 @setenv(i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str9, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str10, i32 0, i32 0), i32 0) #6
+  %14 = icmp ne i32 %13, 0
+  br i1 %14, label %15, label %20
+
+; <label>:15:                                     ; preds = %11
+  %16 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %17 = call i32* @__errno_location() #7
+  %18 = load i32, i32* %17, align 4
+  %19 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %16, i8* getelementptr inbounds ([64 x i8], [64 x i8]* @.str11, i32 0, i32 0), i32 %18)
+  br label %20
+
+; <label>:20:                                     ; preds = %15, %11
+  %21 = load i8*, i8** getelementptr inbounds ([7 x i8*], [7 x i8*]* @Capture_exec_args, i32 0, i64 0), align 8
+  %22 = call i32 @run_background_command(i32* %capture_proc, i8* %21, i8** getelementptr inbounds ([7 x i8*], [7 x i8*]* @Capture_exec_args, i32 0, i32 0))
+  %23 = icmp eq i32 %22, 0
+  br i1 %23, label %24, label %38
+
+; <label>:24:                                     ; preds = %20
+  %25 = load i32, i32* %capture_proc, align 4
+  store i32 %25, i32* getelementptr inbounds ([2 x i32], [2 x i32]* @Child_process_id, i32 0, i64 0), align 4
+  %26 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %27 = load i8*, i8** getelementptr inbounds ([7 x i8*], [7 x i8*]* @Capture_exec_args, i32 0, i64 0), align 8
+  %28 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %26, i8* getelementptr inbounds ([27 x i8], [27 x i8]* @.str12, i32 0, i32 0), i8* %27)
+  %29 = load i8*, i8** getelementptr inbounds ([7 x i8*], [7 x i8*]* @Web_server_exec_args, i32 0, i64 0), align 8
+  %30 = call i32 @run_background_command(i32* %web_server_proc, i8* %29, i8** getelementptr inbounds ([7 x i8*], [7 x i8*]* @Web_server_exec_args, i32 0, i32 0))
+  %31 = icmp eq i32 %30, 0
+  br i1 %31, label %32, label %37
+
+; <label>:32:                                     ; preds = %24
+  %33 = load i32, i32* %web_server_proc, align 4
+  store i32 %33, i32* getelementptr inbounds ([2 x i32], [2 x i32]* @Child_process_id, i32 0, i64 1), align 4
+  %34 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %35 = load i8*, i8** getelementptr inbounds ([7 x i8*], [7 x i8*]* @Web_server_exec_args, i32 0, i64 0), align 8
+  %36 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %34, i8* getelementptr inbounds ([27 x i8], [27 x i8]* @.str12, i32 0, i32 0), i8* %35)
+  br label %37
+
+; <label>:37:                                     ; preds = %32, %24
+  br label %38
+
+; <label>:38:                                     ; preds = %37, %20
+  %39 = call i32 @init_polling(i32* @Exit_daemon_loop, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str13, i32 0, i32 0))
+  store i32 %39, i32* %main_err, align 4
+  %40 = load i32, i32* %main_err, align 4
+  %41 = icmp eq i32 %40, 0
+  br i1 %41, label %42, label %44
+
+; <label>:42:                                     ; preds = %38
+  %43 = call i32 @wait_polling_end()
+  br label %47
+
+; <label>:44:                                     ; preds = %38
+  %45 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %46 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %45, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @.str14, i32 0, i32 0))
+  br label %47
+
+; <label>:47:                                     ; preds = %44, %42
+  %48 = call i32 @sleep(i32 1)
+  %49 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %50 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %49, i8* getelementptr inbounds ([39 x i8], [39 x i8]* @.str15, i32 0, i32 0))
+  %51 = call i32 @configure_timer(float -1.000000e+00)
+  %52 = call i32 @wait_processes(i32* getelementptr inbounds ([2 x i32], [2 x i32]* @Child_process_id, i32 0, i32 0), i64 2, i32 0)
+  call void @close_log_files()
+  br label %53
+
+; <label>:53:                                     ; preds = %47, %0
+  %54 = load i32, i32* %main_err, align 4
+  ret i32 %54
+}
+
+; Function Attrs: nounwind
+declare i32 @daemon(i32, i32) #0
+
+declare void @syslog(i32, i8*, ...) #3
+
+; Function Attrs: nounwind
+declare i32 @setenv(i8*, i8*, i32) #0
+
+declare i32 @sleep(i32) #3
+
+; Function Attrs: nounwind
+define internal void @timer_handler(i32 %signum) #0 {
+  %1 = alloca i32, align 4
+  store i32 %signum, i32* %1, align 4
+  %2 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %3 = load i32, i32* @timer_handler.count, align 4
+  %4 = add nsw i32 %3, 1
+  store i32 %4, i32* @timer_handler.count, align 4
+  %5 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %2, i8* getelementptr inbounds ([24 x i8], [24 x i8]* @.str17, i32 0, i32 0), i32 %4)
+  ret void
+}
+
+; Function Attrs: nounwind
+define internal void @exit_deamon_handler(i32 %sig) #0 {
+  %1 = alloca i32, align 4
+  store i32 %sig, i32* %1, align 4
+  %2 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %3 = load i32, i32* %1, align 4
+  %4 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %2, i8* getelementptr inbounds ([54 x i8], [54 x i8]* @.str16, i32 0, i32 0), i32 %3)
+  call void @kill_processes(i32* getelementptr inbounds ([2 x i32], [2 x i32]* @Child_process_id, i32 0, i32 0), i64 2)
+  store volatile i32 1, i32* @Exit_daemon_loop, align 4
+  ret void
+}
+
+; Function Attrs: nounwind
+define i32 @send_info_notif(i8* %msg_str, i8* %msg_priority) #0 {
+  %1 = alloca i8*, align 8
+  %2 = alloca i8*, align 8
+  %tot_msg_str = alloca [4096 x i8], align 1
+  store i8* %msg_str, i8** %1, align 8
+  store i8* %msg_priority, i8** %2, align 8
+  %3 = getelementptr inbounds [4096 x i8], [4096 x i8]* %tot_msg_str, i32 0, i32 0
+  %4 = load i8*, i8** %1, align 8
+  %5 = call i32 (i8*, i64, i8*, ...) @snprintf(i8* %3, i64 4096, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @.str18, i32 0, i32 0), i8* getelementptr inbounds ([146 x i8], [146 x i8]* @Msg_info_str, i32 0, i32 0), i8* %4) #6
+  %6 = getelementptr inbounds [4096 x i8], [4096 x i8]* %tot_msg_str, i32 0, i32 0
+  %7 = load i8*, i8** %2, align 8
+  %8 = call i32 @send_notification(i8* %6, i8* %7)
+  ret i32 %8
+}
+
+; Function Attrs: nounwind
+declare i32 @snprintf(i8*, i64, i8*, ...) #0
+
+; Function Attrs: nounwind
+define i32 @update_ip_msg(i8* %msg_info_fmt) #0 {
+  %1 = alloca i8*, align 8
+  %ret_err = alloca i32, align 4
+  %wan_address = alloca [46 x i8], align 1
+  %curr_msg_info_str = alloca [146 x i8], align 1
+  store i8* %msg_info_fmt, i8** %1, align 8
+  %2 = getelementptr inbounds [46 x i8], [46 x i8]* %wan_address, i32 0, i32 0
+  %3 = call i32 @get_public_ip(i8* %2)
+  store i32 %3, i32* %ret_err, align 4
+  %4 = load i32, i32* %ret_err, align 4
+  %5 = icmp eq i32 %4, 0
+  br i1 %5, label %6, label %22
+
+; <label>:6:                                      ; preds = %0
+  %7 = getelementptr inbounds [146 x i8], [146 x i8]* %curr_msg_info_str, i32 0, i32 0
+  %8 = load i8*, i8** %1, align 8
+  %9 = getelementptr inbounds [46 x i8], [46 x i8]* %wan_address, i32 0, i32 0
+  %10 = call i32 (i8*, i64, i8*, ...) @snprintf(i8* %7, i64 146, i8* %8, i8* %9) #6
+  %11 = getelementptr inbounds [146 x i8], [146 x i8]* %curr_msg_info_str, i32 0, i32 0
+  %12 = call i32 @strcmp(i8* %11, i8* getelementptr inbounds ([146 x i8], [146 x i8]* @Msg_info_str, i32 0, i32 0)) #8
+  %13 = icmp ne i32 %12, 0
+  br i1 %13, label %14, label %21
+
+; <label>:14:                                     ; preds = %6
+  %15 = getelementptr inbounds [146 x i8], [146 x i8]* %curr_msg_info_str, i32 0, i32 0
+  %16 = call i8* @strcpy(i8* getelementptr inbounds ([146 x i8], [146 x i8]* @Msg_info_str, i32 0, i32 0), i8* %15) #6
+  %17 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %18 = getelementptr inbounds [46 x i8], [46 x i8]* %wan_address, i32 0, i32 0
+  %19 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %17, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str119, i32 0, i32 0), i8* %18)
+  %20 = call i32 @send_info_notif(i8* getelementptr inbounds ([37 x i8], [37 x i8]* @.str220, i32 0, i32 0), i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str321, i32 0, i32 0))
+  br label %21
+
+; <label>:21:                                     ; preds = %14, %6
+  br label %22
+
+; <label>:22:                                     ; preds = %21, %0
+  %23 = load i32, i32* %ret_err, align 4
+  ret i32 %23
+}
+
+; Function Attrs: nounwind readonly
+declare i32 @strcmp(i8*, i8*) #4
+
+; Function Attrs: nounwind
+declare i8* @strcpy(i8*, i8*) #0
+
+; Function Attrs: nounwind
+define i8* @polling_thread(i32* %exit_polling) #0 {
+  %1 = alloca i32*, align 8
+  %ret_err = alloca i32, align 4
+  %read_err = alloca i32, align 4
+  %curr_pir_value = alloca i32, align 4
+  %last_pir_value = alloca i32, align 4
+  %pir_perman_counter = alloca i32, align 4
+  %start = alloca i64, align 8
+  %end = alloca i64, align 8
+  store i32* %exit_polling, i32** %1, align 8
+  %2 = load %struct._IO_FILE*, %struct._IO_FILE** @Event_file_handle, align 8
+  %3 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %2, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str422, i32 0, i32 0))
+  store i32 0, i32* %read_err, align 4
+  store i32 0, i32* %pir_perman_counter, align 4
+  store i32 0, i32* %last_pir_value, align 4
+  br label %4
+
+; <label>:4:                                      ; preds = %51, %0
+  %5 = load i32*, i32** %1, align 8
+  %6 = load volatile i32, i32* %5, align 4
+  %7 = icmp eq i32 %6, 0
+  br i1 %7, label %8, label %58
+
+; <label>:8:                                      ; preds = %4
+  %9 = call i32 @cfv_init(i32 768)
+  %10 = call i64 @usecs()
+  store i64 %10, i64* %start, align 8
+  %11 = call i32 @GPIO_read(i32 488, i32* %curr_pir_value)
+  store i32 %11, i32* %ret_err, align 4
+  %12 = load i32, i32* %ret_err, align 4
+  %13 = icmp eq i32 %12, 0
+  br i1 %13, label %14, label %33
+
+; <label>:14:                                     ; preds = %8
+  %15 = load i32, i32* %curr_pir_value, align 4
+  %16 = load i32, i32* %last_pir_value, align 4
+  %17 = icmp ne i32 %15, %16
+  br i1 %17, label %18, label %28
+
+; <label>:18:                                     ; preds = %14
+  %19 = load i32, i32* %curr_pir_value, align 4
+  %20 = icmp ne i32 %19, 0
+  br i1 %20, label %21, label %26
+
+; <label>:21:                                     ; preds = %18
+  %22 = load %struct._IO_FILE*, %struct._IO_FILE** @Event_file_handle, align 8
+  %23 = load i32, i32* %curr_pir_value, align 4
+  %24 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %22, i8* getelementptr inbounds ([25 x i8], [25 x i8]* @.str523, i32 0, i32 0), i32 488, i32 %23)
+  %25 = call i32 @send_info_notif(i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str624, i32 0, i32 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str725, i32 0, i32 0))
+  br label %26
+
+; <label>:26:                                     ; preds = %21, %18
+  %27 = load i32, i32* %curr_pir_value, align 4
+  store i32 %27, i32* %last_pir_value, align 4
+  br label %28
+
+; <label>:28:                                     ; preds = %26, %14
+  %29 = load i32, i32* %curr_pir_value, align 4
+  %30 = icmp ne i32 %29, 0
+  br i1 %30, label %31, label %32
+
+; <label>:31:                                     ; preds = %28
+  store i32 60, i32* %pir_perman_counter, align 4
+  br label %32
+
+; <label>:32:                                     ; preds = %31, %28
+  br label %44
+
+; <label>:33:                                     ; preds = %8
+  %34 = load i32, i32* %read_err, align 4
+  %35 = icmp eq i32 %34, 0
+  br i1 %35, label %36, label %43
+
+; <label>:36:                                     ; preds = %33
+  %37 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %38 = load i32, i32* %ret_err, align 4
+  %39 = load i32, i32* %ret_err, align 4
+  %40 = call i8* @strerror(i32 %39) #6
+  %41 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %37, i8* getelementptr inbounds ([36 x i8], [36 x i8]* @.str826, i32 0, i32 0), i32 %38, i32 488, i8* %40)
+  %42 = load i32, i32* %ret_err, align 4
+  store i32 %42, i32* %read_err, align 4
+  br label %43
+
+; <label>:43:                                     ; preds = %36, %33
+  br label %44
+
+; <label>:44:                                     ; preds = %43, %32
+  %45 = call i32 @sleep(i32 1)
+  %46 = load i32, i32* %pir_perman_counter, align 4
+  %47 = icmp sgt i32 %46, 0
+  br i1 %47, label %48, label %51
+
+; <label>:48:                                     ; preds = %44
+  %49 = load i32, i32* %pir_perman_counter, align 4
+  %50 = add nsw i32 %49, -1
+  store i32 %50, i32* %pir_perman_counter, align 4
+  br label %51
+
+; <label>:51:                                     ; preds = %48, %44
+  %52 = call i64 @usecs()
+  store i64 %52, i64* %end, align 8
+  %53 = load i64, i64* %end, align 8
+  %54 = load i64, i64* %start, align 8
+  %55 = sub i64 %53, %54
+  %56 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([40 x i8], [40 x i8]* @.str927, i32 0, i32 0), i64 %55)
+  %57 = call i32 @cfv_quote()
+  br label %4
+
+; <label>:58:                                     ; preds = %4
+  %59 = load %struct._IO_FILE*, %struct._IO_FILE** @Event_file_handle, align 8
+  %60 = load i32, i32* %read_err, align 4
+  %61 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %59, i8* getelementptr inbounds ([44 x i8], [44 x i8]* @.str1028, i32 0, i32 0), i32 %60)
+  %62 = load i32, i32* %read_err, align 4
+  %63 = sext i32 %62 to i64
+  %64 = inttoptr i64 %63 to i8*
+  ret i8* %64
+}
+
+declare i32 @cfv_init(i32) #3
+
+; Function Attrs: nounwind
+declare i8* @strerror(i32) #0
+
+declare i32 @printf(i8*, ...) #3
+
+declare i32 @cfv_quote() #3
+
+; Function Attrs: nounwind
+define i32 @init_polling(i32* %exit_polling, i8* %msg_info_fmt) #0 {
+  %1 = alloca i32*, align 8
+  %2 = alloca i8*, align 8
+  %ret_err = alloca i32, align 4
+  store i32* %exit_polling, i32** %1, align 8
+  store i8* %msg_info_fmt, i8** %2, align 8
+  %3 = call i32 @export_gpios()
+  store i32 %3, i32* %ret_err, align 4
+  %4 = load i32, i32* %ret_err, align 4
+  %5 = icmp eq i32 %4, 0
+  br i1 %5, label %6, label %34
+
+; <label>:6:                                      ; preds = %0
+  %7 = call i32 @configure_gpios()
+  store i32 %7, i32* %ret_err, align 4
+  %8 = load i32, i32* %ret_err, align 4
+  %9 = icmp eq i32 %8, 0
+  br i1 %9, label %10, label %33
+
+; <label>:10:                                     ; preds = %6
+  %11 = call i32 @pushover_init(i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str1129, i32 0, i32 0))
+  store i32 %11, i32* %ret_err, align 4
+  %12 = load i32, i32* %ret_err, align 4
+  %13 = icmp eq i32 %12, 0
+  br i1 %13, label %14, label %32
+
+; <label>:14:                                     ; preds = %10
+  store i8 0, i8* getelementptr inbounds ([146 x i8], [146 x i8]* @Msg_info_str, i32 0, i64 0), align 1
+  %15 = load i8*, i8** %2, align 8
+  %16 = call i32 @update_ip_msg(i8* %15)
+  %17 = load i32*, i32** %1, align 8
+  %18 = bitcast i32* %17 to i8*
+  %19 = call i32 @pthread_create(i64* @Polling_thread_id, %union.pthread_attr_t* null, i8* (i8*)* bitcast (i8* (i32*)* @polling_thread to i8* (i8*)*), i8* %18) #6
+  store i32 %19, i32* %ret_err, align 4
+  %20 = load i32, i32* %ret_err, align 4
+  %21 = icmp eq i32 %20, 0
+  br i1 %21, label %22, label %25
+
+; <label>:22:                                     ; preds = %14
+  %23 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %24 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %23, i8* getelementptr inbounds ([26 x i8], [26 x i8]* @.str1230, i32 0, i32 0))
+  br label %31
+
+; <label>:25:                                     ; preds = %14
+  %26 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %27 = load i32, i32* %ret_err, align 4
+  %28 = load i32, i32* %ret_err, align 4
+  %29 = call i8* @strerror(i32 %28) #6
+  %30 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %26, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @.str1331, i32 0, i32 0), i32 %27, i8* %29)
+  br label %31
+
+; <label>:31:                                     ; preds = %25, %22
+  br label %32
+
+; <label>:32:                                     ; preds = %31, %10
+  br label %33
+
+; <label>:33:                                     ; preds = %32, %6
+  br label %34
+
+; <label>:34:                                     ; preds = %33, %0
+  %35 = load i32, i32* %ret_err, align 4
+  ret i32 %35
+}
+
+; Function Attrs: nounwind
+declare i32 @pthread_create(i64*, %union.pthread_attr_t*, i8* (i8*)*, i8*) #0
+
+; Function Attrs: nounwind
+define i32 @wait_polling_end() #0 {
+  %ret_err = alloca i32, align 4
+  %1 = load i64, i64* @Polling_thread_id, align 8
+  %2 = call i32 @pthread_join(i64 %1, i8** null)
+  store i32 %2, i32* %ret_err, align 4
+  %3 = load i32, i32* %ret_err, align 4
+  %4 = icmp eq i32 %3, 0
+  br i1 %4, label %5, label %8
+
+; <label>:5:                                      ; preds = %0
+  %6 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %7 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %6, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @.str1432, i32 0, i32 0))
+  br label %11
+
+; <label>:8:                                      ; preds = %0
+  %9 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %10 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %9, i8* getelementptr inbounds ([48 x i8], [48 x i8]* @.str1533, i32 0, i32 0))
+  br label %11
+
+; <label>:11:                                     ; preds = %8, %5
+  %12 = call i32 @unexport_gpios()
+  %13 = load i32, i32* %ret_err, align 4
+  ret i32 %13
+}
+
+declare i32 @pthread_join(i64, i8**) #3
+
+; Function Attrs: nounwind
+define i32 @pushover_init(i8* %conf_filename) #0 {
+  %1 = alloca i32, align 4
+  %2 = alloca i8*, align 8
+  %ret_error = alloca i32, align 4
+  %conf_fd = alloca %struct._IO_FILE*, align 8
+  %full_conf_filename = alloca [4097 x i8], align 1
+  %server_url = alloca [2084 x i8], align 1
+  %hostname_start_ptr = alloca i8*, align 8
+  %hostname_end_ptr = alloca i8*, align 8
+  %path_start_prt = alloca i8*, align 8
+  %server_name_len = alloca i64, align 8
+  %path_len = alloca i64, align 8
+  store i8* %conf_filename, i8** %2, align 8
+  %3 = load i8*, i8** %2, align 8
+  %4 = call i64 @strlen(i8* %3) #8
+  %5 = icmp ugt i64 %4, 4096
+  br i1 %5, label %6, label %7
+
+; <label>:6:                                      ; preds = %0
+  store i32 22, i32* %1
+  br label %204
+
+; <label>:7:                                      ; preds = %0
+  %8 = load i8*, i8** %2, align 8
+  %9 = getelementptr inbounds i8, i8* %8, i64 0
+  %10 = load i8, i8* %9, align 1
+  %11 = zext i8 %10 to i32
+  %12 = icmp ne i32 %11, 47
+  br i1 %12, label %13, label %42
+
+; <label>:13:                                     ; preds = %7
+  %14 = getelementptr inbounds [4097 x i8], [4097 x i8]* %full_conf_filename, i32 0, i32 0
+  %15 = call i32 @get_current_exec_path(i8* %14, i64 4096)
+  store i32 %15, i32* %ret_error, align 4
+  %16 = load i32, i32* %ret_error, align 4
+  %17 = icmp eq i32 %16, 0
+  br i1 %17, label %18, label %34
+
+; <label>:18:                                     ; preds = %13
+  %19 = getelementptr inbounds [4097 x i8], [4097 x i8]* %full_conf_filename, i32 0, i32 0
+  %20 = call i64 @strlen(i8* %19) #8
+  %21 = load i8*, i8** %2, align 8
+  %22 = call i64 @strlen(i8* %21) #8
+  %23 = add i64 %20, %22
+  %24 = icmp ule i64 %23, 4096
+  br i1 %24, label %25, label %29
+
+; <label>:25:                                     ; preds = %18
+  %26 = getelementptr inbounds [4097 x i8], [4097 x i8]* %full_conf_filename, i32 0, i32 0
+  %27 = load i8*, i8** %2, align 8
+  %28 = call i8* @strcat(i8* %26, i8* %27) #6
+  br label %33
+
+; <label>:29:                                     ; preds = %18
+  %30 = getelementptr inbounds [4097 x i8], [4097 x i8]* %full_conf_filename, i32 0, i32 0
+  %31 = load i8*, i8** %2, align 8
+  %32 = call i8* @strcpy(i8* %30, i8* %31) #6
+  br label %33
+
+; <label>:33:                                     ; preds = %29, %25
+  br label %41
+
+; <label>:34:                                     ; preds = %13
+  %35 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %36 = load i32, i32* %ret_error, align 4
+  %37 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %35, i8* getelementptr inbounds ([80 x i8], [80 x i8]* @.str38, i32 0, i32 0), i32 %36)
+  %38 = getelementptr inbounds [4097 x i8], [4097 x i8]* %full_conf_filename, i32 0, i32 0
+  %39 = load i8*, i8** %2, align 8
+  %40 = call i8* @strcpy(i8* %38, i8* %39) #6
+  br label %41
+
+; <label>:41:                                     ; preds = %34, %33
+  br label %46
+
+; <label>:42:                                     ; preds = %7
+  %43 = getelementptr inbounds [4097 x i8], [4097 x i8]* %full_conf_filename, i32 0, i32 0
+  %44 = load i8*, i8** %2, align 8
+  %45 = call i8* @strcpy(i8* %43, i8* %44) #6
+  br label %46
+
+; <label>:46:                                     ; preds = %42, %41
+  %47 = getelementptr inbounds [4097 x i8], [4097 x i8]* %full_conf_filename, i32 0, i32 0
+  %48 = call %struct._IO_FILE* @fopen(i8* %47, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str139, i32 0, i32 0))
+  store %struct._IO_FILE* %48, %struct._IO_FILE** %conf_fd, align 8
+  %49 = load %struct._IO_FILE*, %struct._IO_FILE** %conf_fd, align 8
+  %50 = icmp ne %struct._IO_FILE* %49, null
+  br i1 %50, label %51, label %194
+
+; <label>:51:                                     ; preds = %46
+  %52 = getelementptr inbounds [2084 x i8], [2084 x i8]* %server_url, i32 0, i64 0
+  store i8 0, i8* %52, align 1
+  store i8 0, i8* getelementptr inbounds ([81 x i8], [81 x i8]* @Token_id, i32 0, i64 0), align 1
+  store i8 0, i8* getelementptr inbounds ([81 x i8], [81 x i8]* @User_id, i32 0, i64 0), align 1
+  %53 = call i8* @strcpy(i8* getelementptr inbounds ([65 x i8], [65 x i8]* @Server_path, i32 0, i32 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str240, i32 0, i32 0)) #6
+  store i32 0, i32* %ret_error, align 4
+  br label %54
+
+; <label>:54:                                     ; preds = %79, %51
+  %55 = load %struct._IO_FILE*, %struct._IO_FILE** %conf_fd, align 8
+  %56 = call i32 @feof(%struct._IO_FILE* %55) #6
+  %57 = icmp ne i32 %56, 0
+  br i1 %57, label %61, label %58
+
+; <label>:58:                                     ; preds = %54
+  %59 = load i32, i32* %ret_error, align 4
+  %60 = icmp eq i32 %59, 0
+  br label %61
+
+; <label>:61:                                     ; preds = %58, %54
+  %62 = phi i1 [ false, %54 ], [ %60, %58 ]
+  br i1 %62, label %63, label %80
+
+; <label>:63:                                     ; preds = %61
+  %64 = load %struct._IO_FILE*, %struct._IO_FILE** %conf_fd, align 8
+  %65 = getelementptr inbounds [2084 x i8], [2084 x i8]* %server_url, i32 0, i32 0
+  %66 = call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %64, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str341, i32 0, i32 0), i8* %65)
+  %67 = icmp eq i32 %66, 0
+  br i1 %67, label %68, label %79
+
+; <label>:68:                                     ; preds = %63
+  %69 = load %struct._IO_FILE*, %struct._IO_FILE** %conf_fd, align 8
+  %70 = call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %69, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str442, i32 0, i32 0), i8* getelementptr inbounds ([81 x i8], [81 x i8]* @Token_id, i32 0, i32 0))
+  %71 = icmp eq i32 %70, 0
+  br i1 %71, label %72, label %79
+
+; <label>:72:                                     ; preds = %68
+  %73 = load %struct._IO_FILE*, %struct._IO_FILE** %conf_fd, align 8
+  %74 = call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %73, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str543, i32 0, i32 0), i8* getelementptr inbounds ([81 x i8], [81 x i8]* @User_id, i32 0, i32 0))
+  %75 = icmp eq i32 %74, 0
+  br i1 %75, label %76, label %79
+
+; <label>:76:                                     ; preds = %72
+  %77 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %78 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %77, i8* getelementptr inbounds ([73 x i8], [73 x i8]* @.str644, i32 0, i32 0))
+  store i32 22, i32* %ret_error, align 4
+  br label %79
+
+; <label>:79:                                     ; preds = %76, %72, %68, %63
+  br label %54
+
+; <label>:80:                                     ; preds = %61
+  %81 = load i32, i32* %ret_error, align 4
+  %82 = icmp eq i32 %81, 0
+  br i1 %82, label %83, label %191
+
+; <label>:83:                                     ; preds = %80
+  %84 = getelementptr inbounds [2084 x i8], [2084 x i8]* %server_url, i32 0, i32 0
+  %85 = call i64 @strlen(i8* %84) #8
+  %86 = icmp ugt i64 %85, 0
+  br i1 %86, label %87, label %187
+
+; <label>:87:                                     ; preds = %83
+  %88 = call i64 @strlen(i8* getelementptr inbounds ([81 x i8], [81 x i8]* @Token_id, i32 0, i32 0)) #8
+  %89 = icmp ugt i64 %88, 0
+  br i1 %89, label %90, label %183
+
+; <label>:90:                                     ; preds = %87
+  %91 = call i64 @strlen(i8* getelementptr inbounds ([81 x i8], [81 x i8]* @User_id, i32 0, i32 0)) #8
+  %92 = icmp ugt i64 %91, 0
+  br i1 %92, label %93, label %179
+
+; <label>:93:                                     ; preds = %90
+  %94 = getelementptr inbounds [2084 x i8], [2084 x i8]* %server_url, i32 0, i32 0
+  %95 = call i32 @strncmp(i8* %94, i8* getelementptr inbounds ([8 x i8], [8 x i8]* @.str745, i32 0, i32 0), i64 7) #8
+  %96 = icmp eq i32 %95, 0
+  br i1 %96, label %97, label %175
+
+; <label>:97:                                     ; preds = %93
+  %98 = getelementptr inbounds [2084 x i8], [2084 x i8]* %server_url, i32 0, i32 0
+  %99 = getelementptr inbounds i8, i8* %98, i64 7
+  %100 = call i8* @strchr(i8* %99, i32 64) #8
+  store i8* %100, i8** %hostname_start_ptr, align 8
+  %101 = load i8*, i8** %hostname_start_ptr, align 8
+  %102 = icmp eq i8* %101, null
+  br i1 %102, label %103, label %106
+
+; <label>:103:                                    ; preds = %97
+  %104 = getelementptr inbounds [2084 x i8], [2084 x i8]* %server_url, i32 0, i32 0
+  %105 = getelementptr inbounds i8, i8* %104, i64 7
+  store i8* %105, i8** %hostname_start_ptr, align 8
+  br label %109
+
+; <label>:106:                                    ; preds = %97
+  %107 = load i8*, i8** %hostname_start_ptr, align 8
+  %108 = getelementptr inbounds i8, i8* %107, i32 1
+  store i8* %108, i8** %hostname_start_ptr, align 8
+  br label %109
+
+; <label>:109:                                    ; preds = %106, %103
+  %110 = load i8*, i8** %hostname_start_ptr, align 8
+  %111 = call i8* @strchr(i8* %110, i32 58) #8
+  store i8* %111, i8** %hostname_end_ptr, align 8
+  %112 = load i8*, i8** %hostname_end_ptr, align 8
+  %113 = icmp eq i8* %112, null
+  br i1 %113, label %114, label %125
+
+; <label>:114:                                    ; preds = %109
+  store i32 3000, i32* @Server_port, align 4
+  %115 = load i8*, i8** %hostname_start_ptr, align 8
+  %116 = call i8* @strchr(i8* %115, i32 47) #8
+  store i8* %116, i8** %hostname_end_ptr, align 8
+  %117 = load i8*, i8** %hostname_end_ptr, align 8
+  %118 = icmp eq i8* %117, null
+  br i1 %118, label %119, label %124
+
+; <label>:119:                                    ; preds = %114
+  %120 = load i8*, i8** %hostname_start_ptr, align 8
+  %121 = load i8*, i8** %hostname_start_ptr, align 8
+  %122 = call i64 @strlen(i8* %121) #8
+  %123 = getelementptr inbounds i8, i8* %120, i64 %122
+  store i8* %123, i8** %hostname_end_ptr, align 8
+  br label %124
+
+; <label>:124:                                    ; preds = %119, %114
+  br label %132
+
+; <label>:125:                                    ; preds = %109
+  %126 = load i8*, i8** %hostname_end_ptr, align 8
+  %127 = getelementptr inbounds i8, i8* %126, i64 1
+  %128 = call i32 (i8*, i8*, ...) @__isoc99_sscanf(i8* %127, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str846, i32 0, i32 0), i32* @Server_port) #6
+  %129 = icmp eq i32 %128, 0
+  br i1 %129, label %130, label %131
+
+; <label>:130:                                    ; preds = %125
+  store i32 3000, i32* @Server_port, align 4
+  br label %131
+
+; <label>:131:                                    ; preds = %130, %125
+  br label %132
+
+; <label>:132:                                    ; preds = %131, %124
+  %133 = load i8*, i8** %hostname_end_ptr, align 8
+  %134 = call i8* @strchr(i8* %133, i32 47) #8
+  store i8* %134, i8** %path_start_prt, align 8
+  %135 = load i8*, i8** %path_start_prt, align 8
+  %136 = icmp ne i8* %135, null
+  br i1 %136, label %137, label %148
+
+; <label>:137:                                    ; preds = %132
+  %138 = load i8*, i8** %path_start_prt, align 8
+  %139 = call i64 @strlen(i8* %138) #8
+  store i64 %139, i64* %path_len, align 8
+  %140 = load i64, i64* %path_len, align 8
+  %141 = icmp ule i64 %140, 2083
+  br i1 %141, label %142, label %147
+
+; <label>:142:                                    ; preds = %137
+  %143 = load i8*, i8** %path_start_prt, align 8
+  %144 = load i64, i64* %path_len, align 8
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* getelementptr inbounds ([65 x i8], [65 x i8]* @Server_path, i32 0, i32 0), i8* %143, i64 %144, i32 1, i1 false)
+  %145 = load i64, i64* %path_len, align 8
+  %146 = getelementptr inbounds [65 x i8], [65 x i8]* @Server_path, i32 0, i64 %145
+  store i8 0, i8* %146, align 1
+  br label %147
+
+; <label>:147:                                    ; preds = %142, %137
+  br label %148
+
+; <label>:148:                                    ; preds = %147, %132
+  %149 = load i8*, i8** %hostname_end_ptr, align 8
+  %150 = load i8*, i8** %hostname_start_ptr, align 8
+  %151 = ptrtoint i8* %149 to i64
+  %152 = ptrtoint i8* %150 to i64
+  %153 = sub i64 %151, %152
+  store i64 %153, i64* %server_name_len, align 8
+  %154 = load i64, i64* %server_name_len, align 8
+  %155 = icmp ule i64 %154, 64
+  br i1 %155, label %156, label %171
+
+; <label>:156:                                    ; preds = %148
+  %157 = load i8*, i8** %hostname_start_ptr, align 8
+  %158 = load i64, i64* %server_name_len, align 8
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* getelementptr inbounds ([65 x i8], [65 x i8]* @Server_name, i32 0, i32 0), i8* %157, i64 %158, i32 1, i1 false)
+  %159 = load i64, i64* %server_name_len, align 8
+  %160 = getelementptr inbounds [65 x i8], [65 x i8]* @Server_name, i32 0, i64 %159
+  store i8 0, i8* %160, align 1
+  %161 = call i32 @hostname_to_ip(i8* getelementptr inbounds ([65 x i8], [65 x i8]* @Server_name, i32 0, i32 0), %struct.in_addr* @Server_ip)
+  store i32 %161, i32* %ret_error, align 4
+  %162 = load i32, i32* %ret_error, align 4
+  %163 = icmp eq i32 %162, 0
+  br i1 %163, label %164, label %170
+
+; <label>:164:                                    ; preds = %156
+  %165 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %166 = load i32, i32* getelementptr inbounds (%struct.in_addr, %struct.in_addr* @Server_ip, i32 0, i32 0)
+  %167 = zext i32 %166 to i64
+  %168 = call i8* @inet_ntoa(i64 %167) #6
+  %169 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %165, i8* getelementptr inbounds ([44 x i8], [44 x i8]* @.str947, i32 0, i32 0), i8* %168)
+  br label %170
+
+; <label>:170:                                    ; preds = %164, %156
+  br label %174
+
+; <label>:171:                                    ; preds = %148
+  %172 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %173 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %172, i8* getelementptr inbounds ([86 x i8], [86 x i8]* @.str1048, i32 0, i32 0))
+  store i32 22, i32* %ret_error, align 4
+  br label %174
+
+; <label>:174:                                    ; preds = %171, %170
+  br label %178
+
+; <label>:175:                                    ; preds = %93
+  %176 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %177 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %176, i8* getelementptr inbounds ([69 x i8], [69 x i8]* @.str1149, i32 0, i32 0))
+  store i32 22, i32* %ret_error, align 4
+  br label %178
+
+; <label>:178:                                    ; preds = %175, %174
+  br label %182
+
+; <label>:179:                                    ; preds = %90
+  %180 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %181 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %180, i8* getelementptr inbounds ([55 x i8], [55 x i8]* @.str1250, i32 0, i32 0))
+  store i32 22, i32* %ret_error, align 4
+  br label %182
+
+; <label>:182:                                    ; preds = %179, %178
+  br label %186
+
+; <label>:183:                                    ; preds = %87
+  %184 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %185 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %184, i8* getelementptr inbounds ([56 x i8], [56 x i8]* @.str1351, i32 0, i32 0))
+  store i32 22, i32* %ret_error, align 4
+  br label %186
+
+; <label>:186:                                    ; preds = %183, %182
+  br label %190
+
+; <label>:187:                                    ; preds = %83
+  %188 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %189 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %188, i8* getelementptr inbounds ([58 x i8], [58 x i8]* @.str1452, i32 0, i32 0))
+  store i32 22, i32* %ret_error, align 4
+  br label %190
+
+; <label>:190:                                    ; preds = %187, %186
+  br label %191
+
+; <label>:191:                                    ; preds = %190, %80
+  %192 = load %struct._IO_FILE*, %struct._IO_FILE** %conf_fd, align 8
+  %193 = call i32 @fclose(%struct._IO_FILE* %192)
+  br label %202
+
+; <label>:194:                                    ; preds = %46
+  %195 = call i32* @__errno_location() #7
+  %196 = load i32, i32* %195, align 4
+  store i32 %196, i32* %ret_error, align 4
+  %197 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %198 = getelementptr inbounds [4097 x i8], [4097 x i8]* %full_conf_filename, i32 0, i32 0
+  %199 = call i32* @__errno_location() #7
+  %200 = load i32, i32* %199, align 4
+  %201 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %197, i8* getelementptr inbounds ([49 x i8], [49 x i8]* @.str1553, i32 0, i32 0), i8* %198, i32 %200)
+  br label %202
+
+; <label>:202:                                    ; preds = %194, %191
+  %203 = load i32, i32* %ret_error, align 4
+  store i32 %203, i32* %1
+  br label %204
+
+; <label>:204:                                    ; preds = %202, %6
+  %205 = load i32, i32* %1
+  ret i32 %205
+}
+
+; Function Attrs: nounwind readonly
+declare i64 @strlen(i8*) #4
+
+; Function Attrs: nounwind
+declare i8* @strcat(i8*, i8*) #0
+
+declare %struct._IO_FILE* @fopen(i8*, i8*) #3
+
+; Function Attrs: nounwind
+declare i32 @feof(%struct._IO_FILE*) #0
+
+declare i32 @__isoc99_fscanf(%struct._IO_FILE*, i8*, ...) #3
+
+; Function Attrs: nounwind readonly
+declare i32 @strncmp(i8*, i8*, i64) #4
+
+; Function Attrs: nounwind readonly
+declare i8* @strchr(i8*, i32) #4
+
+; Function Attrs: nounwind
+declare i32 @__isoc99_sscanf(i8*, i8*, ...) #0
+
+; Function Attrs: argmemonly nounwind
+declare void @llvm.memcpy.p0i8.p0i8.i64(i8* nocapture writeonly, i8* nocapture readonly, i64, i32, i1) #1
+
+; Function Attrs: nounwind
+declare i8* @inet_ntoa(i64) #0
+
+declare i32 @fclose(%struct._IO_FILE*) #3
+
+; Function Attrs: nounwind
+define i32 @send_notification(i8* %msg_str, i8* %msg_priority) #0 {
+  %1 = alloca i8*, align 8
+  %2 = alloca i8*, align 8
+  %ret_error = alloca i32, align 4
+  %socket_fd = alloca i32, align 4
+  %server_addr = alloca %struct.sockaddr_in, align 4
+  %socket_file = alloca %struct._IO_FILE*, align 8
+  %body_len = alloca i64, align 8
+  %http_error = alloca i32, align 4
+  %fscanf_ret = alloca i32, align 4
+  %http_str = alloca [2084 x i8], align 1
+  %header_line = alloca i8*, align 8
+  %header_line_ind = alloca i32, align 4
+  %header_abort = alloca i32, align 4
+  %notif_state = alloca i32, align 4
+  %variables_obtined = alloca i32, align 4
+  %var_name = alloca [2084 x i8], align 1
+  %var_value = alloca [2084 x i8], align 1
+  store i8* %msg_str, i8** %1, align 8
+  store i8* %msg_priority, i8** %2, align 8
+  store i32 0, i32* %ret_error, align 4
+  %3 = call i32 @socket(i32 2, i32 1, i32 0) #6
+  store i32 %3, i32* %socket_fd, align 4
+  %4 = load i32, i32* %socket_fd, align 4
+  %5 = icmp ne i32 %4, -1
+  br i1 %5, label %6, label %197
+
+; <label>:6:                                      ; preds = %0
+  %7 = bitcast %struct.sockaddr_in* %server_addr to i8*
+  call void @llvm.memset.p0i8.i64(i8* %7, i8 0, i64 16, i32 4, i1 false)
+  %8 = getelementptr inbounds %struct.sockaddr_in, %struct.sockaddr_in* %server_addr, i32 0, i32 0
+  store i16 2, i16* %8, align 2
+  %9 = load i32, i32* @Server_port, align 4
+  %10 = trunc i32 %9 to i16
+  %11 = call i16 @htons(i16 %10) #7
+  %12 = getelementptr inbounds %struct.sockaddr_in, %struct.sockaddr_in* %server_addr, i32 0, i32 1
+  store i16 %11, i16* %12, align 2
+  %13 = getelementptr inbounds %struct.sockaddr_in, %struct.sockaddr_in* %server_addr, i32 0, i32 2
+  %14 = bitcast %struct.in_addr* %13 to i8*
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %14, i8* bitcast (%struct.in_addr* @Server_ip to i8*), i64 4, i32 4, i1 false)
+  %15 = load i32, i32* %socket_fd, align 4
+  %16 = bitcast %struct.sockaddr_in* %server_addr to %struct.sockaddr*
+  %17 = call i32 @connect(i32 %15, %struct.sockaddr* %16, i32 16)
+  store i32 %17, i32* %ret_error, align 4
+  %18 = load i32, i32* %ret_error, align 4
+  %19 = icmp eq i32 %18, 0
+  br i1 %19, label %20, label %184
+
+; <label>:20:                                     ; preds = %6
+  %21 = load i32, i32* %socket_fd, align 4
+  %22 = call %struct._IO_FILE* @fdopen(i32 %21, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str1654, i32 0, i32 0)) #6
+  store %struct._IO_FILE* %22, %struct._IO_FILE** %socket_file, align 8
+  %23 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %24 = icmp ne %struct._IO_FILE* %23, null
+  br i1 %24, label %25, label %173
+
+; <label>:25:                                     ; preds = %20
+  %26 = call i64 @strlen(i8* getelementptr inbounds ([81 x i8], [81 x i8]* @Token_id, i32 0, i32 0)) #8
+  %27 = add i64 6, %26
+  %28 = add i64 %27, 1
+  %29 = add i64 %28, 5
+  %30 = call i64 @strlen(i8* getelementptr inbounds ([81 x i8], [81 x i8]* @User_id, i32 0, i32 0)) #8
+  %31 = add i64 %29, %30
+  %32 = add i64 %31, 1
+  %33 = add i64 %32, 8
+  %34 = load i8*, i8** %1, align 8
+  %35 = call i64 @strlen(i8* %34) #8
+  %36 = add i64 %33, %35
+  %37 = add i64 %36, 1
+  %38 = add i64 %37, 9
+  %39 = load i8*, i8** %2, align 8
+  %40 = call i64 @strlen(i8* %39) #8
+  %41 = add i64 %38, %40
+  store i64 %41, i64* %body_len, align 8
+  %42 = load i8*, i8** %2, align 8
+  %43 = call i32 @strcmp(i8* %42, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str1755, i32 0, i32 0)) #8
+  %44 = icmp eq i32 %43, 0
+  br i1 %44, label %45, label %48
+
+; <label>:45:                                     ; preds = %25
+  %46 = load i64, i64* %body_len, align 8
+  %47 = add i64 %46, 20
+  store i64 %47, i64* %body_len, align 8
+  br label %48
+
+; <label>:48:                                     ; preds = %45, %25
+  %49 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %50 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %49, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str1856, i32 0, i32 0), i8* getelementptr inbounds ([65 x i8], [65 x i8]* @Server_path, i32 0, i32 0))
+  %51 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %52 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %51, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str19, i32 0, i32 0), i8* getelementptr inbounds ([65 x i8], [65 x i8]* @Server_name, i32 0, i32 0))
+  %53 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %54 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %53, i8* getelementptr inbounds ([50 x i8], [50 x i8]* @.str20, i32 0, i32 0))
+  %55 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %56 = load i64, i64* %body_len, align 8
+  %57 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %55, i8* getelementptr inbounds ([24 x i8], [24 x i8]* @.str21, i32 0, i32 0), i64 %56)
+  %58 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %59 = load i8*, i8** %1, align 8
+  %60 = load i8*, i8** %2, align 8
+  %61 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %58, i8* getelementptr inbounds ([40 x i8], [40 x i8]* @.str22, i32 0, i32 0), i8* getelementptr inbounds ([81 x i8], [81 x i8]* @Token_id, i32 0, i32 0), i8* getelementptr inbounds ([81 x i8], [81 x i8]* @User_id, i32 0, i32 0), i8* %59, i8* %60)
+  %62 = load i8*, i8** %2, align 8
+  %63 = call i32 @strcmp(i8* %62, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str1755, i32 0, i32 0)) #8
+  %64 = icmp eq i32 %63, 0
+  br i1 %64, label %65, label %68
+
+; <label>:65:                                     ; preds = %48
+  %66 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %67 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %66, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str23, i32 0, i32 0))
+  br label %68
+
+; <label>:68:                                     ; preds = %65, %48
+  %69 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %70 = call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %69, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str24, i32 0, i32 0), i32* %http_error)
+  store i32 %70, i32* %fscanf_ret, align 4
+  %71 = load i32, i32* %fscanf_ret, align 4
+  %72 = icmp eq i32 %71, 1
+  br i1 %72, label %73, label %162
+
+; <label>:73:                                     ; preds = %68
+  %74 = load i32, i32* %http_error, align 4
+  %75 = icmp eq i32 %74, 200
+  br i1 %75, label %76, label %157
+
+; <label>:76:                                     ; preds = %73
+  store i32 0, i32* %header_abort, align 4
+  store i32 0, i32* %header_line_ind, align 4
+  br label %77
+
+; <label>:77:                                     ; preds = %94, %76
+  %78 = getelementptr inbounds [2084 x i8], [2084 x i8]* %http_str, i32 0, i32 0
+  %79 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %80 = call i8* @fgets(i8* %78, i32 2083, %struct._IO_FILE* %79)
+  store i8* %80, i8** %header_line, align 8
+  %81 = icmp ne i8* %80, null
+  br i1 %81, label %82, label %95
+
+; <label>:82:                                     ; preds = %77
+  %83 = getelementptr inbounds [2084 x i8], [2084 x i8]* %http_str, i32 0, i64 0
+  %84 = load i8, i8* %83, align 1
+  %85 = zext i8 %84 to i32
+  %86 = icmp eq i32 %85, 13
+  br i1 %86, label %87, label %88
+
+; <label>:87:                                     ; preds = %82
+  br label %95
+
+; <label>:88:                                     ; preds = %82
+  %89 = load i32, i32* %header_line_ind, align 4
+  %90 = add i32 %89, 1
+  store i32 %90, i32* %header_line_ind, align 4
+  %91 = load i32, i32* %header_line_ind, align 4
+  %92 = icmp ugt i32 %91, 1024
+  br i1 %92, label %93, label %94
+
+; <label>:93:                                     ; preds = %88
+  store i8* null, i8** %header_line, align 8
+  store i32 1, i32* %header_abort, align 4
+  br label %95
+
+; <label>:94:                                     ; preds = %88
+  br label %77
+
+; <label>:95:                                     ; preds = %93, %87, %77
+  %96 = load i8*, i8** %header_line, align 8
+  %97 = icmp ne i8* %96, null
+  br i1 %97, label %98, label %144
+
+; <label>:98:                                     ; preds = %95
+  %99 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %100 = call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %99, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str25, i32 0, i32 0))
+  store i32 0, i32* %variables_obtined, align 4
+  br label %101
+
+; <label>:101:                                    ; preds = %125, %98
+  %102 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %103 = getelementptr inbounds [2084 x i8], [2084 x i8]* %var_name, i32 0, i32 0
+  %104 = call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %102, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str26, i32 0, i32 0), i8* %103)
+  %105 = icmp eq i32 %104, 1
+  br i1 %105, label %106, label %126
+
+; <label>:106:                                    ; preds = %101
+  %107 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %108 = call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %107, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str27, i32 0, i32 0))
+  %109 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %110 = getelementptr inbounds [2084 x i8], [2084 x i8]* %var_value, i32 0, i32 0
+  %111 = call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %109, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str28, i32 0, i32 0), i8* %110)
+  %112 = icmp eq i32 %111, 1
+  br i1 %112, label %113, label %125
+
+; <label>:113:                                    ; preds = %106
+  %114 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %115 = call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %114, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str27, i32 0, i32 0))
+  %116 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %117 = call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %116, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str29, i32 0, i32 0))
+  %118 = getelementptr inbounds [2084 x i8], [2084 x i8]* %var_name, i32 0, i32 0
+  %119 = call i32 @strcmp(i8* %118, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @.str30, i32 0, i32 0)) #8
+  %120 = icmp eq i32 %119, 0
+  br i1 %120, label %121, label %124
+
+; <label>:121:                                    ; preds = %113
+  %122 = getelementptr inbounds [2084 x i8], [2084 x i8]* %var_value, i32 0, i32 0
+  %123 = call i32 @atoi(i8* %122) #8
+  store i32 %123, i32* %notif_state, align 4
+  store i32 1, i32* %variables_obtined, align 4
+  br label %124
+
+; <label>:124:                                    ; preds = %121, %113
+  br label %125
+
+; <label>:125:                                    ; preds = %124, %106
+  br label %101
+
+; <label>:126:                                    ; preds = %101
+  %127 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %128 = call i32 (%struct._IO_FILE*, i8*, ...) @__isoc99_fscanf(%struct._IO_FILE* %127, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str31, i32 0, i32 0))
+  %129 = load i32, i32* %variables_obtined, align 4
+  %130 = icmp ne i32 %129, 0
+  br i1 %130, label %131, label %140
+
+; <label>:131:                                    ; preds = %126
+  %132 = load i32, i32* %notif_state, align 4
+  %133 = icmp eq i32 %132, 1
+  br i1 %133, label %134, label %135
+
+; <label>:134:                                    ; preds = %131
+  store i32 0, i32* %ret_error, align 4
+  br label %139
+
+; <label>:135:                                    ; preds = %131
+  store i32 56, i32* %ret_error, align 4
+  %136 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %137 = load i32, i32* %notif_state, align 4
+  %138 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %136, i8* getelementptr inbounds ([52 x i8], [52 x i8]* @.str32, i32 0, i32 0), i32 %137)
+  br label %139
+
+; <label>:139:                                    ; preds = %135, %134
+  br label %143
+
+; <label>:140:                                    ; preds = %126
+  store i32 71, i32* %ret_error, align 4
+  %141 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %142 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %141, i8* getelementptr inbounds ([89 x i8], [89 x i8]* @.str33, i32 0, i32 0))
+  br label %143
+
+; <label>:143:                                    ; preds = %140, %139
+  br label %156
+
+; <label>:144:                                    ; preds = %95
+  %145 = load i32, i32* %header_abort, align 4
+  %146 = icmp ne i32 %145, 0
+  br i1 %146, label %147, label %150
+
+; <label>:147:                                    ; preds = %144
+  store i32 71, i32* %ret_error, align 4
+  %148 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %149 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %148, i8* getelementptr inbounds ([59 x i8], [59 x i8]* @.str34, i32 0, i32 0))
+  br label %155
+
+; <label>:150:                                    ; preds = %144
+  store i32 71, i32* %ret_error, align 4
+  %151 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %152 = call i32* @__errno_location() #7
+  %153 = load i32, i32* %152, align 4
+  %154 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %151, i8* getelementptr inbounds ([84 x i8], [84 x i8]* @.str35, i32 0, i32 0), i32 %153)
+  br label %155
+
+; <label>:155:                                    ; preds = %150, %147
+  br label %156
+
+; <label>:156:                                    ; preds = %155, %143
+  br label %161
+
+; <label>:157:                                    ; preds = %73
+  store i32 56, i32* %ret_error, align 4
+  %158 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %159 = load i32, i32* %http_error, align 4
+  %160 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %158, i8* getelementptr inbounds ([50 x i8], [50 x i8]* @.str36, i32 0, i32 0), i32 %159)
+  br label %161
+
+; <label>:161:                                    ; preds = %157, %156
+  br label %170
+
+; <label>:162:                                    ; preds = %68
+  %163 = call i32* @__errno_location() #7
+  %164 = load i32, i32* %163, align 4
+  store i32 %164, i32* %ret_error, align 4
+  %165 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %166 = load i32, i32* %fscanf_ret, align 4
+  %167 = call i32* @__errno_location() #7
+  %168 = load i32, i32* %167, align 4
+  %169 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %165, i8* getelementptr inbounds ([77 x i8], [77 x i8]* @.str37, i32 0, i32 0), i32 %166, i32 %168)
+  br label %170
+
+; <label>:170:                                    ; preds = %162, %161
+  %171 = load %struct._IO_FILE*, %struct._IO_FILE** %socket_file, align 8
+  %172 = call i32 @fclose(%struct._IO_FILE* %171)
+  br label %183
+
+; <label>:173:                                    ; preds = %20
+  %174 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %175 = call i32* @__errno_location() #7
+  %176 = load i32, i32* %175, align 4
+  %177 = call i32* @__errno_location() #7
+  %178 = load i32, i32* %177, align 4
+  %179 = call i8* @strerror(i32 %178) #6
+  %180 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %174, i8* getelementptr inbounds ([73 x i8], [73 x i8]* @.str3857, i32 0, i32 0), i32 %176, i8* %179)
+  %181 = load i32, i32* %socket_fd, align 4
+  %182 = call i32 @close(i32 %181)
+  br label %183
+
+; <label>:183:                                    ; preds = %173, %170
+  br label %196
+
+; <label>:184:                                    ; preds = %6
+  %185 = call i32* @__errno_location() #7
+  %186 = load i32, i32* %185, align 4
+  store i32 %186, i32* %ret_error, align 4
+  %187 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %188 = call i32* @__errno_location() #7
+  %189 = load i32, i32* %188, align 4
+  %190 = call i32* @__errno_location() #7
+  %191 = load i32, i32* %190, align 4
+  %192 = call i8* @strerror(i32 %191) #6
+  %193 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %187, i8* getelementptr inbounds ([51 x i8], [51 x i8]* @.str39, i32 0, i32 0), i32 %189, i8* %192)
+  %194 = load i32, i32* %socket_fd, align 4
+  %195 = call i32 @close(i32 %194)
+  br label %196
+
+; <label>:196:                                    ; preds = %184, %183
+  br label %204
+
+; <label>:197:                                    ; preds = %0
+  %198 = call i32* @__errno_location() #7
+  %199 = load i32, i32* %198, align 4
+  store i32 %199, i32* %ret_error, align 4
+  %200 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %201 = call i32* @__errno_location() #7
+  %202 = load i32, i32* %201, align 4
+  %203 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %200, i8* getelementptr inbounds ([67 x i8], [67 x i8]* @.str40, i32 0, i32 0), i32 %202)
+  br label %204
+
+; <label>:204:                                    ; preds = %197, %196
+  %205 = load i32, i32* %ret_error, align 4
+  ret i32 %205
+}
+
+; Function Attrs: nounwind
+declare i32 @socket(i32, i32, i32) #0
+
+; Function Attrs: nounwind readnone
+declare i16 @htons(i16) #2
+
+declare i32 @connect(i32, %struct.sockaddr*, i32) #3
+
+; Function Attrs: nounwind
+declare %struct._IO_FILE* @fdopen(i32, i8*) #0
+
+declare i32 @fprintf(%struct._IO_FILE*, i8*, ...) #3
+
+declare i8* @fgets(i8*, i32, %struct._IO_FILE*) #3
+
+; Function Attrs: nounwind readonly
+declare i32 @atoi(i8*) #4
+
+declare i32 @close(i32) #3
+
+; Function Attrs: nounwind
+define i8* @herror_msg(i32 %herror_cod) #0 {
+  %1 = alloca i32, align 4
+  %error_str = alloca i8*, align 8
+  store i32 %herror_cod, i32* %1, align 4
+  %2 = load i32, i32* %1, align 4
+  switch i32 %2, label %6 [
+    i32 1, label %3
+    i32 4, label %4
+    i32 2, label %5
+  ]
+
+; <label>:3:                                      ; preds = %0
+  store i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str62, i32 0, i32 0), i8** %error_str, align 8
+  br label %7
+
+; <label>:4:                                      ; preds = %0
+  store i8* getelementptr inbounds ([35 x i8], [35 x i8]* @.str163, i32 0, i32 0), i8** %error_str, align 8
+  br label %7
+
+; <label>:5:                                      ; preds = %0
+  store i8* getelementptr inbounds ([25 x i8], [25 x i8]* @.str264, i32 0, i32 0), i8** %error_str, align 8
+  br label %7
+
+; <label>:6:                                      ; preds = %0
+  store i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str365, i32 0, i32 0), i8** %error_str, align 8
+  br label %7
+
+; <label>:7:                                      ; preds = %6, %5, %4, %3
+  %8 = load i8*, i8** %error_str, align 8
+  ret i8* %8
+}
+
+; Function Attrs: nounwind
+define i8* @resp_code_msg(i32 %rcode) #0 {
+  %1 = alloca i32, align 4
+  %code_str = alloca i8*, align 8
+  store i32 %rcode, i32* %1, align 4
+  %2 = load i32, i32* %1, align 4
+  switch i32 %2, label %8 [
+    i32 1, label %3
+    i32 2, label %4
+    i32 3, label %5
+    i32 4, label %6
+    i32 5, label %7
+  ]
+
+; <label>:3:                                      ; preds = %0
+  store i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str466, i32 0, i32 0), i8** %code_str, align 8
+  br label %9
+
+; <label>:4:                                      ; preds = %0
+  store i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str567, i32 0, i32 0), i8** %code_str, align 8
+  br label %9
+
+; <label>:5:                                      ; preds = %0
+  store i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str668, i32 0, i32 0), i8** %code_str, align 8
+  br label %9
+
+; <label>:6:                                      ; preds = %0
+  store i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str769, i32 0, i32 0), i8** %code_str, align 8
+  br label %9
+
+; <label>:7:                                      ; preds = %0
+  store i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str870, i32 0, i32 0), i8** %code_str, align 8
+  br label %9
+
+; <label>:8:                                      ; preds = %0
+  store i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str971, i32 0, i32 0), i8** %code_str, align 8
+  br label %9
+
+; <label>:9:                                      ; preds = %8, %7, %6, %5, %4, %3
+  %10 = load i8*, i8** %code_str, align 8
+  ret i8* %10
+}
+
+; Function Attrs: nounwind
+define i32 @hostname_to_ip(i8* %hostname, %struct.in_addr* %ip_addr) #0 {
+  %1 = alloca i8*, align 8
+  %2 = alloca %struct.in_addr*, align 8
+  %ret = alloca i32, align 4
+  %hints = alloca %struct.addrinfo, align 8
+  %res_addr = alloca %struct.addrinfo*, align 8
+  %res_error = alloca i32, align 4
+  %res_addr_next = alloca %struct.addrinfo*, align 8
+  %addr = alloca %struct.sockaddr_in*, align 8
+  store i8* %hostname, i8** %1, align 8
+  store %struct.in_addr* %ip_addr, %struct.in_addr** %2, align 8
+  %3 = bitcast %struct.addrinfo* %hints to i8*
+  call void @llvm.memset.p0i8.i64(i8* %3, i8 0, i64 48, i32 8, i1 false)
+  %4 = getelementptr inbounds %struct.addrinfo, %struct.addrinfo* %hints, i32 0, i32 1
+  store i32 2, i32* %4, align 4
+  %5 = getelementptr inbounds %struct.addrinfo, %struct.addrinfo* %hints, i32 0, i32 2
+  store i32 0, i32* %5, align 4
+  %6 = load i8*, i8** %1, align 8
+  %7 = call i32 @getaddrinfo(i8* %6, i8* null, %struct.addrinfo* %hints, %struct.addrinfo** %res_addr)
+  store i32 %7, i32* %res_error, align 4
+  %8 = load i32, i32* %res_error, align 4
+  %9 = icmp eq i32 %8, 0
+  br i1 %9, label %10, label %38
+
+; <label>:10:                                     ; preds = %0
+  store i32 -1, i32* %ret, align 4
+  %11 = load %struct.addrinfo*, %struct.addrinfo** %res_addr, align 8
+  store %struct.addrinfo* %11, %struct.addrinfo** %res_addr_next, align 8
+  br label %12
+
+; <label>:12:                                     ; preds = %32, %10
+  %13 = load %struct.addrinfo*, %struct.addrinfo** %res_addr_next, align 8
+  %14 = icmp ne %struct.addrinfo* %13, null
+  br i1 %14, label %15, label %36
+
+; <label>:15:                                     ; preds = %12
+  %16 = load %struct.addrinfo*, %struct.addrinfo** %res_addr_next, align 8
+  %17 = getelementptr inbounds %struct.addrinfo, %struct.addrinfo* %16, i32 0, i32 5
+  %18 = load %struct.sockaddr*, %struct.sockaddr** %17, align 8
+  %19 = bitcast %struct.sockaddr* %18 to %struct.sockaddr_in*
+  store %struct.sockaddr_in* %19, %struct.sockaddr_in** %addr, align 8
+  %20 = load %struct.in_addr*, %struct.in_addr** %2, align 8
+  %21 = load %struct.sockaddr_in*, %struct.sockaddr_in** %addr, align 8
+  %22 = getelementptr inbounds %struct.sockaddr_in, %struct.sockaddr_in* %21, i32 0, i32 2
+  %23 = bitcast %struct.in_addr* %20 to i8*
+  %24 = bitcast %struct.in_addr* %22 to i8*
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %23, i8* %24, i64 4, i32 4, i1 false)
+  %25 = load %struct.in_addr*, %struct.in_addr** %2, align 8
+  %26 = getelementptr inbounds %struct.in_addr, %struct.in_addr* %25, i32 0, i32 0
+  %27 = load i32, i32* %26, align 4
+  %28 = zext i32 %27 to i64
+  %29 = icmp ne i64 %28, 0
+  br i1 %29, label %30, label %31
+
+; <label>:30:                                     ; preds = %15
+  store i32 0, i32* %ret, align 4
+  br label %36
+
+; <label>:31:                                     ; preds = %15
+  br label %32
+
+; <label>:32:                                     ; preds = %31
+  %33 = load %struct.addrinfo*, %struct.addrinfo** %res_addr_next, align 8
+  %34 = getelementptr inbounds %struct.addrinfo, %struct.addrinfo* %33, i32 0, i32 7
+  %35 = load %struct.addrinfo*, %struct.addrinfo** %34, align 8
+  store %struct.addrinfo* %35, %struct.addrinfo** %res_addr_next, align 8
+  br label %12
+
+; <label>:36:                                     ; preds = %30, %12
+  %37 = load %struct.addrinfo*, %struct.addrinfo** %res_addr, align 8
+  call void @freeaddrinfo(%struct.addrinfo* %37) #6
+  br label %45
+
+; <label>:38:                                     ; preds = %0
+  %39 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %40 = load i8*, i8** %1, align 8
+  %41 = load i32, i32* %res_error, align 4
+  %42 = call i8* @gai_strerror(i32 %41) #6
+  %43 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %39, i8* getelementptr inbounds ([46 x i8], [46 x i8]* @.str1072, i32 0, i32 0), i8* %40, i8* %42)
+  %44 = load i32, i32* %res_error, align 4
+  store i32 %44, i32* %ret, align 4
+  br label %45
+
+; <label>:45:                                     ; preds = %38, %36
+  %46 = load i32, i32* %ret, align 4
+  ret i32 %46
+}
+
+declare i32 @getaddrinfo(i8*, i8*, %struct.addrinfo*, %struct.addrinfo**) #3
+
+; Function Attrs: nounwind
+declare void @freeaddrinfo(%struct.addrinfo*) #0
+
+; Function Attrs: nounwind
+declare i8* @gai_strerror(i32) #0
+
+; Function Attrs: nounwind
+define i32 @hostname_to_ip_at_dns(i8* %dns_server, i8* %domain_name, %struct.in_addr* %ip_addr) #0 {
+  %1 = alloca i8*, align 8
+  %2 = alloca i8*, align 8
+  %3 = alloca %struct.in_addr*, align 8
+  %fn_ret = alloca i32, align 4
+  %res_stat = alloca %struct.__res_state, align 8
+  %dns_ip = alloca %struct.in_addr, align 4
+  %dns_response = alloca %union.anon.2, align 4
+  %dns_response_len = alloca i32, align 4
+  %saved_dns_addr = alloca [3 x %struct.in_addr], align 4
+  %saved_dns_count = alloca i32, align 4
+  %saved_res_options = alloca i64, align 8
+  %n_dns_addr = alloca i32, align 4
+  %resp_handle = alloca %struct.__ns_msg, align 8
+  %resp_error_code = alloca i32, align 4
+  %4 = alloca %struct.__ns_msg, align 8
+  %answer_count = alloca i16, align 2
+  %resp_record = alloca %struct.__ns_rr, align 8
+  %resp_type = alloca i16, align 2
+  %record_data = alloca i8*, align 8
+  %rec_disp_buf = alloca [256 x i8], align 1
+  store i8* %dns_server, i8** %1, align 8
+  store i8* %domain_name, i8** %2, align 8
+  store %struct.in_addr* %ip_addr, %struct.in_addr** %3, align 8
+  %5 = bitcast %struct.__res_state* %res_stat to i8*
+  call void @llvm.memset.p0i8.i64(i8* %5, i8 0, i64 568, i32 8, i1 false)
+  %6 = call i32 @__res_ninit(%struct.__res_state* %res_stat) #6
+  store i32 %6, i32* %fn_ret, align 4
+  %7 = load i32, i32* %fn_ret, align 4
+  %8 = icmp eq i32 %7, 0
+  br i1 %8, label %9, label %195
+
+; <label>:9:                                      ; preds = %0
+  %10 = load i8*, i8** %1, align 8
+  %11 = call i32 @hostname_to_ip(i8* %10, %struct.in_addr* %dns_ip)
+  store i32 %11, i32* %fn_ret, align 4
+  %12 = load i32, i32* %fn_ret, align 4
+  %13 = icmp eq i32 %12, 0
+  br i1 %13, label %14, label %194
+
+; <label>:14:                                     ; preds = %9
+  %15 = getelementptr inbounds %struct.__res_state, %struct.__res_state* %res_stat, i32 0, i32 3
+  %16 = load i32, i32* %15, align 4
+  store i32 %16, i32* %saved_dns_count, align 4
+  store i32 0, i32* %n_dns_addr, align 4
+  br label %17
+
+; <label>:17:                                     ; preds = %32, %14
+  %18 = load i32, i32* %n_dns_addr, align 4
+  %19 = load i32, i32* %saved_dns_count, align 4
+  %20 = icmp slt i32 %18, %19
+  br i1 %20, label %21, label %35
+
+; <label>:21:                                     ; preds = %17
+  %22 = load i32, i32* %n_dns_addr, align 4
+  %23 = sext i32 %22 to i64
+  %24 = getelementptr inbounds [3 x %struct.in_addr], [3 x %struct.in_addr]* %saved_dns_addr, i32 0, i64 %23
+  %25 = load i32, i32* %n_dns_addr, align 4
+  %26 = sext i32 %25 to i64
+  %27 = getelementptr inbounds %struct.__res_state, %struct.__res_state* %res_stat, i32 0, i32 4
+  %28 = getelementptr inbounds [3 x %struct.sockaddr_in], [3 x %struct.sockaddr_in]* %27, i32 0, i64 %26
+  %29 = getelementptr inbounds %struct.sockaddr_in, %struct.sockaddr_in* %28, i32 0, i32 2
+  %30 = bitcast %struct.in_addr* %24 to i8*
+  %31 = bitcast %struct.in_addr* %29 to i8*
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %30, i8* %31, i64 4, i32 4, i1 false)
+  br label %32
+
+; <label>:32:                                     ; preds = %21
+  %33 = load i32, i32* %n_dns_addr, align 4
+  %34 = add nsw i32 %33, 1
+  store i32 %34, i32* %n_dns_addr, align 4
+  br label %17
+
+; <label>:35:                                     ; preds = %17
+  %36 = getelementptr inbounds %struct.__res_state, %struct.__res_state* %res_stat, i32 0, i32 2
+  %37 = load i64, i64* %36, align 8
+  store i64 %37, i64* %saved_res_options, align 8
+  %38 = getelementptr inbounds %struct.__res_state, %struct.__res_state* %res_stat, i32 0, i32 2
+  %39 = load i64, i64* %38, align 8
+  %40 = and i64 %39, -129
+  store i64 %40, i64* %38, align 8
+  %41 = getelementptr inbounds %struct.__res_state, %struct.__res_state* %res_stat, i32 0, i32 4
+  %42 = getelementptr inbounds [3 x %struct.sockaddr_in], [3 x %struct.sockaddr_in]* %41, i32 0, i64 0
+  %43 = getelementptr inbounds %struct.sockaddr_in, %struct.sockaddr_in* %42, i32 0, i32 2
+  %44 = bitcast %struct.in_addr* %43 to i8*
+  %45 = bitcast %struct.in_addr* %dns_ip to i8*
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %44, i8* %45, i64 4, i32 4, i1 false)
+  %46 = getelementptr inbounds %struct.__res_state, %struct.__res_state* %res_stat, i32 0, i32 3
+  store i32 1, i32* %46, align 4
+  %47 = load i8*, i8** %2, align 8
+  %48 = bitcast %union.anon.2* %dns_response to i8*
+  %49 = call i32 @__res_nquery(%struct.__res_state* %res_stat, i8* %47, i32 1, i32 1, i8* %48, i32 512) #6
+  store i32 %49, i32* %dns_response_len, align 4
+  %50 = load i32, i32* %dns_response_len, align 4
+  %51 = icmp ne i32 %50, -1
+  br i1 %51, label %52, label %146
+
+; <label>:52:                                     ; preds = %35
+  %53 = bitcast %union.anon.2* %dns_response to [512 x i8]*
+  %54 = getelementptr inbounds [512 x i8], [512 x i8]* %53, i32 0, i32 0
+  %55 = load i32, i32* %dns_response_len, align 4
+  %56 = call i32 @ns_initparse(i8* %54, i32 %55, %struct.__ns_msg* %resp_handle) #6
+  store i32 %56, i32* %fn_ret, align 4
+  %57 = load i32, i32* %fn_ret, align 4
+  %58 = icmp sge i32 %57, 0
+  br i1 %58, label %59, label %139
+
+; <label>:59:                                     ; preds = %52
+  %60 = bitcast %struct.__ns_msg* %4 to i8*
+  %61 = bitcast %struct.__ns_msg* %resp_handle to i8*
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %60, i8* %61, i64 80, i32 8, i1 false)
+  %62 = call i32 @ns_msg_getflag(%struct.__ns_msg* %4, i32 9) #6
+  store i32 %62, i32* %resp_error_code, align 4
+  %63 = load i32, i32* %resp_error_code, align 4
+  %64 = icmp eq i32 %63, 0
+  br i1 %64, label %65, label %129
+
+; <label>:65:                                     ; preds = %59
+  %66 = getelementptr inbounds %struct.__ns_msg, %struct.__ns_msg* %resp_handle, i32 0, i32 4
+  %67 = getelementptr inbounds [4 x i16], [4 x i16]* %66, i32 0, i64 1
+  %68 = load i16, i16* %67, align 2
+  %69 = zext i16 %68 to i32
+  %70 = add nsw i32 %69, 0
+  %71 = trunc i32 %70 to i16
+  store i16 %71, i16* %answer_count, align 2
+  %72 = load i16, i16* %answer_count, align 2
+  %73 = zext i16 %72 to i32
+  %74 = icmp eq i32 %73, 1
+  br i1 %74, label %75, label %119
+
+; <label>:75:                                     ; preds = %65
+  %76 = call i32 @ns_parserr(%struct.__ns_msg* %resp_handle, i32 1, i32 0, %struct.__ns_rr* %resp_record) #6
+  store i32 %76, i32* %fn_ret, align 4
+  %77 = load i32, i32* %fn_ret, align 4
+  %78 = icmp eq i32 %77, 0
+  br i1 %78, label %79, label %112
+
+; <label>:79:                                     ; preds = %75
+  %80 = getelementptr inbounds %struct.__ns_rr, %struct.__ns_rr* %resp_record, i32 0, i32 1
+  %81 = load i16, i16* %80, align 2
+  %82 = zext i16 %81 to i32
+  %83 = add nsw i32 %82, 0
+  %84 = trunc i32 %83 to i16
+  store i16 %84, i16* %resp_type, align 2
+  %85 = load i16, i16* %resp_type, align 2
+  %86 = zext i16 %85 to i32
+  %87 = icmp eq i32 %86, 1
+  br i1 %87, label %88, label %102
+
+; <label>:88:                                     ; preds = %79
+  %89 = getelementptr inbounds [256 x i8], [256 x i8]* %rec_disp_buf, i32 0, i32 0
+  %90 = call i32 @ns_sprintrr(%struct.__ns_msg* %resp_handle, %struct.__ns_rr* %resp_record, i8* null, i8* null, i8* %89, i64 256) #6
+  %91 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %92 = getelementptr inbounds [256 x i8], [256 x i8]* %rec_disp_buf, i32 0, i32 0
+  %93 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %91, i8* getelementptr inbounds ([6 x i8], [6 x i8]* @.str1173, i32 0, i32 0), i8* %92)
+  %94 = getelementptr inbounds %struct.__ns_rr, %struct.__ns_rr* %resp_record, i32 0, i32 5
+  %95 = load i8*, i8** %94, align 8
+  %96 = getelementptr inbounds i8, i8* %95, i64 0
+  store i8* %96, i8** %record_data, align 8
+  %97 = load %struct.in_addr*, %struct.in_addr** %3, align 8
+  %98 = load i8*, i8** %record_data, align 8
+  %99 = bitcast i8* %98 to %struct.in_addr*
+  %100 = bitcast %struct.in_addr* %97 to i8*
+  %101 = bitcast %struct.in_addr* %99 to i8*
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %100, i8* %101, i64 4, i32 4, i1 false)
+  store i32 0, i32* %fn_ret, align 4
+  br label %111
+
+; <label>:102:                                    ; preds = %79
+  %103 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %104 = getelementptr %struct.in_addr, %struct.in_addr* %dns_ip, i32 0, i32 0
+  %105 = load i32, i32* %104
+  %106 = zext i32 %105 to i64
+  %107 = call i8* @inet_ntoa(i64 %106) #6
+  %108 = load i16, i16* %resp_type, align 2
+  %109 = zext i16 %108 to i32
+  %110 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %103, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @.str1274, i32 0, i32 0), i8* %107, i32 1, i32 %109)
+  store i32 -2, i32* %fn_ret, align 4
+  br label %111
+
+; <label>:111:                                    ; preds = %102, %88
+  br label %118
+
+; <label>:112:                                    ; preds = %75
+  %113 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %114 = call i32* @__errno_location() #7
+  %115 = load i32, i32* %114, align 4
+  %116 = call i8* @strerror(i32 %115) #6
+  %117 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %113, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str1375, i32 0, i32 0), i8* %116)
+  br label %118
+
+; <label>:118:                                    ; preds = %112, %111
+  br label %128
+
+; <label>:119:                                    ; preds = %65
+  %120 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %121 = getelementptr %struct.in_addr, %struct.in_addr* %dns_ip, i32 0, i32 0
+  %122 = load i32, i32* %121
+  %123 = zext i32 %122 to i64
+  %124 = call i8* @inet_ntoa(i64 %123) #6
+  %125 = load i16, i16* %answer_count, align 2
+  %126 = zext i16 %125 to i32
+  %127 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %120, i8* getelementptr inbounds ([31 x i8], [31 x i8]* @.str1476, i32 0, i32 0), i8* %124, i32 %126)
+  store i32 -1, i32* %fn_ret, align 4
+  br label %128
+
+; <label>:128:                                    ; preds = %119, %118
+  br label %138
+
+; <label>:129:                                    ; preds = %59
+  %130 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %131 = getelementptr %struct.in_addr, %struct.in_addr* %dns_ip, i32 0, i32 0
+  %132 = load i32, i32* %131
+  %133 = zext i32 %132 to i64
+  %134 = call i8* @inet_ntoa(i64 %133) #6
+  %135 = load i32, i32* %resp_error_code, align 4
+  %136 = call i8* @resp_code_msg(i32 %135)
+  %137 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %130, i8* getelementptr inbounds ([49 x i8], [49 x i8]* @.str1577, i32 0, i32 0), i8* %134, i8* %136)
+  store i32 -4, i32* %fn_ret, align 4
+  br label %138
+
+; <label>:138:                                    ; preds = %129, %128
+  br label %145
+
+; <label>:139:                                    ; preds = %52
+  %140 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %141 = call i32* @__errno_location() #7
+  %142 = load i32, i32* %141, align 4
+  %143 = call i8* @strerror(i32 %142) #6
+  %144 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %140, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str1678, i32 0, i32 0), i8* %143)
+  br label %145
+
+; <label>:145:                                    ; preds = %139, %138
+  br label %170
+
+; <label>:146:                                    ; preds = %35
+  %147 = call i32* @__errno_location() #7
+  %148 = load i32, i32* %147, align 4
+  %149 = icmp eq i32 %148, 111
+  br i1 %149, label %150, label %157
+
+; <label>:150:                                    ; preds = %146
+  %151 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %152 = getelementptr %struct.in_addr, %struct.in_addr* %dns_ip, i32 0, i32 0
+  %153 = load i32, i32* %152
+  %154 = zext i32 %153 to i64
+  %155 = call i8* @inet_ntoa(i64 %154) #6
+  %156 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %151, i8* getelementptr inbounds ([59 x i8], [59 x i8]* @.str1779, i32 0, i32 0), i8* %155)
+  br label %169
+
+; <label>:157:                                    ; preds = %146
+  %158 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %159 = getelementptr %struct.in_addr, %struct.in_addr* %dns_ip, i32 0, i32 0
+  %160 = load i32, i32* %159
+  %161 = zext i32 %160 to i64
+  %162 = call i8* @inet_ntoa(i64 %161) #6
+  %163 = call i32* @__h_errno_location() #7
+  %164 = load i32, i32* %163, align 4
+  %165 = call i32* @__h_errno_location() #7
+  %166 = load i32, i32* %165, align 4
+  %167 = call i8* @herror_msg(i32 %166)
+  %168 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %158, i8* getelementptr inbounds ([49 x i8], [49 x i8]* @.str1880, i32 0, i32 0), i8* %162, i32 %164, i8* %167)
+  br label %169
+
+; <label>:169:                                    ; preds = %157, %150
+  store i32 -3, i32* %fn_ret, align 4
+  br label %170
+
+; <label>:170:                                    ; preds = %169, %145
+  %171 = load i64, i64* %saved_res_options, align 8
+  %172 = getelementptr inbounds %struct.__res_state, %struct.__res_state* %res_stat, i32 0, i32 2
+  store i64 %171, i64* %172, align 8
+  %173 = load i32, i32* %saved_dns_count, align 4
+  %174 = getelementptr inbounds %struct.__res_state, %struct.__res_state* %res_stat, i32 0, i32 3
+  store i32 %173, i32* %174, align 4
+  store i32 0, i32* %n_dns_addr, align 4
+  br label %175
+
+; <label>:175:                                    ; preds = %190, %170
+  %176 = load i32, i32* %n_dns_addr, align 4
+  %177 = load i32, i32* %saved_dns_count, align 4
+  %178 = icmp slt i32 %176, %177
+  br i1 %178, label %179, label %193
+
+; <label>:179:                                    ; preds = %175
+  %180 = load i32, i32* %n_dns_addr, align 4
+  %181 = sext i32 %180 to i64
+  %182 = getelementptr inbounds %struct.__res_state, %struct.__res_state* %res_stat, i32 0, i32 4
+  %183 = getelementptr inbounds [3 x %struct.sockaddr_in], [3 x %struct.sockaddr_in]* %182, i32 0, i64 %181
+  %184 = getelementptr inbounds %struct.sockaddr_in, %struct.sockaddr_in* %183, i32 0, i32 2
+  %185 = load i32, i32* %n_dns_addr, align 4
+  %186 = sext i32 %185 to i64
+  %187 = getelementptr inbounds [3 x %struct.in_addr], [3 x %struct.in_addr]* %saved_dns_addr, i32 0, i64 %186
+  %188 = bitcast %struct.in_addr* %184 to i8*
+  %189 = bitcast %struct.in_addr* %187 to i8*
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %188, i8* %189, i64 4, i32 4, i1 false)
+  br label %190
+
+; <label>:190:                                    ; preds = %179
+  %191 = load i32, i32* %n_dns_addr, align 4
+  %192 = add nsw i32 %191, 1
+  store i32 %192, i32* %n_dns_addr, align 4
+  br label %175
+
+; <label>:193:                                    ; preds = %175
+  br label %194
+
+; <label>:194:                                    ; preds = %193, %9
+  br label %200
+
+; <label>:195:                                    ; preds = %0
+  %196 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %197 = call i32* @__errno_location() #7
+  %198 = load i32, i32* %197, align 4
+  %199 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %196, i8* getelementptr inbounds ([26 x i8], [26 x i8]* @.str1981, i32 0, i32 0), i32 %198)
+  br label %200
+
+; <label>:200:                                    ; preds = %195, %194
+  %201 = load i32, i32* %fn_ret, align 4
+  ret i32 %201
+}
+
+; Function Attrs: nounwind
+declare i32 @__res_ninit(%struct.__res_state*) #0
+
+; Function Attrs: nounwind
+declare i32 @__res_nquery(%struct.__res_state*, i8*, i32, i32, i8*, i32) #0
+
+; Function Attrs: nounwind
+declare i32 @ns_initparse(i8*, i32, %struct.__ns_msg*) #0
+
+; Function Attrs: nounwind
+declare i32 @ns_msg_getflag(%struct.__ns_msg*, i32) #0
+
+; Function Attrs: nounwind
+declare i32 @ns_parserr(%struct.__ns_msg*, i32, i32, %struct.__ns_rr*) #0
+
+; Function Attrs: nounwind
+declare i32 @ns_sprintrr(%struct.__ns_msg*, %struct.__ns_rr*, i8*, i8*, i8*, i64) #0
+
+; Function Attrs: nounwind readnone
+declare i32* @__h_errno_location() #2
+
+; Function Attrs: nounwind
+define i32 @get_public_ip(i8* %public_ip) #0 {
+  %1 = alloca i8*, align 8
+  %fn_ret = alloca i32, align 4
+  %public_ip_addr = alloca %struct.in_addr, align 4
+  store i8* %public_ip, i8** %1, align 8
+  %2 = call i32 @hostname_to_ip_at_dns(i8* getelementptr inbounds ([22 x i8], [22 x i8]* @.str2082, i32 0, i32 0), i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str2183, i32 0, i32 0), %struct.in_addr* %public_ip_addr)
+  store i32 %2, i32* %fn_ret, align 4
+  %3 = load i32, i32* %fn_ret, align 4
+  %4 = icmp eq i32 %3, 0
+  br i1 %4, label %5, label %12
+
+; <label>:5:                                      ; preds = %0
+  %6 = load i8*, i8** %1, align 8
+  %7 = getelementptr %struct.in_addr, %struct.in_addr* %public_ip_addr, i32 0, i32 0
+  %8 = load i32, i32* %7
+  %9 = zext i32 %8 to i64
+  %10 = call i8* @inet_ntoa(i64 %9) #6
+  %11 = call i8* @strcpy(i8* %6, i8* %10) #6
+  br label %12
+
+; <label>:12:                                     ; preds = %5, %0
+  %13 = load i32, i32* %fn_ret, align 4
+  ret i32 %13
+}
+
+; Function Attrs: nounwind
+define i32 @get_current_exec_path(i8* %exec_path, i64 %path_buff_len) #0 {
+  %1 = alloca i8*, align 8
+  %2 = alloca i64, align 8
+  %ret_error = alloca i32, align 4
+  %exec_path_buff = alloca [4097 x i8], align 1
+  %chars_written = alloca i64, align 8
+  %exec_dir = alloca i8*, align 8
+  store i8* %exec_path, i8** %1, align 8
+  store i64 %path_buff_len, i64* %2, align 8
+  %3 = load i64, i64* %2, align 8
+  %4 = icmp ugt i64 %3, 0
+  br i1 %4, label %5, label %36
+
+; <label>:5:                                      ; preds = %0
+  %6 = getelementptr inbounds [4097 x i8], [4097 x i8]* %exec_path_buff, i32 0, i32 0
+  %7 = call i64 @readlink(i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str88, i32 0, i32 0), i8* %6, i64 4096) #6
+  store i64 %7, i64* %chars_written, align 8
+  %8 = load i64, i64* %chars_written, align 8
+  %9 = icmp ne i64 %8, -1
+  br i1 %9, label %10, label %30
+
+; <label>:10:                                     ; preds = %5
+  %11 = load i64, i64* %chars_written, align 8
+  %12 = getelementptr inbounds [4097 x i8], [4097 x i8]* %exec_path_buff, i32 0, i64 %11
+  store i8 0, i8* %12, align 1
+  %13 = getelementptr inbounds [4097 x i8], [4097 x i8]* %exec_path_buff, i32 0, i32 0
+  %14 = call i8* @dirname(i8* %13) #6
+  store i8* %14, i8** %exec_dir, align 8
+  %15 = load i64, i64* %2, align 8
+  %16 = load i8*, i8** %exec_dir, align 8
+  %17 = call i64 @strlen(i8* %16) #8
+  %18 = add i64 %17, 1
+  %19 = icmp ugt i64 %15, %18
+  br i1 %19, label %20, label %26
+
+; <label>:20:                                     ; preds = %10
+  %21 = load i8*, i8** %1, align 8
+  %22 = load i8*, i8** %exec_dir, align 8
+  %23 = call i8* @strcpy(i8* %21, i8* %22) #6
+  %24 = load i8*, i8** %1, align 8
+  %25 = call i8* @strcat(i8* %24, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str189, i32 0, i32 0)) #6
+  store i32 0, i32* %ret_error, align 4
+  br label %29
+
+; <label>:26:                                     ; preds = %10
+  %27 = load i8*, i8** %1, align 8
+  %28 = getelementptr inbounds i8, i8* %27, i64 0
+  store i8 0, i8* %28, align 1
+  store i32 22, i32* %ret_error, align 4
+  br label %29
+
+; <label>:29:                                     ; preds = %26, %20
+  br label %35
+
+; <label>:30:                                     ; preds = %5
+  %31 = load i8*, i8** %1, align 8
+  %32 = getelementptr inbounds i8, i8* %31, i64 0
+  store i8 0, i8* %32, align 1
+  %33 = call i32* @__errno_location() #7
+  %34 = load i32, i32* %33, align 4
+  store i32 %34, i32* %ret_error, align 4
+  br label %35
+
+; <label>:35:                                     ; preds = %30, %29
+  br label %37
+
+; <label>:36:                                     ; preds = %0
+  store i32 22, i32* %ret_error, align 4
+  br label %37
+
+; <label>:37:                                     ; preds = %36, %35
+  %38 = load i32, i32* %ret_error, align 4
+  ret i32 %38
+}
+
+; Function Attrs: nounwind
+declare i64 @readlink(i8*, i8*, i64) #0
+
+; Function Attrs: nounwind
+declare i8* @dirname(i8*) #0
+
+; Function Attrs: nounwind
+define void @kill_processes(i32* %process_ids, i64 %n_processes) #0 {
+  %1 = alloca i32*, align 8
+  %2 = alloca i64, align 8
+  %n_child = alloca i32, align 4
+  store i32* %process_ids, i32** %1, align 8
+  store i64 %n_processes, i64* %2, align 8
+  store i32 0, i32* %n_child, align 4
+  br label %3
+
+; <label>:3:                                      ; preds = %23, %0
+  %4 = load i32, i32* %n_child, align 4
+  %5 = sext i32 %4 to i64
+  %6 = load i64, i64* %2, align 8
+  %7 = icmp ult i64 %5, %6
+  br i1 %7, label %8, label %26
+
+; <label>:8:                                      ; preds = %3
+  %9 = load i32, i32* %n_child, align 4
+  %10 = sext i32 %9 to i64
+  %11 = load i32*, i32** %1, align 8
+  %12 = getelementptr inbounds i32, i32* %11, i64 %10
+  %13 = load i32, i32* %12, align 4
+  %14 = icmp ne i32 %13, -1
+  br i1 %14, label %15, label %22
+
+; <label>:15:                                     ; preds = %8
+  %16 = load i32, i32* %n_child, align 4
+  %17 = sext i32 %16 to i64
+  %18 = load i32*, i32** %1, align 8
+  %19 = getelementptr inbounds i32, i32* %18, i64 %17
+  %20 = load i32, i32* %19, align 4
+  %21 = call i32 @kill(i32 %20, i32 15) #6
+  br label %22
+
+; <label>:22:                                     ; preds = %15, %8
+  br label %23
+
+; <label>:23:                                     ; preds = %22
+  %24 = load i32, i32* %n_child, align 4
+  %25 = add nsw i32 %24, 1
+  store i32 %25, i32* %n_child, align 4
+  br label %3
+
+; <label>:26:                                     ; preds = %3
+  ret void
+}
+
+; Function Attrs: nounwind
+declare i32 @kill(i32, i32) #0
+
+; Function Attrs: nounwind
+define i32 @wait_processes(i32* %process_ids, i64 %n_processes, i32 %wait_timeout) #0 {
+  %1 = alloca i32*, align 8
+  %2 = alloca i64, align 8
+  %3 = alloca i32, align 4
+  %ret_error = alloca i32, align 4
+  %n_remaining_procs = alloca i32, align 4
+  %wait_ret = alloca i32, align 4
+  %n_child = alloca i32, align 4
+  store i32* %process_ids, i32** %1, align 8
+  store i64 %n_processes, i64* %2, align 8
+  store i32 %wait_timeout, i32* %3, align 4
+  store i32 0, i32* %ret_error, align 4
+  br label %4
+
+; <label>:4:                                      ; preds = %59, %0
+  store i32 0, i32* %n_remaining_procs, align 4
+  %5 = load i32, i32* %3, align 4
+  %6 = call i32 @alarm(i32 %5) #6
+  %7 = call i32 @waitpid(i32 0, i32* null, i32 0)
+  store i32 %7, i32* %wait_ret, align 4
+  %8 = load i32, i32* %wait_ret, align 4
+  %9 = icmp ne i32 %8, -1
+  br i1 %9, label %10, label %48
+
+; <label>:10:                                     ; preds = %4
+  store i32 0, i32* %n_child, align 4
+  br label %11
+
+; <label>:11:                                     ; preds = %44, %10
+  %12 = load i32, i32* %n_child, align 4
+  %13 = sext i32 %12 to i64
+  %14 = load i64, i64* %2, align 8
+  %15 = icmp ult i64 %13, %14
+  br i1 %15, label %16, label %47
+
+; <label>:16:                                     ; preds = %11
+  %17 = load i32, i32* %n_child, align 4
+  %18 = sext i32 %17 to i64
+  %19 = load i32*, i32** %1, align 8
+  %20 = getelementptr inbounds i32, i32* %19, i64 %18
+  %21 = load i32, i32* %20, align 4
+  %22 = icmp ne i32 %21, -1
+  br i1 %22, label %23, label %43
+
+; <label>:23:                                     ; preds = %16
+  %24 = load i32, i32* %n_child, align 4
+  %25 = sext i32 %24 to i64
+  %26 = load i32*, i32** %1, align 8
+  %27 = getelementptr inbounds i32, i32* %26, i64 %25
+  %28 = load i32, i32* %27, align 4
+  %29 = load i32, i32* %wait_ret, align 4
+  %30 = icmp eq i32 %28, %29
+  br i1 %30, label %31, label %39
+
+; <label>:31:                                     ; preds = %23
+  %32 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %33 = load i32, i32* %wait_ret, align 4
+  %34 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %32, i8* getelementptr inbounds ([40 x i8], [40 x i8]* @.str290, i32 0, i32 0), i32 %33)
+  %35 = load i32, i32* %n_child, align 4
+  %36 = sext i32 %35 to i64
+  %37 = load i32*, i32** %1, align 8
+  %38 = getelementptr inbounds i32, i32* %37, i64 %36
+  store i32 -1, i32* %38, align 4
+  br label %42
+
+; <label>:39:                                     ; preds = %23
+  %40 = load i32, i32* %n_remaining_procs, align 4
+  %41 = add nsw i32 %40, 1
+  store i32 %41, i32* %n_remaining_procs, align 4
+  br label %42
+
+; <label>:42:                                     ; preds = %39, %31
+  br label %43
+
+; <label>:43:                                     ; preds = %42, %16
+  br label %44
+
+; <label>:44:                                     ; preds = %43
+  %45 = load i32, i32* %n_child, align 4
+  %46 = add nsw i32 %45, 1
+  store i32 %46, i32* %n_child, align 4
+  br label %11
+
+; <label>:47:                                     ; preds = %11
+  br label %58
+
+; <label>:48:                                     ; preds = %4
+  %49 = call i32* @__errno_location() #7
+  %50 = load i32, i32* %49, align 4
+  store i32 %50, i32* %ret_error, align 4
+  %51 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %52 = call i32* @__errno_location() #7
+  %53 = load i32, i32* %52, align 4
+  %54 = call i32* @__errno_location() #7
+  %55 = load i32, i32* %54, align 4
+  %56 = call i8* @strerror(i32 %55) #6
+  %57 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %51, i8* getelementptr inbounds ([57 x i8], [57 x i8]* @.str391, i32 0, i32 0), i32 %53, i8* %56)
+  br label %58
+
+; <label>:58:                                     ; preds = %48, %47
+  br label %59
+
+; <label>:59:                                     ; preds = %58
+  %60 = load i32, i32* %n_remaining_procs, align 4
+  %61 = icmp sgt i32 %60, 0
+  br i1 %61, label %4, label %62
+
+; <label>:62:                                     ; preds = %59
+  %63 = load i32, i32* %ret_error, align 4
+  ret i32 %63
+}
+
+; Function Attrs: nounwind
+declare i32 @alarm(i32) #0
+
+declare i32 @waitpid(i32, i32*, i32) #3
+
+; Function Attrs: nounwind
+define i32 @run_background_command(i32* %new_proc_id, i8* %exec_filename, i8** %exec_argv) #0 {
+  %1 = alloca i32*, align 8
+  %2 = alloca i8*, align 8
+  %3 = alloca i8**, align 8
+  %ret = alloca i32, align 4
+  %null_fd_rd = alloca i32, align 4
+  store i32* %new_proc_id, i32** %1, align 8
+  store i8* %exec_filename, i8** %2, align 8
+  store i8** %exec_argv, i8*** %3, align 8
+  %4 = call i32 @fork() #6
+  %5 = load i32*, i32** %1, align 8
+  store i32 %4, i32* %5, align 4
+  %6 = load i32*, i32** %1, align 8
+  %7 = load i32, i32* %6, align 4
+  %8 = icmp eq i32 %7, 0
+  br i1 %8, label %9, label %78
+
+; <label>:9:                                      ; preds = %0
+  %10 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %11 = icmp ne %struct._IO_FILE* %10, null
+  br i1 %11, label %12, label %37
+
+; <label>:12:                                     ; preds = %9
+  %13 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %14 = call i32 @fileno(%struct._IO_FILE* %13) #6
+  %15 = call i32 @dup2(i32 %14, i32 1) #6
+  %16 = icmp eq i32 %15, -1
+  br i1 %16, label %17, label %23
+
+; <label>:17:                                     ; preds = %12
+  %18 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %19 = load i8*, i8** %2, align 8
+  %20 = call i32* @__errno_location() #7
+  %21 = load i32, i32* %20, align 4
+  %22 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %18, i8* getelementptr inbounds ([64 x i8], [64 x i8]* @.str492, i32 0, i32 0), i8* %19, i32 %21)
+  br label %23
+
+; <label>:23:                                     ; preds = %17, %12
+  %24 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %25 = call i32 @fileno(%struct._IO_FILE* %24) #6
+  %26 = call i32 @dup2(i32 %25, i32 2) #6
+  %27 = icmp eq i32 %26, -1
+  br i1 %27, label %28, label %34
+
+; <label>:28:                                     ; preds = %23
+  %29 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %30 = load i8*, i8** %2, align 8
+  %31 = call i32* @__errno_location() #7
+  %32 = load i32, i32* %31, align 4
+  %33 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %29, i8* getelementptr inbounds ([70 x i8], [70 x i8]* @.str593, i32 0, i32 0), i8* %30, i32 %32)
+  br label %34
+
+; <label>:34:                                     ; preds = %28, %23
+  %35 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %36 = call i32 @fclose(%struct._IO_FILE* %35)
+  br label %37
+
+; <label>:37:                                     ; preds = %34, %9
+  %38 = load %struct._IO_FILE*, %struct._IO_FILE** @Event_file_handle, align 8
+  %39 = icmp ne %struct._IO_FILE* %38, null
+  br i1 %39, label %40, label %43
+
+; <label>:40:                                     ; preds = %37
+  %41 = load %struct._IO_FILE*, %struct._IO_FILE** @Event_file_handle, align 8
+  %42 = call i32 @fclose(%struct._IO_FILE* %41)
+  br label %43
+
+; <label>:43:                                     ; preds = %40, %37
+  %44 = call i32 (i8*, i32, ...) @open(i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str694, i32 0, i32 0), i32 0)
+  store i32 %44, i32* %null_fd_rd, align 4
+  %45 = load i32, i32* %null_fd_rd, align 4
+  %46 = icmp ne i32 %45, -1
+  br i1 %46, label %47, label %60
+
+; <label>:47:                                     ; preds = %43
+  %48 = load i32, i32* %null_fd_rd, align 4
+  %49 = call i32 @dup2(i32 %48, i32 0) #6
+  %50 = icmp eq i32 %49, -1
+  br i1 %50, label %51, label %57
+
+; <label>:51:                                     ; preds = %47
+  %52 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %53 = load i8*, i8** %2, align 8
+  %54 = call i32* @__errno_location() #7
+  %55 = load i32, i32* %54, align 4
+  %56 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %52, i8* getelementptr inbounds ([63 x i8], [63 x i8]* @.str795, i32 0, i32 0), i8* %53, i32 %55)
+  br label %57
+
+; <label>:57:                                     ; preds = %51, %47
+  %58 = load i32, i32* %null_fd_rd, align 4
+  %59 = call i32 @close(i32 %58)
+  br label %66
+
+; <label>:60:                                     ; preds = %43
+  %61 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %62 = load i8*, i8** %2, align 8
+  %63 = call i32* @__errno_location() #7
+  %64 = load i32, i32* %63, align 4
+  %65 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %61, i8* getelementptr inbounds ([71 x i8], [71 x i8]* @.str896, i32 0, i32 0), i8* %62, i32 %64)
+  br label %66
+
+; <label>:66:                                     ; preds = %60, %57
+  %67 = call i32 @close(i32 0)
+  %68 = load i8*, i8** %2, align 8
+  %69 = load i8**, i8*** %3, align 8
+  %70 = call i32 @execvp(i8* %68, i8** %69) #6
+  %71 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %72 = load i8*, i8** %2, align 8
+  %73 = call i32* @__errno_location() #7
+  %74 = load i32, i32* %73, align 4
+  %75 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %71, i8* getelementptr inbounds ([66 x i8], [66 x i8]* @.str997, i32 0, i32 0), i8* %72, i32 %74)
+  %76 = call i32* @__errno_location() #7
+  %77 = load i32, i32* %76, align 4
+  call void @exit(i32 %77) #9
+  unreachable
+
+; <label>:78:                                     ; preds = %0
+  %79 = load i32*, i32** %1, align 8
+  %80 = load i32, i32* %79, align 4
+  %81 = icmp sgt i32 %80, 0
+  br i1 %81, label %82, label %83
+
+; <label>:82:                                     ; preds = %78
+  store i32 0, i32* %ret, align 4
+  br label %91
+
+; <label>:83:                                     ; preds = %78
+  %84 = call i32* @__errno_location() #7
+  %85 = load i32, i32* %84, align 4
+  store i32 %85, i32* %ret, align 4
+  %86 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %87 = load i8*, i8** %2, align 8
+  %88 = call i32* @__errno_location() #7
+  %89 = load i32, i32* %88, align 4
+  %90 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %86, i8* getelementptr inbounds ([50 x i8], [50 x i8]* @.str1098, i32 0, i32 0), i8* %87, i32 %89)
+  br label %91
+
+; <label>:91:                                     ; preds = %83, %82
+  br label %92
+
+; <label>:92:                                     ; preds = %91
+  %93 = load i32, i32* %ret, align 4
+  ret i32 %93
+}
+
+; Function Attrs: nounwind
+declare i32 @fork() #0
+
+; Function Attrs: nounwind
+declare i32 @dup2(i32, i32) #0
+
+; Function Attrs: nounwind
+declare i32 @fileno(%struct._IO_FILE*) #0
+
+declare i32 @open(i8*, i32, ...) #3
+
+; Function Attrs: nounwind
+declare i32 @execvp(i8*, i8**) #0
+
+; Function Attrs: noreturn nounwind
+declare void @exit(i32) #5
+
+; Function Attrs: nounwind
+define i32 @configure_timer(float %interval_sec) #0 {
+  %1 = alloca float, align 4
+  %ret_error = alloca i32, align 4
+  %timer_conf = alloca %struct.itimerval, align 8
+  store float %interval_sec, float* %1, align 4
+  %2 = load float, float* %1, align 4
+  %3 = fcmp olt float %2, 0.000000e+00
+  br i1 %3, label %4, label %13
+
+; <label>:4:                                      ; preds = %0
+  %5 = getelementptr inbounds %struct.itimerval, %struct.itimerval* %timer_conf, i32 0, i32 1
+  %6 = getelementptr inbounds %struct.timeval, %struct.timeval* %5, i32 0, i32 0
+  store i64 0, i64* %6, align 8
+  %7 = getelementptr inbounds %struct.itimerval, %struct.itimerval* %timer_conf, i32 0, i32 1
+  %8 = getelementptr inbounds %struct.timeval, %struct.timeval* %7, i32 0, i32 1
+  store i64 0, i64* %8, align 8
+  %9 = getelementptr inbounds %struct.itimerval, %struct.itimerval* %timer_conf, i32 0, i32 0
+  %10 = getelementptr inbounds %struct.timeval, %struct.timeval* %9, i32 0, i32 0
+  store i64 0, i64* %10, align 8
+  %11 = getelementptr inbounds %struct.itimerval, %struct.itimerval* %timer_conf, i32 0, i32 0
+  %12 = getelementptr inbounds %struct.timeval, %struct.timeval* %11, i32 0, i32 1
+  store i64 0, i64* %12, align 8
+  br label %33
+
+; <label>:13:                                     ; preds = %0
+  %14 = getelementptr inbounds %struct.itimerval, %struct.itimerval* %timer_conf, i32 0, i32 1
+  %15 = getelementptr inbounds %struct.timeval, %struct.timeval* %14, i32 0, i32 0
+  store i64 0, i64* %15, align 8
+  %16 = getelementptr inbounds %struct.itimerval, %struct.itimerval* %timer_conf, i32 0, i32 1
+  %17 = getelementptr inbounds %struct.timeval, %struct.timeval* %16, i32 0, i32 1
+  store i64 250000, i64* %17, align 8
+  %18 = load float, float* %1, align 4
+  %19 = fptosi float %18 to i64
+  %20 = getelementptr inbounds %struct.itimerval, %struct.itimerval* %timer_conf, i32 0, i32 0
+  %21 = getelementptr inbounds %struct.timeval, %struct.timeval* %20, i32 0, i32 0
+  store i64 %19, i64* %21, align 8
+  %22 = load float, float* %1, align 4
+  %23 = getelementptr inbounds %struct.itimerval, %struct.itimerval* %timer_conf, i32 0, i32 0
+  %24 = getelementptr inbounds %struct.timeval, %struct.timeval* %23, i32 0, i32 0
+  %25 = load i64, i64* %24, align 8
+  %26 = sitofp i64 %25 to float
+  %27 = fsub float %22, %26
+  %28 = fpext float %27 to double
+  %29 = fmul double %28, 1.000000e+06
+  %30 = fptosi double %29 to i64
+  %31 = getelementptr inbounds %struct.itimerval, %struct.itimerval* %timer_conf, i32 0, i32 0
+  %32 = getelementptr inbounds %struct.timeval, %struct.timeval* %31, i32 0, i32 1
+  store i64 %30, i64* %32, align 8
+  br label %33
+
+; <label>:33:                                     ; preds = %13, %4
+  %34 = call i32 @setitimer(i32 0, %struct.itimerval* %timer_conf, %struct.itimerval* null) #6
+  %35 = icmp eq i32 %34, 0
+  br i1 %35, label %36, label %45
+
+; <label>:36:                                     ; preds = %33
+  %37 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %38 = getelementptr inbounds %struct.itimerval, %struct.itimerval* %timer_conf, i32 0, i32 0
+  %39 = getelementptr inbounds %struct.timeval, %struct.timeval* %38, i32 0, i32 0
+  %40 = load i64, i64* %39, align 8
+  %41 = getelementptr inbounds %struct.itimerval, %struct.itimerval* %timer_conf, i32 0, i32 0
+  %42 = getelementptr inbounds %struct.timeval, %struct.timeval* %41, i32 0, i32 1
+  %43 = load i64, i64* %42, align 8
+  %44 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %37, i8* getelementptr inbounds ([46 x i8], [46 x i8]* @.str1199, i32 0, i32 0), i64 %40, i64 %43)
+  store i32 0, i32* %ret_error, align 4
+  br label %55
+
+; <label>:45:                                     ; preds = %33
+  %46 = call i32* @__errno_location() #7
+  %47 = load i32, i32* %46, align 4
+  store i32 %47, i32* %ret_error, align 4
+  %48 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %49 = call i32* @__errno_location() #7
+  %50 = load i32, i32* %49, align 4
+  %51 = call i32* @__errno_location() #7
+  %52 = load i32, i32* %51, align 4
+  %53 = call i8* @strerror(i32 %52) #6
+  %54 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %48, i8* getelementptr inbounds ([35 x i8], [35 x i8]* @.str12100, i32 0, i32 0), i32 %50, i8* %53)
+  br label %55
+
+; <label>:55:                                     ; preds = %45, %36
+  %56 = load i32, i32* %ret_error, align 4
+  ret i32 %56
+}
+
+; Function Attrs: nounwind
+declare i32 @setitimer(i32, %struct.itimerval*, %struct.itimerval*) #0
+
+; Function Attrs: nounwind
+define i32 @daemonize(i8* %working_dir) #0 {
+  %1 = alloca i8*, align 8
+  %ret_error = alloca i32, align 4
+  %child_pid = alloca i32, align 4
+  %null_fd_rd = alloca i32, align 4
+  %null_fd_wr = alloca i32, align 4
+  store i8* %working_dir, i8** %1, align 8
+  %2 = call i32 @fork() #6
+  store i32 %2, i32* %child_pid, align 4
+  %3 = load i32, i32* %child_pid, align 4
+  %4 = icmp ne i32 %3, -1
+  br i1 %4, label %5, label %64
+
+; <label>:5:                                      ; preds = %0
+  %6 = load i32, i32* %child_pid, align 4
+  %7 = icmp sgt i32 %6, 0
+  br i1 %7, label %8, label %9
+
+; <label>:8:                                      ; preds = %5
+  call void @exit(i32 0) #9
+  unreachable
+
+; <label>:9:                                      ; preds = %5
+  %10 = call i32 @setsid() #6
+  %11 = icmp ne i32 %10, -1
+  br i1 %11, label %12, label %56
+
+; <label>:12:                                     ; preds = %9
+  %13 = call void (i32)* @signal(i32 17, void (i32)* inttoptr (i64 1 to void (i32)*)) #6
+  %14 = call void (i32)* @signal(i32 1, void (i32)* inttoptr (i64 1 to void (i32)*)) #6
+  %15 = call i32 @fork() #6
+  store i32 %15, i32* %child_pid, align 4
+  %16 = load i32, i32* %child_pid, align 4
+  %17 = icmp ne i32 %16, -1
+  br i1 %17, label %18, label %48
+
+; <label>:18:                                     ; preds = %12
+  %19 = load i32, i32* %child_pid, align 4
+  %20 = icmp sgt i32 %19, 0
+  br i1 %20, label %21, label %22
+
+; <label>:21:                                     ; preds = %18
+  call void @exit(i32 0) #9
+  unreachable
+
+; <label>:22:                                     ; preds = %18
+  %23 = call i32 @umask(i32 0) #6
+  %24 = load i8*, i8** %1, align 8
+  %25 = call i32 @chdir(i8* %24) #6
+  %26 = call i32 (i8*, i32, ...) @open(i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str694, i32 0, i32 0), i32 0)
+  store i32 %26, i32* %null_fd_rd, align 4
+  %27 = load i32, i32* %null_fd_rd, align 4
+  %28 = icmp ne i32 %27, -1
+  br i1 %28, label %29, label %34
+
+; <label>:29:                                     ; preds = %22
+  %30 = load i32, i32* %null_fd_rd, align 4
+  %31 = call i32 @dup2(i32 %30, i32 0) #6
+  %32 = load i32, i32* %null_fd_rd, align 4
+  %33 = call i32 @close(i32 %32)
+  br label %35
+
+; <label>:34:                                     ; preds = %22
+  call void @perror(i8* getelementptr inbounds ([65 x i8], [65 x i8]* @.str13101, i32 0, i32 0))
+  br label %35
+
+; <label>:35:                                     ; preds = %34, %29
+  %36 = call i32 (i8*, i32, ...) @open(i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str694, i32 0, i32 0), i32 1)
+  store i32 %36, i32* %null_fd_wr, align 4
+  %37 = load i32, i32* %null_fd_wr, align 4
+  %38 = icmp ne i32 %37, -1
+  br i1 %38, label %39, label %46
+
+; <label>:39:                                     ; preds = %35
+  %40 = load i32, i32* %null_fd_wr, align 4
+  %41 = call i32 @dup2(i32 %40, i32 2) #6
+  %42 = load i32, i32* %null_fd_wr, align 4
+  %43 = call i32 @dup2(i32 %42, i32 1) #6
+  %44 = load i32, i32* %null_fd_wr, align 4
+  %45 = call i32 @close(i32 %44)
+  br label %47
+
+; <label>:46:                                     ; preds = %35
+  call void @perror(i8* getelementptr inbounds ([65 x i8], [65 x i8]* @.str14102, i32 0, i32 0))
+  br label %47
+
+; <label>:47:                                     ; preds = %46, %39
+  br label %55
+
+; <label>:48:                                     ; preds = %12
+  %49 = call i32* @__errno_location() #7
+  %50 = load i32, i32* %49, align 4
+  store i32 %50, i32* %ret_error, align 4
+  %51 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8
+  %52 = call i32* @__errno_location() #7
+  %53 = load i32, i32* %52, align 4
+  %54 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %51, i8* getelementptr inbounds ([56 x i8], [56 x i8]* @.str15103, i32 0, i32 0), i32 %53)
+  br label %55
+
+; <label>:55:                                     ; preds = %48, %47
+  br label %63
+
+; <label>:56:                                     ; preds = %9
+  %57 = call i32* @__errno_location() #7
+  %58 = load i32, i32* %57, align 4
+  store i32 %58, i32* %ret_error, align 4
+  %59 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8
+  %60 = call i32* @__errno_location() #7
+  %61 = load i32, i32* %60, align 4
+  %62 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %59, i8* getelementptr inbounds ([79 x i8], [79 x i8]* @.str16104, i32 0, i32 0), i32 %61)
+  br label %63
+
+; <label>:63:                                     ; preds = %56, %55
+  br label %71
+
+; <label>:64:                                     ; preds = %0
+  %65 = call i32* @__errno_location() #7
+  %66 = load i32, i32* %65, align 4
+  store i32 %66, i32* %ret_error, align 4
+  %67 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8
+  %68 = call i32* @__errno_location() #7
+  %69 = load i32, i32* %68, align 4
+  %70 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %67, i8* getelementptr inbounds ([55 x i8], [55 x i8]* @.str17105, i32 0, i32 0), i32 %69)
+  br label %71
+
+; <label>:71:                                     ; preds = %64, %63
+  %72 = load i32, i32* %ret_error, align 4
+  ret i32 %72
+}
+
+; Function Attrs: nounwind
+declare i32 @setsid() #0
+
+; Function Attrs: nounwind
+declare void (i32)* @signal(i32, void (i32)*) #0
+
+; Function Attrs: nounwind
+declare i32 @umask(i32) #0
+
+; Function Attrs: nounwind
+declare i32 @chdir(i8*) #0
+
+declare void @perror(i8*) #3
+
+; Function Attrs: nounwind
+define void @get_localtime_str(i8* %cur_time_str, i64 %cur_time_str_len) #0 {
+  %1 = alloca i8*, align 8
+  %2 = alloca i64, align 8
+  %cur_time = alloca i64, align 8
+  %cur_time_struct = alloca %struct.tm*, align 8
+  store i8* %cur_time_str, i8** %1, align 8
+  store i64 %cur_time_str_len, i64* %2, align 8
+  %3 = call i64 @time(i64* null) #6
+  store i64 %3, i64* %cur_time, align 8
+  %4 = load i64, i64* %cur_time, align 8
+  %5 = icmp ne i64 %4, -1
+  br i1 %5, label %6, label %21
+
+; <label>:6:                                      ; preds = %0
+  %7 = call %struct.tm* @localtime(i64* %cur_time) #6
+  store %struct.tm* %7, %struct.tm** %cur_time_struct, align 8
+  %8 = load i8*, i8** %1, align 8
+  %9 = load i64, i64* %2, align 8
+  %10 = load %struct.tm*, %struct.tm** %cur_time_struct, align 8
+  %11 = call i64 @strftime(i8* %8, i64 %9, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str120, i32 0, i32 0), %struct.tm* %10) #6
+  %12 = icmp eq i64 %11, 0
+  br i1 %12, label %13, label %20
+
+; <label>:13:                                     ; preds = %6
+  %14 = load i64, i64* %2, align 8
+  %15 = icmp ugt i64 %14, 0
+  br i1 %15, label %16, label %19
+
+; <label>:16:                                     ; preds = %13
+  %17 = load i8*, i8** %1, align 8
+  %18 = getelementptr inbounds i8, i8* %17, i64 0
+  store i8 0, i8* %18, align 1
+  br label %19
+
+; <label>:19:                                     ; preds = %16, %13
+  br label %20
+
+; <label>:20:                                     ; preds = %19, %6
+  br label %28
+
+; <label>:21:                                     ; preds = %0
+  %22 = load i64, i64* %2, align 8
+  %23 = icmp ugt i64 %22, 0
+  br i1 %23, label %24, label %27
+
+; <label>:24:                                     ; preds = %21
+  %25 = load i8*, i8** %1, align 8
+  %26 = getelementptr inbounds i8, i8* %25, i64 0
+  store i8 0, i8* %26, align 1
+  br label %27
+
+; <label>:27:                                     ; preds = %24, %21
+  br label %28
+
+; <label>:28:                                     ; preds = %27, %20
+  ret void
+}
+
+; Function Attrs: nounwind
+declare i64 @time(i64*) #0
+
+; Function Attrs: nounwind
+declare %struct.tm* @localtime(i64*) #0
+
+; Function Attrs: nounwind
+declare i64 @strftime(i8*, i64, i8*, %struct.tm*) #0
+
+; Function Attrs: nounwind
+define i32 @msg_printf(%struct._IO_FILE* %out_file_handle, i8* %format, ...) #0 {
+  %1 = alloca %struct._IO_FILE*, align 8
+  %2 = alloca i8*, align 8
+  %ret = alloca i32, align 4
+  %printf_ret = alloca i32, align 4
+  %fprintf_ret = alloca i32, align 4
+  %arglist = alloca %struct.__va_list, align 8
+  %cur_time_str = alloca [20 x i8], align 1
+  %3 = alloca %struct.__va_list, align 8
+  %4 = alloca %struct.__va_list, align 8
+  store %struct._IO_FILE* %out_file_handle, %struct._IO_FILE** %1, align 8
+  store i8* %format, i8** %2, align 8
+  %5 = load i32, i32* @Console_messages, align 4
+  %6 = icmp ne i32 %5, 0
+  br i1 %6, label %10, label %7
+
+; <label>:7:                                      ; preds = %0
+  %8 = load %struct._IO_FILE*, %struct._IO_FILE** %1, align 8
+  %9 = icmp ne %struct._IO_FILE* %8, null
+  br i1 %9, label %10, label %42
+
+; <label>:10:                                     ; preds = %7, %0
+  store i32 0, i32* %printf_ret, align 4
+  store i32 0, i32* %fprintf_ret, align 4
+  %11 = getelementptr inbounds [20 x i8], [20 x i8]* %cur_time_str, i32 0, i32 0
+  call void @get_localtime_str(i8* %11, i64 20)
+  %12 = bitcast %struct.__va_list* %arglist to i8*
+  call void @llvm.va_start(i8* %12)
+  %13 = load i32, i32* @Console_messages, align 4
+  %14 = icmp ne i32 %13, 0
+  br i1 %14, label %15, label %20
+
+; <label>:15:                                     ; preds = %10
+  %16 = load i8*, i8** %2, align 8
+  %17 = bitcast %struct.__va_list* %3 to i8*
+  %18 = bitcast %struct.__va_list* %arglist to i8*
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %17, i8* %18, i64 32, i32 8, i1 false)
+  %19 = call i32 @vprintf(i8* %16, %struct.__va_list* %3)
+  store i32 %19, i32* %printf_ret, align 4
+  br label %20
+
+; <label>:20:                                     ; preds = %15, %10
+  %21 = load %struct._IO_FILE*, %struct._IO_FILE** %1, align 8
+  %22 = icmp ne %struct._IO_FILE* %21, null
+  br i1 %22, label %23, label %32
+
+; <label>:23:                                     ; preds = %20
+  %24 = load %struct._IO_FILE*, %struct._IO_FILE** %1, align 8
+  %25 = getelementptr inbounds [20 x i8], [20 x i8]* %cur_time_str, i32 0, i32 0
+  %26 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %24, i8* getelementptr inbounds ([6 x i8], [6 x i8]* @.str1121, i32 0, i32 0), i8* %25)
+  %27 = load %struct._IO_FILE*, %struct._IO_FILE** %1, align 8
+  %28 = load i8*, i8** %2, align 8
+  %29 = bitcast %struct.__va_list* %4 to i8*
+  %30 = bitcast %struct.__va_list* %arglist to i8*
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %29, i8* %30, i64 32, i32 8, i1 false)
+  %31 = call i32 @vfprintf(%struct._IO_FILE* %27, i8* %28, %struct.__va_list* %4)
+  store i32 %31, i32* %fprintf_ret, align 4
+  br label %32
+
+; <label>:32:                                     ; preds = %23, %20
+  %33 = bitcast %struct.__va_list* %arglist to i8*
+  call void @llvm.va_end(i8* %33)
+  %34 = load i32, i32* %printf_ret, align 4
+  %35 = icmp ne i32 %34, 0
+  br i1 %35, label %36, label %38
+
+; <label>:36:                                     ; preds = %32
+  %37 = load i32, i32* %printf_ret, align 4
+  br label %40
+
+; <label>:38:                                     ; preds = %32
+  %39 = load i32, i32* %fprintf_ret, align 4
+  br label %40
+
+; <label>:40:                                     ; preds = %38, %36
+  %41 = phi i32 [ %37, %36 ], [ %39, %38 ]
+  store i32 %41, i32* %ret, align 4
+  br label %43
+
+; <label>:42:                                     ; preds = %7
+  store i32 0, i32* %ret, align 4
+  br label %43
+
+; <label>:43:                                     ; preds = %42, %40
+  %44 = load i32, i32* %ret, align 4
+  ret i32 %44
+}
+
+; Function Attrs: nounwind
+declare void @llvm.va_start(i8*) #6
+
+declare i32 @vprintf(i8*, %struct.__va_list*) #3
+
+declare i32 @vfprintf(%struct._IO_FILE*, i8*, %struct.__va_list*) #3
+
+; Function Attrs: nounwind
+declare void @llvm.va_end(i8*) #6
+
+; Function Attrs: nounwind
+define %struct._IO_FILE* @open_msg_file(i8* %file_name, i64 %max_file_len) #0 {
+  %1 = alloca i8*, align 8
+  %2 = alloca i64, align 8
+  %file_handle = alloca %struct._IO_FILE*, align 8
+  %log_size = alloca i64, align 8
+  %log_size_loaded = alloca i64, align 8
+  %cur_time_str = alloca [20 x i8], align 1
+  %log_file_buf = alloca i8*, align 8
+  store i8* %file_name, i8** %1, align 8
+  store i64 %max_file_len, i64* %2, align 8
+  %3 = load i8*, i8** %1, align 8
+  %4 = call %struct._IO_FILE* @fopen(i8* %3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str2122, i32 0, i32 0))
+  store %struct._IO_FILE* %4, %struct._IO_FILE** %file_handle, align 8
+  %5 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %6 = icmp ne %struct._IO_FILE* %5, null
+  br i1 %6, label %7, label %64
+
+; <label>:7:                                      ; preds = %0
+  %8 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %9 = call i32 @fileno(%struct._IO_FILE* %8) #6
+  %10 = call i32 @flock(i32 %9, i32 8) #6
+  %11 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  call void @setbuf(%struct._IO_FILE* %11, i8* null) #6
+  %12 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %13 = call i32 @fseek(%struct._IO_FILE* %12, i64 0, i32 2)
+  %14 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %15 = call i64 @ftell(%struct._IO_FILE* %14)
+  store i64 %15, i64* %log_size, align 8
+  %16 = load i64, i64* %log_size, align 8
+  %17 = load i64, i64* %2, align 8
+  %18 = icmp sgt i64 %16, %17
+  br i1 %18, label %19, label %52
+
+; <label>:19:                                     ; preds = %7
+  %20 = load i64, i64* %2, align 8
+  %21 = mul i64 %20, 1
+  %22 = call noalias i8* @malloc(i64 %21) #6
+  store i8* %22, i8** %log_file_buf, align 8
+  %23 = load i8*, i8** %log_file_buf, align 8
+  %24 = icmp ne i8* %23, null
+  br i1 %24, label %25, label %51
+
+; <label>:25:                                     ; preds = %19
+  %26 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %27 = load i64, i64* %2, align 8
+  %28 = sub nsw i64 0, %27
+  %29 = call i32 @fseek(%struct._IO_FILE* %26, i64 %28, i32 2)
+  %30 = load i8*, i8** %log_file_buf, align 8
+  %31 = load i64, i64* %2, align 8
+  %32 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %33 = call i64 @fread(i8* %30, i64 1, i64 %31, %struct._IO_FILE* %32)
+  store i64 %33, i64* %log_size_loaded, align 8
+  %34 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %35 = call i32 @fclose(%struct._IO_FILE* %34)
+  %36 = load i8*, i8** %log_file_buf, align 8
+  call void @free(i8* %36) #6
+  %37 = load i8*, i8** %1, align 8
+  %38 = call %struct._IO_FILE* @fopen(i8* %37, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str3123, i32 0, i32 0))
+  store %struct._IO_FILE* %38, %struct._IO_FILE** %file_handle, align 8
+  %39 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %40 = icmp ne %struct._IO_FILE* %39, null
+  br i1 %40, label %41, label %50
+
+; <label>:41:                                     ; preds = %25
+  %42 = getelementptr inbounds [20 x i8], [20 x i8]* %cur_time_str, i32 0, i32 0
+  call void @get_localtime_str(i8* %42, i64 20)
+  %43 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %44 = getelementptr inbounds [20 x i8], [20 x i8]* %cur_time_str, i32 0, i32 0
+  %45 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %43, i8* getelementptr inbounds ([31 x i8], [31 x i8]* @.str4124, i32 0, i32 0), i8* %44)
+  %46 = load i8*, i8** %log_file_buf, align 8
+  %47 = load i64, i64* %log_size_loaded, align 8
+  %48 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %49 = call i64 @fwrite(i8* %46, i64 1, i64 %47, %struct._IO_FILE* %48)
+  br label %50
+
+; <label>:50:                                     ; preds = %41, %25
+  br label %51
+
+; <label>:51:                                     ; preds = %50, %19
+  br label %52
+
+; <label>:52:                                     ; preds = %51, %7
+  %53 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %54 = icmp ne %struct._IO_FILE* %53, null
+  br i1 %54, label %55, label %63
+
+; <label>:55:                                     ; preds = %52
+  %56 = getelementptr inbounds [20 x i8], [20 x i8]* %cur_time_str, i32 0, i32 0
+  call void @get_localtime_str(i8* %56, i64 20)
+  %57 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %58 = getelementptr inbounds [20 x i8], [20 x i8]* %cur_time_str, i32 0, i32 0
+  %59 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %57, i8* getelementptr inbounds ([64 x i8], [64 x i8]* @.str5125, i32 0, i32 0), i8* %58)
+  %60 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  %61 = getelementptr inbounds [20 x i8], [20 x i8]* %cur_time_str, i32 0, i32 0
+  %62 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %60, i8* getelementptr inbounds ([28 x i8], [28 x i8]* @.str6126, i32 0, i32 0), i8* %61)
+  br label %63
+
+; <label>:63:                                     ; preds = %55, %52
+  br label %64
+
+; <label>:64:                                     ; preds = %63, %0
+  %65 = load %struct._IO_FILE*, %struct._IO_FILE** %file_handle, align 8
+  ret %struct._IO_FILE* %65
+}
+
+; Function Attrs: nounwind
+declare i32 @flock(i32, i32) #0
+
+; Function Attrs: nounwind
+declare void @setbuf(%struct._IO_FILE*, i8*) #0
+
+declare i32 @fseek(%struct._IO_FILE*, i64, i32) #3
+
+declare i64 @ftell(%struct._IO_FILE*) #3
+
+; Function Attrs: nounwind
+declare noalias i8* @malloc(i64) #0
+
+declare i64 @fread(i8*, i64, i64, %struct._IO_FILE*) #3
+
+; Function Attrs: nounwind
+declare void @free(i8*) #0
+
+declare i64 @fwrite(i8*, i64, i64, %struct._IO_FILE*) #3
+
+; Function Attrs: nounwind
+define void @close_log_file(%struct._IO_FILE* %file_handle) #0 {
+  %1 = alloca %struct._IO_FILE*, align 8
+  %cur_time_str = alloca [20 x i8], align 1
+  store %struct._IO_FILE* %file_handle, %struct._IO_FILE** %1, align 8
+  %2 = load %struct._IO_FILE*, %struct._IO_FILE** %1, align 8
+  %3 = icmp ne %struct._IO_FILE* %2, null
+  br i1 %3, label %4, label %11
+
+; <label>:4:                                      ; preds = %0
+  %5 = getelementptr inbounds [20 x i8], [20 x i8]* %cur_time_str, i32 0, i32 0
+  call void @get_localtime_str(i8* %5, i64 20)
+  %6 = load %struct._IO_FILE*, %struct._IO_FILE** %1, align 8
+  %7 = getelementptr inbounds [20 x i8], [20 x i8]* %cur_time_str, i32 0, i32 0
+  %8 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %6, i8* getelementptr inbounds ([32 x i8], [32 x i8]* @.str7127, i32 0, i32 0), i8* %7)
+  %9 = load %struct._IO_FILE*, %struct._IO_FILE** %1, align 8
+  %10 = call i32 @fclose(%struct._IO_FILE* %9)
+  br label %11
+
+; <label>:11:                                     ; preds = %4, %0
+  ret void
+}
+
+; Function Attrs: nounwind
+define i32 @open_log_files() #0 {
+  %1 = call %struct._IO_FILE* @open_msg_file(i8* getelementptr inbounds ([29 x i8], [29 x i8]* @.str8128, i32 0, i32 0), i64 52428800)
+  store %struct._IO_FILE* %1, %struct._IO_FILE** @Log_file_handle, align 8
+  %2 = call %struct._IO_FILE* @open_msg_file(i8* getelementptr inbounds ([29 x i8], [29 x i8]* @.str9129, i32 0, i32 0), i64 52428800)
+  store %struct._IO_FILE* %2, %struct._IO_FILE** @Event_file_handle, align 8
+  %3 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %4 = icmp eq %struct._IO_FILE* %3, null
+  br i1 %4, label %8, label %5
+
+; <label>:5:                                      ; preds = %0
+  %6 = load %struct._IO_FILE*, %struct._IO_FILE** @Event_file_handle, align 8
+  %7 = icmp eq %struct._IO_FILE* %6, null
+  br label %8
+
+; <label>:8:                                      ; preds = %5, %0
+  %9 = phi i1 [ true, %0 ], [ %7, %5 ]
+  %10 = zext i1 %9 to i32
+  ret i32 %10
+}
+
+; Function Attrs: nounwind
+define void @close_log_files() #0 {
+  %1 = load %struct._IO_FILE*, %struct._IO_FILE** @Event_file_handle, align 8
+  call void @close_log_file(%struct._IO_FILE* %1)
+  %2 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  call void @close_log_file(%struct._IO_FILE* %2)
+  ret void
+}
+
+; Function Attrs: nounwind
+define i32 @GPIO_export(i32 %pin) #0 {
+  %1 = alloca i32, align 4
+  %name_buffer = alloca [4 x i8], align 1
+  %bytes_written = alloca i64, align 8
+  %fd = alloca i32, align 4
+  %ret_err = alloca i32, align 4
+  %path = alloca [34 x i8], align 1
+  %fs_struct_created = alloca i32, align 4
+  %n_wait_cycle = alloca i32, align 4
+  store i32 %pin, i32* %1, align 4
+  %2 = call i32 (i8*, i32, ...) @open(i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str136, i32 0, i32 0), i32 1)
+  store i32 %2, i32* %fd, align 4
+  %3 = load i32, i32* %fd, align 4
+  %4 = icmp ne i32 -1, %3
+  br i1 %4, label %5, label %47
+
+; <label>:5:                                      ; preds = %0
+  %6 = getelementptr inbounds [4 x i8], [4 x i8]* %name_buffer, i32 0, i32 0
+  %7 = load i32, i32* %1, align 4
+  %8 = call i32 (i8*, i64, i8*, ...) @snprintf(i8* %6, i64 4, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str1137, i32 0, i32 0), i32 %7) #6
+  %9 = sext i32 %8 to i64
+  store i64 %9, i64* %bytes_written, align 8
+  %10 = load i32, i32* %fd, align 4
+  %11 = getelementptr inbounds [4 x i8], [4 x i8]* %name_buffer, i32 0, i32 0
+  %12 = load i64, i64* %bytes_written, align 8
+  %13 = call i64 @write(i32 %10, i8* %11, i64 %12)
+  %14 = load i32, i32* %fd, align 4
+  %15 = call i32 @close(i32 %14)
+  %16 = getelementptr inbounds [34 x i8], [34 x i8]* %path, i32 0, i32 0
+  %17 = load i32, i32* %1, align 4
+  %18 = call i32 (i8*, i64, i8*, ...) @snprintf(i8* %16, i64 34, i8* getelementptr inbounds ([33 x i8], [33 x i8]* @.str2138, i32 0, i32 0), i32 %17) #6
+  store i32 0, i32* %fs_struct_created, align 4
+  store i32 0, i32* %n_wait_cycle, align 4
+  br label %19
+
+; <label>:19:                                     ; preds = %37, %5
+  %20 = call i32 @usleep(i32 50000)
+  %21 = getelementptr inbounds [34 x i8], [34 x i8]* %path, i32 0, i32 0
+  %22 = call i32 (i8*, i32, ...) @open(i8* %21, i32 1)
+  store i32 %22, i32* %fd, align 4
+  %23 = load i32, i32* %fd, align 4
+  %24 = icmp ne i32 -1, %23
+  br i1 %24, label %25, label %28
+
+; <label>:25:                                     ; preds = %19
+  store i32 1, i32* %fs_struct_created, align 4
+  %26 = load i32, i32* %fd, align 4
+  %27 = call i32 @close(i32 %26)
+  br label %29
+
+; <label>:28:                                     ; preds = %19
+  store i32 0, i32* %fs_struct_created, align 4
+  br label %29
+
+; <label>:29:                                     ; preds = %28, %25
+  br label %30
+
+; <label>:30:                                     ; preds = %29
+  %31 = load i32, i32* %fs_struct_created, align 4
+  %32 = icmp ne i32 %31, 0
+  br i1 %32, label %37, label %33
+
+; <label>:33:                                     ; preds = %30
+  %34 = load i32, i32* %n_wait_cycle, align 4
+  %35 = add nsw i32 %34, 1
+  store i32 %35, i32* %n_wait_cycle, align 4
+  %36 = icmp slt i32 %34, 20
+  br label %37
+
+; <label>:37:                                     ; preds = %33, %30
+  %38 = phi i1 [ false, %30 ], [ %36, %33 ]
+  br i1 %38, label %19, label %39
+
+; <label>:39:                                     ; preds = %37
+  %40 = load i32, i32* %fs_struct_created, align 4
+  %41 = icmp ne i32 %40, 0
+  br i1 %41, label %42, label %43
+
+; <label>:42:                                     ; preds = %39
+  store i32 0, i32* %ret_err, align 4
+  br label %46
+
+; <label>:43:                                     ; preds = %39
+  %44 = call i32* @__errno_location() #7
+  %45 = load i32, i32* %44, align 4
+  store i32 %45, i32* %ret_err, align 4
+  br label %46
+
+; <label>:46:                                     ; preds = %43, %42
+  br label %50
+
+; <label>:47:                                     ; preds = %0
+  %48 = call i32* @__errno_location() #7
+  %49 = load i32, i32* %48, align 4
+  store i32 %49, i32* %ret_err, align 4
+  br label %50
+
+; <label>:50:                                     ; preds = %47, %46
+  %51 = load i32, i32* %ret_err, align 4
+  ret i32 %51
+}
+
+declare i64 @write(i32, i8*, i64) #3
+
+declare i32 @usleep(i32) #3
+
+; Function Attrs: nounwind
+define i32 @GPIO_unexport(i32 %pin) #0 {
+  %1 = alloca i32, align 4
+  %name_buffer = alloca [4 x i8], align 1
+  %bytes_written = alloca i64, align 8
+  %fd = alloca i32, align 4
+  %ret_err = alloca i32, align 4
+  store i32 %pin, i32* %1, align 4
+  %2 = call i32 (i8*, i32, ...) @open(i8* getelementptr inbounds ([25 x i8], [25 x i8]* @.str3139, i32 0, i32 0), i32 1)
+  store i32 %2, i32* %fd, align 4
+  %3 = load i32, i32* %fd, align 4
+  %4 = icmp ne i32 -1, %3
+  br i1 %4, label %5, label %16
+
+; <label>:5:                                      ; preds = %0
+  %6 = getelementptr inbounds [4 x i8], [4 x i8]* %name_buffer, i32 0, i32 0
+  %7 = load i32, i32* %1, align 4
+  %8 = call i32 (i8*, i64, i8*, ...) @snprintf(i8* %6, i64 4, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str1137, i32 0, i32 0), i32 %7) #6
+  %9 = sext i32 %8 to i64
+  store i64 %9, i64* %bytes_written, align 8
+  %10 = load i32, i32* %fd, align 4
+  %11 = getelementptr inbounds [4 x i8], [4 x i8]* %name_buffer, i32 0, i32 0
+  %12 = load i64, i64* %bytes_written, align 8
+  %13 = call i64 @write(i32 %10, i8* %11, i64 %12)
+  %14 = load i32, i32* %fd, align 4
+  %15 = call i32 @close(i32 %14)
+  store i32 0, i32* %ret_err, align 4
+  br label %19
+
+; <label>:16:                                     ; preds = %0
+  %17 = call i32* @__errno_location() #7
+  %18 = load i32, i32* %17, align 4
+  store i32 %18, i32* %ret_err, align 4
+  br label %19
+
+; <label>:19:                                     ; preds = %16, %5
+  %20 = load i32, i32* %ret_err, align 4
+  ret i32 %20
+}
+
+; Function Attrs: nounwind
+define i32 @GPIO_direction(i32 %pin, i32 %dir) #0 {
+  %1 = alloca i32, align 4
+  %2 = alloca i32, align 4
+  %s_directions_str = alloca [2 x i8*], align 8
+  %path = alloca [34 x i8], align 1
+  %fd = alloca i32, align 4
+  %ret_err = alloca i32, align 4
+  %curr_dir_str = alloca i8*, align 8
+  store i32 %pin, i32* %1, align 4
+  store i32 %dir, i32* %2, align 4
+  %3 = bitcast [2 x i8*]* %s_directions_str to i8*
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %3, i8* bitcast ([2 x i8*]* @GPIO_direction.s_directions_str to i8*), i64 16, i32 8, i1 false)
+  %4 = getelementptr inbounds [34 x i8], [34 x i8]* %path, i32 0, i32 0
+  %5 = load i32, i32* %1, align 4
+  %6 = call i32 (i8*, i64, i8*, ...) @snprintf(i8* %4, i64 34, i8* getelementptr inbounds ([33 x i8], [33 x i8]* @.str2138, i32 0, i32 0), i32 %5) #6
+  %7 = getelementptr inbounds [34 x i8], [34 x i8]* %path, i32 0, i32 0
+  %8 = call i32 (i8*, i32, ...) @open(i8* %7, i32 1)
+  store i32 %8, i32* %fd, align 4
+  %9 = load i32, i32* %fd, align 4
+  %10 = icmp ne i32 -1, %9
+  br i1 %10, label %11, label %31
+
+; <label>:11:                                     ; preds = %0
+  %12 = load i32, i32* %2, align 4
+  %13 = icmp ne i32 0, %12
+  %14 = zext i1 %13 to i32
+  %15 = sext i32 %14 to i64
+  %16 = getelementptr inbounds [2 x i8*], [2 x i8*]* %s_directions_str, i32 0, i64 %15
+  %17 = load i8*, i8** %16, align 8
+  store i8* %17, i8** %curr_dir_str, align 8
+  %18 = load i32, i32* %fd, align 4
+  %19 = load i8*, i8** %curr_dir_str, align 8
+  %20 = load i8*, i8** %curr_dir_str, align 8
+  %21 = call i64 @strlen(i8* %20) #8
+  %22 = call i64 @write(i32 %18, i8* %19, i64 %21)
+  %23 = icmp ne i64 -1, %22
+  br i1 %23, label %24, label %25
+
+; <label>:24:                                     ; preds = %11
+  store i32 0, i32* %ret_err, align 4
+  br label %28
+
+; <label>:25:                                     ; preds = %11
+  %26 = call i32* @__errno_location() #7
+  %27 = load i32, i32* %26, align 4
+  store i32 %27, i32* %ret_err, align 4
+  br label %28
+
+; <label>:28:                                     ; preds = %25, %24
+  %29 = load i32, i32* %fd, align 4
+  %30 = call i32 @close(i32 %29)
+  br label %34
+
+; <label>:31:                                     ; preds = %0
+  %32 = call i32* @__errno_location() #7
+  %33 = load i32, i32* %32, align 4
+  store i32 %33, i32* %ret_err, align 4
+  br label %34
+
+; <label>:34:                                     ; preds = %31, %28
+  %35 = load i32, i32* %ret_err, align 4
+  ret i32 %35
+}
+
+; Function Attrs: nounwind
+define i32 @GPIO_read(i32 %pin, i32* %value) #0 {
+  %1 = alloca i32, align 4
+  %2 = alloca i32*, align 8
+  %path = alloca [30 x i8], align 1
+  %value_str = alloca [4 x i8], align 1
+  %fd = alloca i32, align 4
+  %ret_err = alloca i32, align 4
+  store i32 %pin, i32* %1, align 4
+  store i32* %value, i32** %2, align 8
+  %3 = load i32*, i32** %2, align 8
+  %4 = icmp ne i32* %3, null
+  br i1 %4, label %5, label %33
+
+; <label>:5:                                      ; preds = %0
+  %6 = getelementptr inbounds [30 x i8], [30 x i8]* %path, i32 0, i32 0
+  %7 = load i32, i32* %1, align 4
+  %8 = call i32 (i8*, i64, i8*, ...) @snprintf(i8* %6, i64 30, i8* getelementptr inbounds ([29 x i8], [29 x i8]* @.str6142, i32 0, i32 0), i32 %7) #6
+  %9 = getelementptr inbounds [30 x i8], [30 x i8]* %path, i32 0, i32 0
+  %10 = call i32 (i8*, i32, ...) @open(i8* %9, i32 0)
+  store i32 %10, i32* %fd, align 4
+  %11 = load i32, i32* %fd, align 4
+  %12 = icmp ne i32 -1, %11
+  br i1 %12, label %13, label %29
+
+; <label>:13:                                     ; preds = %5
+  %14 = load i32, i32* %fd, align 4
+  %15 = getelementptr inbounds [4 x i8], [4 x i8]* %value_str, i32 0, i32 0
+  %16 = call i64 @read(i32 %14, i8* %15, i64 3)
+  %17 = icmp ne i64 -1, %16
+  br i1 %17, label %18, label %23
+
+; <label>:18:                                     ; preds = %13
+  %19 = getelementptr inbounds [4 x i8], [4 x i8]* %value_str, i32 0, i64 3
+  store i8 0, i8* %19, align 1
+  %20 = getelementptr inbounds [4 x i8], [4 x i8]* %value_str, i32 0, i32 0
+  %21 = call i32 @atoi(i8* %20) #8
+  %22 = load i32*, i32** %2, align 8
+  store i32 %21, i32* %22, align 4
+  store i32 0, i32* %ret_err, align 4
+  br label %26
+
+; <label>:23:                                     ; preds = %13
+  %24 = call i32* @__errno_location() #7
+  %25 = load i32, i32* %24, align 4
+  store i32 %25, i32* %ret_err, align 4
+  br label %26
+
+; <label>:26:                                     ; preds = %23, %18
+  %27 = load i32, i32* %fd, align 4
+  %28 = call i32 @close(i32 %27)
+  br label %32
+
+; <label>:29:                                     ; preds = %5
+  %30 = call i32* @__errno_location() #7
+  %31 = load i32, i32* %30, align 4
+  store i32 %31, i32* %ret_err, align 4
+  br label %32
+
+; <label>:32:                                     ; preds = %29, %26
+  br label %34
+
+; <label>:33:                                     ; preds = %0
+  store i32 22, i32* %ret_err, align 4
+  br label %34
+
+; <label>:34:                                     ; preds = %33, %32
+  %35 = load i32, i32* %ret_err, align 4
+  ret i32 %35
+}
+
+declare i64 @read(i32, i8*, i64) #3
+
+; Function Attrs: nounwind
+define i32 @GPIO_write(i32 %pin, i32 %value) #0 {
+  %1 = alloca i32, align 4
+  %2 = alloca i32, align 4
+  %s_values_str = alloca [2 x i8*], align 8
+  %path = alloca [30 x i8], align 1
+  %fd = alloca i32, align 4
+  %ret_err = alloca i32, align 4
+  %curr_dir_str = alloca i8*, align 8
+  store i32 %pin, i32* %1, align 4
+  store i32 %value, i32* %2, align 4
+  %3 = bitcast [2 x i8*]* %s_values_str to i8*
+  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %3, i8* bitcast ([2 x i8*]* @GPIO_write.s_values_str to i8*), i64 16, i32 8, i1 false)
+  %4 = getelementptr inbounds [30 x i8], [30 x i8]* %path, i32 0, i32 0
+  %5 = load i32, i32* %1, align 4
+  %6 = call i32 (i8*, i64, i8*, ...) @snprintf(i8* %4, i64 30, i8* getelementptr inbounds ([29 x i8], [29 x i8]* @.str6142, i32 0, i32 0), i32 %5) #6
+  %7 = getelementptr inbounds [30 x i8], [30 x i8]* %path, i32 0, i32 0
+  %8 = call i32 (i8*, i32, ...) @open(i8* %7, i32 1)
+  store i32 %8, i32* %fd, align 4
+  %9 = load i32, i32* %fd, align 4
+  %10 = icmp ne i32 -1, %9
+  br i1 %10, label %11, label %31
+
+; <label>:11:                                     ; preds = %0
+  %12 = load i32, i32* %2, align 4
+  %13 = icmp ne i32 0, %12
+  %14 = zext i1 %13 to i32
+  %15 = sext i32 %14 to i64
+  %16 = getelementptr inbounds [2 x i8*], [2 x i8*]* %s_values_str, i32 0, i64 %15
+  %17 = load i8*, i8** %16, align 8
+  store i8* %17, i8** %curr_dir_str, align 8
+  %18 = load i32, i32* %fd, align 4
+  %19 = load i8*, i8** %curr_dir_str, align 8
+  %20 = load i8*, i8** %curr_dir_str, align 8
+  %21 = call i64 @strlen(i8* %20) #8
+  %22 = call i64 @write(i32 %18, i8* %19, i64 %21)
+  %23 = icmp ne i64 -1, %22
+  br i1 %23, label %24, label %25
+
+; <label>:24:                                     ; preds = %11
+  store i32 0, i32* %ret_err, align 4
+  br label %28
+
+; <label>:25:                                     ; preds = %11
+  %26 = call i32* @__errno_location() #7
+  %27 = load i32, i32* %26, align 4
+  store i32 %27, i32* %ret_err, align 4
+  br label %28
+
+; <label>:28:                                     ; preds = %25, %24
+  %29 = load i32, i32* %fd, align 4
+  %30 = call i32 @close(i32 %29)
+  br label %34
+
+; <label>:31:                                     ; preds = %0
+  %32 = call i32* @__errno_location() #7
+  %33 = load i32, i32* %32, align 4
+  store i32 %33, i32* %ret_err, align 4
+  br label %34
+
+; <label>:34:                                     ; preds = %31, %28
+  %35 = load i32, i32* %ret_err, align 4
+  ret i32 %35
+}
+
+; Function Attrs: nounwind
+define i32 @export_gpios() #0 {
+  %ret_err = alloca i32, align 4
+  %fn_err_num = alloca i32, align 4
+  %1 = call i32 @GPIO_export(i32 488)
+  store i32 %1, i32* %fn_err_num, align 4
+  %2 = load i32, i32* %fn_err_num, align 4
+  %3 = icmp eq i32 0, %2
+  br i1 %3, label %4, label %63
+
+; <label>:4:                                      ; preds = %0
+  %5 = call i32 @GPIO_export(i32 489)
+  store i32 %5, i32* %fn_err_num, align 4
+  %6 = load i32, i32* %fn_err_num, align 4
+  %7 = icmp eq i32 0, %6
+  br i1 %7, label %8, label %54
+
+; <label>:8:                                      ; preds = %4
+  %9 = call i32 @GPIO_export(i32 490)
+  store i32 %9, i32* %fn_err_num, align 4
+  %10 = load i32, i32* %fn_err_num, align 4
+  %11 = icmp eq i32 0, %10
+  br i1 %11, label %12, label %44
+
+; <label>:12:                                     ; preds = %8
+  %13 = call i32 @GPIO_export(i32 491)
+  store i32 %13, i32* %fn_err_num, align 4
+  %14 = load i32, i32* %fn_err_num, align 4
+  %15 = icmp eq i32 0, %14
+  br i1 %15, label %16, label %33
+
+; <label>:16:                                     ; preds = %12
+  %17 = call i32 @GPIO_export(i32 492)
+  store i32 %17, i32* %fn_err_num, align 4
+  %18 = load i32, i32* %fn_err_num, align 4
+  %19 = icmp eq i32 0, %18
+  br i1 %19, label %20, label %21
+
+; <label>:20:                                     ; preds = %16
+  store i32 0, i32* %ret_err, align 4
+  br label %32
+
+; <label>:21:                                     ; preds = %16
+  %22 = load i32, i32* %fn_err_num, align 4
+  store i32 %22, i32* %ret_err, align 4
+  %23 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %24 = load i32, i32* %fn_err_num, align 4
+  %25 = load i32, i32* %fn_err_num, align 4
+  %26 = call i8* @strerror(i32 %25) #6
+  %27 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %23, i8* getelementptr inbounds ([54 x i8], [54 x i8]* @.str9145, i32 0, i32 0), i32 492, i32 %24, i8* %26)
+  %28 = call i32 @GPIO_unexport(i32 488)
+  %29 = call i32 @GPIO_unexport(i32 489)
+  %30 = call i32 @GPIO_unexport(i32 490)
+  %31 = call i32 @GPIO_unexport(i32 491)
+  br label %32
+
+; <label>:32:                                     ; preds = %21, %20
+  br label %43
+
+; <label>:33:                                     ; preds = %12
+  %34 = load i32, i32* %fn_err_num, align 4
+  store i32 %34, i32* %ret_err, align 4
+  %35 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %36 = load i32, i32* %fn_err_num, align 4
+  %37 = load i32, i32* %fn_err_num, align 4
+  %38 = call i8* @strerror(i32 %37) #6
+  %39 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %35, i8* getelementptr inbounds ([54 x i8], [54 x i8]* @.str10146, i32 0, i32 0), i32 491, i32 %36, i8* %38)
+  %40 = call i32 @GPIO_unexport(i32 488)
+  %41 = call i32 @GPIO_unexport(i32 489)
+  %42 = call i32 @GPIO_unexport(i32 490)
+  br label %43
+
+; <label>:43:                                     ; preds = %33, %32
+  br label %53
+
+; <label>:44:                                     ; preds = %8
+  %45 = load i32, i32* %fn_err_num, align 4
+  store i32 %45, i32* %ret_err, align 4
+  %46 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %47 = load i32, i32* %fn_err_num, align 4
+  %48 = load i32, i32* %fn_err_num, align 4
+  %49 = call i8* @strerror(i32 %48) #6
+  %50 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %46, i8* getelementptr inbounds ([54 x i8], [54 x i8]* @.str11147, i32 0, i32 0), i32 490, i32 %47, i8* %49)
+  %51 = call i32 @GPIO_unexport(i32 488)
+  %52 = call i32 @GPIO_unexport(i32 489)
+  br label %53
+
+; <label>:53:                                     ; preds = %44, %43
+  br label %62
+
+; <label>:54:                                     ; preds = %4
+  %55 = load i32, i32* %fn_err_num, align 4
+  store i32 %55, i32* %ret_err, align 4
+  %56 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %57 = load i32, i32* %fn_err_num, align 4
+  %58 = load i32, i32* %fn_err_num, align 4
+  %59 = call i8* @strerror(i32 %58) #6
+  %60 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %56, i8* getelementptr inbounds ([54 x i8], [54 x i8]* @.str12148, i32 0, i32 0), i32 489, i32 %57, i8* %59)
+  %61 = call i32 @GPIO_unexport(i32 488)
+  br label %62
+
+; <label>:62:                                     ; preds = %54, %53
+  br label %70
+
+; <label>:63:                                     ; preds = %0
+  %64 = load i32, i32* %fn_err_num, align 4
+  store i32 %64, i32* %ret_err, align 4
+  %65 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %66 = load i32, i32* %fn_err_num, align 4
+  %67 = load i32, i32* %fn_err_num, align 4
+  %68 = call i8* @strerror(i32 %67) #6
+  %69 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %65, i8* getelementptr inbounds ([49 x i8], [49 x i8]* @.str13149, i32 0, i32 0), i32 488, i32 %66, i8* %68)
+  br label %70
+
+; <label>:70:                                     ; preds = %63, %62
+  %71 = load i32, i32* %ret_err, align 4
+  ret i32 %71
+}
+
+; Function Attrs: nounwind
+define i32 @configure_gpios() #0 {
+  %ret_err = alloca i32, align 4
+  %curr_gpio = alloca i32, align 4
+  store i32 488, i32* %curr_gpio, align 4
+  %1 = load i32, i32* %curr_gpio, align 4
+  %2 = call i32 @GPIO_direction(i32 %1, i32 0)
+  store i32 %2, i32* %ret_err, align 4
+  %3 = load i32, i32* %ret_err, align 4
+  %4 = icmp eq i32 0, %3
+  br i1 %4, label %5, label %38
+
+; <label>:5:                                      ; preds = %0
+  store i32 489, i32* %curr_gpio, align 4
+  %6 = load i32, i32* %curr_gpio, align 4
+  %7 = call i32 @GPIO_direction(i32 %6, i32 1)
+  store i32 %7, i32* %ret_err, align 4
+  %8 = load i32, i32* %ret_err, align 4
+  %9 = icmp eq i32 0, %8
+  br i1 %9, label %10, label %37
+
+; <label>:10:                                     ; preds = %5
+  %11 = load i32, i32* %curr_gpio, align 4
+  %12 = call i32 @GPIO_write(i32 %11, i32 1)
+  store i32 490, i32* %curr_gpio, align 4
+  %13 = load i32, i32* %curr_gpio, align 4
+  %14 = call i32 @GPIO_direction(i32 %13, i32 1)
+  store i32 %14, i32* %ret_err, align 4
+  %15 = load i32, i32* %ret_err, align 4
+  %16 = icmp eq i32 0, %15
+  br i1 %16, label %17, label %36
+
+; <label>:17:                                     ; preds = %10
+  %18 = load i32, i32* %curr_gpio, align 4
+  %19 = call i32 @GPIO_write(i32 %18, i32 1)
+  store i32 491, i32* %curr_gpio, align 4
+  %20 = load i32, i32* %curr_gpio, align 4
+  %21 = call i32 @GPIO_direction(i32 %20, i32 1)
+  store i32 %21, i32* %ret_err, align 4
+  %22 = load i32, i32* %ret_err, align 4
+  %23 = icmp eq i32 0, %22
+  br i1 %23, label %24, label %35
+
+; <label>:24:                                     ; preds = %17
+  %25 = load i32, i32* %curr_gpio, align 4
+  %26 = call i32 @GPIO_write(i32 %25, i32 1)
+  store i32 492, i32* %curr_gpio, align 4
+  %27 = load i32, i32* %curr_gpio, align 4
+  %28 = call i32 @GPIO_direction(i32 %27, i32 1)
+  store i32 %28, i32* %ret_err, align 4
+  %29 = load i32, i32* %ret_err, align 4
+  %30 = icmp eq i32 0, %29
+  br i1 %30, label %31, label %34
+
+; <label>:31:                                     ; preds = %24
+  %32 = load i32, i32* %curr_gpio, align 4
+  %33 = call i32 @GPIO_write(i32 %32, i32 1)
+  br label %34
+
+; <label>:34:                                     ; preds = %31, %24
+  br label %35
+
+; <label>:35:                                     ; preds = %34, %17
+  br label %36
+
+; <label>:36:                                     ; preds = %35, %10
+  br label %37
+
+; <label>:37:                                     ; preds = %36, %5
+  br label %38
+
+; <label>:38:                                     ; preds = %37, %0
+  %39 = load i32, i32* %ret_err, align 4
+  %40 = icmp ne i32 %39, 0
+  br i1 %40, label %41, label %48
+
+; <label>:41:                                     ; preds = %38
+  %42 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %43 = load i32, i32* %curr_gpio, align 4
+  %44 = load i32, i32* %ret_err, align 4
+  %45 = load i32, i32* %ret_err, align 4
+  %46 = call i8* @strerror(i32 %45) #6
+  %47 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %42, i8* getelementptr inbounds ([53 x i8], [53 x i8]* @.str14150, i32 0, i32 0), i32 %43, i32 %44, i8* %46)
+  br label %48
+
+; <label>:48:                                     ; preds = %41, %38
+  %49 = load i32, i32* %ret_err, align 4
+  ret i32 %49
+}
+
+; Function Attrs: nounwind
+define i32 @unexport_gpios() #0 {
+  %ret_err = alloca i32, align 4
+  store i32 0, i32* %ret_err, align 4
+  %1 = call i32 @GPIO_unexport(i32 488)
+  %2 = load i32, i32* %ret_err, align 4
+  %3 = or i32 %2, %1
+  store i32 %3, i32* %ret_err, align 4
+  %4 = call i32 @GPIO_unexport(i32 489)
+  %5 = load i32, i32* %ret_err, align 4
+  %6 = or i32 %5, %4
+  store i32 %6, i32* %ret_err, align 4
+  %7 = call i32 @GPIO_unexport(i32 490)
+  %8 = load i32, i32* %ret_err, align 4
+  %9 = or i32 %8, %7
+  store i32 %9, i32* %ret_err, align 4
+  %10 = call i32 @GPIO_unexport(i32 491)
+  %11 = load i32, i32* %ret_err, align 4
+  %12 = or i32 %11, %10
+  store i32 %12, i32* %ret_err, align 4
+  %13 = call i32 @GPIO_unexport(i32 492)
+  %14 = load i32, i32* %ret_err, align 4
+  %15 = or i32 %14, %13
+  store i32 %15, i32* %ret_err, align 4
+  %16 = load i32, i32* %ret_err, align 4
+  %17 = icmp ne i32 %16, 0
+  br i1 %17, label %18, label %24
+
+; <label>:18:                                     ; preds = %0
+  %19 = load %struct._IO_FILE*, %struct._IO_FILE** @Log_file_handle, align 8
+  %20 = load i32, i32* %ret_err, align 4
+  %21 = load i32, i32* %ret_err, align 4
+  %22 = call i8* @strerror(i32 %21) #6
+  %23 = call i32 (%struct._IO_FILE*, i8*, ...) @msg_printf(%struct._IO_FILE* %19, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @.str15151, i32 0, i32 0), i32 %20, i8* %22)
+  br label %24
+
+; <label>:24:                                     ; preds = %18, %0
+  %25 = load i32, i32* %ret_err, align 4
+  ret i32 %25
+}
+
+attributes #0 = { nounwind "less-precise-fpmad"="false" "no-frame-pointer-elim"="true" "no-frame-pointer-elim-non-leaf" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #1 = { argmemonly nounwind }
+attributes #2 = { nounwind readnone "less-precise-fpmad"="false" "no-frame-pointer-elim"="true" "no-frame-pointer-elim-non-leaf" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #3 = { "less-precise-fpmad"="false" "no-frame-pointer-elim"="true" "no-frame-pointer-elim-non-leaf" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #4 = { nounwind readonly "less-precise-fpmad"="false" "no-frame-pointer-elim"="true" "no-frame-pointer-elim-non-leaf" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #5 = { noreturn nounwind "less-precise-fpmad"="false" "no-frame-pointer-elim"="true" "no-frame-pointer-elim-non-leaf" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #6 = { nounwind }
+attributes #7 = { nounwind readnone }
+attributes #8 = { nounwind readonly }
+attributes #9 = { noreturn nounwind }
+
+!llvm.ident = !{!0, !0, !0, !0, !0, !0, !0, !0}
+
+!0 = !{!"Debian clang version 3.5.2-3~bpo8+2 (tags/RELEASE_352/final) (based on LLVM 3.5.2)"}

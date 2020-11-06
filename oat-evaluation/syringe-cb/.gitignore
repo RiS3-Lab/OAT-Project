@@ -1,0 +1,15 @@
+*.swp
+*.dump
+test
+test_combo
+test_orig
+btbl_combo.c
+ltbl_combo.c
+*.o
+*.bc
+clog.txt
+*.ll
+*.s
+*.out
+vm
+hints.txt

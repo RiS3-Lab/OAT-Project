@@ -1,0 +1,12 @@
+*.swp
+*.dump
+test
+test_combo
+alarm4pid
+test_orig
+btbl_combo.c
+ltbl_combo.c
+*.o
+*.bc
+*.s
+*.out

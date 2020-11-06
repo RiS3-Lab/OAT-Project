@@ -1,0 +1,165 @@
+entry if.then entry entry if.then if.then5 if.then8 if.then14 entry if.else if.then9 if.end11 if.then if.then4 if.then6 if.end if.end7 if.end12 if.end if.end18 if.end19 if.then21 entry if.else if.then9 if.end11 if.then if.then4 if.then6 if.end if.end7 if.end12 if.end27 if.end28 entry if.then if.then5 if.then8 if.then14 if.end if.end18 if.end19 if.then21 if.end27 if.end28 lor.rhs lor.end if.then1 if.end entry if.else entry lor.lhs.false if.else if.then entry if.else if.then9 if.end11 if.then if.then4 if.then6 if.end if.end7 if.end12 if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then if.end if.then5 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.end8 entry llvm.var.annotation: arg0: ret_err1 
+entry entry if.else21 if.then do.body if.then12 if.end do.cond land.end land.rhs if.else do.end if.else18 if.then17 if.end20 if.end23 if.else37 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then entry if.else21 if.then do.body if.then12 if.end do.cond land.end land.rhs if.else do.end if.else18 if.then17 if.end20 if.end23 if.else32 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 entry if.else if.then if.end if.then3 entry if.else21 if.then do.body if.then12 if.end do.cond land.end land.rhs if.else do.end if.else18 if.then17 if.end20 if.end23 if.else26 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 entry if.else if.then if.end entry if.else if.then if.end if.then6 entry if.else21 if.then do.body if.then12 if.end do.cond land.end land.rhs if.else do.end if.else18 if.then17 if.end20 if.end23 if.else19 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 entry if.else if.then if.end entry if.else if.then if.end entry if.else if.then if.end if.then9 entry if.else21 if.then do.body if.then12 if.end do.cond land.end land.rhs if.else do.end if.else18 if.then17 if.end20 if.end23 if.else entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 entry if.else if.then if.end entry if.else if.then if.end entry if.else if.then if.end entry if.else if.then if.end if.then12 if.end if.end25 if.end31 if.end36 if.end40 if.then entry entry if.else11 if.then if.else if.then8 if.end if.end13 if.then entry if.else11 if.then if.else if.then8 if.end if.end13 if.then3 entry if.else11 if.then if.else if.then8 if.end if.end13 entry if.else11 if.then if.else if.then8 if.end if.end13 if.then7 entry if.else11 if.then if.else if.then8 if.end if.end13 entry if.else11 if.then if.else if.then8 if.end if.end13 if.then11 entry if.else11 if.then if.else if.then8 if.end if.end13 entry if.else11 if.then if.else if.then8 if.end if.end13 if.then15 entry if.else11 if.then if.else if.then8 if.end if.end13 if.end if.end17 if.end18 if.end19 if.end20 if.then22 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.end25 if.then6 if.then8 entry llvm.var.annotation: arg0: ret_err1 
+llvm.var.annotation: arg0: read_err2 
+llvm.var.annotation: arg0: curr_pir_value3 
+llvm.var.annotation: arg0: last_pir_value4 
+llvm.var.annotation: arg0: pir_perman_counter5 
+entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 while.cond while.body entry if.else16 if.then if.else13 if.then4 if.else if.then8 if.end if.end15 if.end17 if.then if.then9 if.then11 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 entry entry if.else132 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then if.else124 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then5 if.else117 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then9 if.then26 if.end if.then36 if.end38 if.else111 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then42 if.else108 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then45 while.cond while.body if.end53 if.end57 if.then56 if.then52 while.end if.else98 if.else103 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then101 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.end106 if.then60 while.cond62 while.body67 if.then73 if.then80 if.end83 if.end84 while.end85 if.else95 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then89 if.else entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then92 if.end94 if.end97 if.end107 if.end110 if.end115 if.end123 if.end131 if.end136 if.end if.end14 if.then16 if.end17 if.end23 if.then25 if.end26 if.else if.then19 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.end22 while.end entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.else entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then11 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.end if.end15 if.end16 if.end17 if.else entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then11 entry if.else entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.end entry entry if.else if.then if.end entry if.else if.then if.end entry if.else if.then if.end entry if.else if.then if.end entry if.else if.then if.end if.then entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.end if.end14 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 entry if.else if.then if.end if.else26 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.then20 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.end32 entry do.body if.then for.cond for.body if.then6 if.then11 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 if.end if.end15 for.inc if.else for.end if.end23 do.cond if.else17 entry lor.lhs.false if.else if.then if.then4 if.end if.then7 if.end12 cond.false cond.true cond.end if.end16 do.end entry entry if.then entry if.else if.then9 if.end11 if.then if.then4 if.then6 if.end if.end7 if.end12 if.end entry if.then if.end if.end19 Points To Map:
+
+Taint Map:
+List PointsToMap vars:
+senVarSet : 
+ret_err1
+RecordDefineEvent: UoV:  call void @llvm.var.annotation(i8* %ret_err1, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 148)
+RecordDefineEvent: Inst:  call void @llvm.var.annotation(i8* %ret_err1, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 148)
+ret_err
+RecordDefineEvent: UoV:  %11 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %11 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  %8 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %8 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  %7 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %7 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  %4 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %4 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  %2 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %2 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  %1 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %1 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  store i32 %call4, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  store i32 %call4, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  %0 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %0 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  store i32 %call3, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  store i32 %call3, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  %ret_err1 = bitcast i32* %ret_err to i8*
+RecordDefineEvent: Inst:  %ret_err1 = bitcast i32* %ret_err to i8*
+ret_err1
+RecordDefineEvent: UoV:  call void @llvm.var.annotation(i8* %ret_err1, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 80)
+RecordDefineEvent: Inst:  call void @llvm.var.annotation(i8* %ret_err1, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 80)
+ret_err
+RecordDefineEvent: UoV:  %14 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %14 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  %13 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %13 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  %12 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %12 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  %2 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %2 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  store i32 %call6, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  store i32 %call6, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  %ret_err1 = bitcast i32* %ret_err to i8*
+RecordDefineEvent: Inst:  %ret_err1 = bitcast i32* %ret_err to i8*
+ret_err
+RecordDefineEvent: UoV:  %8 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  %8 = load i32, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  store i32 22, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  store i32 22, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  store i32 %7, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  store i32 %7, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  store i32 %5, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  store i32 %5, i32* %ret_err, align 4
+RecordDefineEvent: UoV:  store i32 0, i32* %ret_err, align 4
+RecordDefineEvent: Inst:  store i32 0, i32* %ret_err, align 4
+read_err2
+RecordDefineEvent: UoV:  call void @llvm.var.annotation(i8* %read_err2, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 81)
+RecordDefineEvent: Inst:  call void @llvm.var.annotation(i8* %read_err2, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 81)
+read_err
+RecordDefineEvent: UoV:  %19 = load i32, i32* %read_err, align 4
+RecordDefineEvent: Inst:  %19 = load i32, i32* %read_err, align 4
+RecordDefineEvent: UoV:  %18 = load i32, i32* %read_err, align 4
+RecordDefineEvent: Inst:  %18 = load i32, i32* %read_err, align 4
+RecordDefineEvent: UoV:  store i32 %14, i32* %read_err, align 4
+RecordDefineEvent: Inst:  store i32 %14, i32* %read_err, align 4
+RecordDefineEvent: UoV:  %10 = load i32, i32* %read_err, align 4
+RecordDefineEvent: Inst:  %10 = load i32, i32* %read_err, align 4
+RecordDefineEvent: UoV:  store i32 0, i32* %read_err, align 4
+RecordDefineEvent: Inst:  store i32 0, i32* %read_err, align 4
+RecordDefineEvent: UoV:  %read_err2 = bitcast i32* %read_err to i8*
+RecordDefineEvent: Inst:  %read_err2 = bitcast i32* %read_err to i8*
+curr_pir_value3
+RecordDefineEvent: UoV:  call void @llvm.var.annotation(i8* %curr_pir_value3, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 82)
+RecordDefineEvent: Inst:  call void @llvm.var.annotation(i8* %curr_pir_value3, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 82)
+curr_pir_value
+RecordDefineEvent: UoV:  %9 = load i32, i32* %curr_pir_value, align 4
+RecordDefineEvent: Inst:  %9 = load i32, i32* %curr_pir_value, align 4
+RecordDefineEvent: UoV:  %8 = load i32, i32* %curr_pir_value, align 4
+RecordDefineEvent: Inst:  %8 = load i32, i32* %curr_pir_value, align 4
+RecordDefineEvent: UoV:  %7 = load i32, i32* %curr_pir_value, align 4
+RecordDefineEvent: Inst:  %7 = load i32, i32* %curr_pir_value, align 4
+RecordDefineEvent: UoV:  %5 = load i32, i32* %curr_pir_value, align 4
+RecordDefineEvent: Inst:  %5 = load i32, i32* %curr_pir_value, align 4
+RecordDefineEvent: UoV:  %3 = load i32, i32* %curr_pir_value, align 4
+RecordDefineEvent: Inst:  %3 = load i32, i32* %curr_pir_value, align 4
+RecordDefineEvent: UoV:  %call6 = call i32 @GPIO_read(i32 488, i32* %curr_pir_value)
+RecordDefineEvent: Inst:  %call6 = call i32 @GPIO_read(i32 488, i32* %curr_pir_value)
+RecordDefineEvent: UoV:  %curr_pir_value3 = bitcast i32* %curr_pir_value to i8*
+RecordDefineEvent: Inst:  %curr_pir_value3 = bitcast i32* %curr_pir_value to i8*
+last_pir_value4
+RecordDefineEvent: UoV:  call void @llvm.var.annotation(i8* %last_pir_value4, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 83)
+RecordDefineEvent: Inst:  call void @llvm.var.annotation(i8* %last_pir_value4, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 83)
+last_pir_value
+RecordDefineEvent: UoV:  store i32 %8, i32* %last_pir_value, align 4
+RecordDefineEvent: Inst:  store i32 %8, i32* %last_pir_value, align 4
+RecordDefineEvent: UoV:  %4 = load i32, i32* %last_pir_value, align 4
+RecordDefineEvent: Inst:  %4 = load i32, i32* %last_pir_value, align 4
+RecordDefineEvent: UoV:  store i32 0, i32* %last_pir_value, align 4
+RecordDefineEvent: Inst:  store i32 0, i32* %last_pir_value, align 4
+RecordDefineEvent: UoV:  %last_pir_value4 = bitcast i32* %last_pir_value to i8*
+RecordDefineEvent: Inst:  %last_pir_value4 = bitcast i32* %last_pir_value to i8*
+pir_perman_counter5
+RecordDefineEvent: UoV:  call void @llvm.var.annotation(i8* %pir_perman_counter5, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 84)
+RecordDefineEvent: Inst:  call void @llvm.var.annotation(i8* %pir_perman_counter5, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.4.21, i32 0, i32 0), i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.5.22, i32 0, i32 0), i32 84)
+pir_perman_counter
+RecordDefineEvent: UoV:  store i32 %dec, i32* %pir_perman_counter, align 4
+RecordDefineEvent: Inst:  store i32 %dec, i32* %pir_perman_counter, align 4
+RecordDefineEvent: UoV:  %16 = load i32, i32* %pir_perman_counter, align 4
+RecordDefineEvent: Inst:  %16 = load i32, i32* %pir_perman_counter, align 4
+RecordDefineEvent: UoV:  %15 = load i32, i32* %pir_perman_counter, align 4
+RecordDefineEvent: Inst:  %15 = load i32, i32* %pir_perman_counter, align 4
+RecordDefineEvent: UoV:  store i32 60, i32* %pir_perman_counter, align 4
+RecordDefineEvent: Inst:  store i32 60, i32* %pir_perman_counter, align 4
+RecordDefineEvent: UoV:  store i32 0, i32* %pir_perman_counter, align 4
+RecordDefineEvent: Inst:  store i32 0, i32* %pir_perman_counter, align 4
+RecordDefineEvent: UoV:  %pir_perman_counter5 = bitcast i32* %pir_perman_counter to i8*
+RecordDefineEvent: Inst:  %pir_perman_counter5 = bitcast i32* %pir_perman_counter to i8*
+
+define_event_count: 14
+
+use_event_count: 23
+process function: usecs
+process function: set_signal_handler
+process function: timer_handler
+process function: exit_deamon_handler
+process function: main
+process function: send_info_notif
+process function: update_ip_msg
+process function: polling_thread
+process function: init_polling
+process function: wait_polling_end
+process function: pushover_init
+process function: send_notification
+process function: herror_msg
+process function: resp_code_msg
+process function: hostname_to_ip
+process function: hostname_to_ip_at_dns
+process function: get_public_ip
+process function: get_current_exec_path
+process function: kill_processes
+process function: wait_processes
+process function: run_background_command
+process function: configure_timer
+process function: daemonize
+process function: get_localtime_str
+process function: msg_printf
+process function: open_msg_file
+process function: close_log_file
+process function: open_log_files
+process function: close_log_files
+process function: GPIO_export
+process function: GPIO_unexport
+process function: GPIO_direction
+process function: GPIO_read
+process function: GPIO_write
+process function: export_gpios
+process function: configure_gpios
+process function: unexport_gpios

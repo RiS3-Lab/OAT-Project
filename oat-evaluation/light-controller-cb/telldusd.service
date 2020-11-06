@@ -1,0 +1,10 @@
+[Unit]
+Description=Telldus daemon
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/telldusd --nodaemon
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
