@@ -8,7 +8,7 @@ OAT is an end-to-end remote attestation system that allows a verifier to attest 
 
 ## Contents
 
-- `oat-llvm40`: OAT-Compiler based on llvm-4.0.0. It is used to analyze and instrument the embedded applications for critical data and control flow measurements. Modifications to the llvm front end are under `oat-llvm40/lib/Transforms/`, like `CFVHints/` and `Nova/`; modification to the llvm back-end are under `oat-llvm40/lib/Target/AArch64/`, like `AArch64ControlFlowVerification.cpp` and `AArch64ControlFlowVerification.h`.  
+- `oat-llvm40`: OAT-Compiler based on llvm-4.0.0. It is used to analyze and instrument the embedded applications for critical data and control flow measurements. Modifications to the llvm front end are under `oat-llvm40/lib/Transforms/`, like `CFVHints/` and `Nova/`; modifications to the llvm back-end are under `oat-llvm40/lib/Target/AArch64/`, like `AArch64ControlFlowVerification.cpp` and `AArch64ControlFlowVerification.h`.  
 - `oat-trampoline-lib`: OAT trampoline library, can be built as a shared library and linked with instrumented applications. It depends on the OP-TEE client library `libteec`.
 - `oat-measurement-engine-ta`: OAT measurement engine, which is a trusted application (TA) runs inside the TEE. Build it as an OP-TEE TA.
 - `oat-verify-engine`: OAT verify engine. It verifies the attestation blob with the application's binary and trace. 
